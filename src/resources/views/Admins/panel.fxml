@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene" stylesheets="@../css/basicscene.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.Admins.PanelController">
+    <children>
+        <Label alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="50.0" prefWidth="356.0" text="TIME">
+            <font>
+                <Font size="30.0"/>
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="447.0" layoutY="4.0" prefHeight="50.0" prefWidth="630.0"
+               text="E-Doc Admin Panel">
+            <font>
+                <Font size="27.0"/>
+            </font>
+        </Label>
+        <TabPane layoutX="5.0" layoutY="51.0" prefHeight="650.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="REGISTER STAFF">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <AnchorPane layoutX="252.0" layoutY="56.0" prefHeight="510.0" prefWidth="696.0"
+                                            style="-fx-background-color: white;" styleClass="innerform">
+                                    <children>
+                                        <TextField fx:id="username" alignment="CENTER" layoutX="27.0" layoutY="14.0"
+                                                   prefHeight="50.0" prefWidth="340.0" promptText="NAME">
+                                            <font>
+                                                <Font size="19.0"/>
+                                            </font>
+                                        </TextField>
+                                        <TextField fx:id="useremail" alignment="CENTER" layoutX="27.0" layoutY="71.0"
+                                                   prefHeight="50.0" prefWidth="342.0" promptText="EMAIL">
+                                            <font>
+                                                <Font size="19.0"/>
+                                            </font>
+                                        </TextField>
+                                        <TextField fx:id="useridentifier" alignment="CENTER" layoutX="27.0"
+                                                   layoutY="132.0" prefHeight="50.0" prefWidth="348.0"
+                                                   promptText="IDENTIFIER">
+                                            <font>
+                                                <Font size="19.0"/>
+                                            </font>
+                                        </TextField>
+                                        <TextArea fx:id="userdescription" layoutX="47.0" layoutY="189.0"
+                                                  prefHeight="183.0" prefWidth="639.0"
+                                                  promptText="SHORT DESCRIPTION ABOUT THE STAFF MEMBER....">
+                                            <font>
+                                                <Font size="17.0"/>
+                                            </font>
+                                        </TextArea>
+                                        <Button fx:id="adduser" layoutX="219.0" layoutY="400.0" mnemonicParsing="false"
+                                                prefHeight="79.0" prefWidth="296.0" text="SUBMIT">
+                                            <font>
+                                                <Font size="21.0"/>
+                                            </font>
+                                        </Button>
+                                        <ChoiceBox fx:id="role" layoutX="431.0" layoutY="14.0" prefHeight="50.0"
+                                                   prefWidth="243.0" value="DOCTOR">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:value="DOCTOR"/>
+                                                    <String fx:value="ADMIN"/>
+                                                    <String fx:value="RECEPTIONIST"/>
+                                                </FXCollections>
+                                            </items>
+                                        </ChoiceBox>
+                                        <Button fx:id="addcertfile" layoutX="439.0" layoutY="128.0"
+                                                mnemonicParsing="false" prefHeight="50.0" prefWidth="215.0"
+                                                style="-fx-background-color: lightgreen;" text="GET PDF CERTIFICATE"/>
+                                        <TextField fx:id="location" alignment="CENTER" layoutX="431.0" layoutY="68.0"
+                                                   prefHeight="50.0" prefWidth="240.0" promptText="LOCATION">
+                                            <font>
+                                                <Font size="19.0"/>
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="VIEW PATIENT INFORMATION">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextField alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="50.0"
+                                           prefWidth="408.0" promptText="PATIENT ID">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                </TextField>
+                                <Button layoutX="438.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0"
+                                        prefWidth="107.0" text="SEARCH">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                </Button>
+                                <TableView layoutX="14.0" layoutY="73.0" prefHeight="428.0" prefWidth="479.0">
+                                    <columns>
+                                        <TableColumn prefWidth="142.0" text="ID"/>
+                                        <TableColumn prefWidth="167.0" text="DATE"/>
+                                        <TableColumn prefWidth="167.0" text="DIAGNOSIS"/>
+                                    </columns>
+                                </TableView>
+                                <TableView layoutX="554.0" layoutY="73.0" prefHeight="428.0" prefWidth="479.0">
+                                    <columns>
+                                        <TableColumn prefWidth="142.0" text="PHYSICIAN"/>
+                                        <TableColumn prefWidth="167.0" text="PRESCRIPTION"/>
+                                        <TableColumn prefWidth="167.0" text="TESTS DONE"/>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="VIEW STAFF INFORMATION">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TableView layoutX="211.0" layoutY="26.0" prefHeight="479.0" prefWidth="968.0">
+                                    <columns>
+                                        <TableColumn prefWidth="75.0" text="ID"/>
+                                        <TableColumn prefWidth="160.0" text="NAME"/>
+                                        <TableColumn prefWidth="212.0" text="EMAIL"/>
+                                        <TableColumn prefWidth="268.0" text="IDENTIFIER"/>
+                                        <TableColumn prefWidth="250.0" text="BRANCH"/>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="NEWS">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <WebView fx:id="webview" layoutY="2.0" prefHeight="619.0" prefWidth="1194.0"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Button fx:id="logout" layoutX="426.0" layoutY="6.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="136.0"
+                text="LOG OUT">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

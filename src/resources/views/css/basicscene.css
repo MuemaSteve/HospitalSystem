@@ -1,0 +1,8 @@
+.innerform {
+    -fx-background-radius: 20px;
+}
+
+.basicscene {
+    -fx-background-color: linear-gradient(to right, white, red);
+
+}
