@@ -4,6 +4,7 @@ import Controllers.Super;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -40,6 +41,13 @@ public class PanelController extends Super implements Initializable {
     public TextField location;
     public Button logout;
     public Button addcertfile;
+    public Tab regstaff;
+    public Tab patientinfo;
+    public Tab staffinfo;
+    public Tab news;
+    public TextField searchPatientID;
+    public Button searchpatientbutton;
+    public Label clock;
     private File file;
     private FileInputStream fileInputStream;
     private int length;
@@ -69,13 +77,43 @@ public class PanelController extends Super implements Initializable {
 //            }
 //            changepassword.remove("change");
 //        }
-        buttonlisteners();
+        time(clock);
+        buttonListeners();
+        enterPressed();
         WebEngine engine = webview.getEngine();//help web page
         engine.load(siteHelp);
     }
 
+    private void enterPressed() {
 
-    private void buttonlisteners() {
+        useridentifier.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.ENTER)) {
+                addNewUser();
+            }
+        });
+        useremail.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.ENTER)) {
+                addNewUser();
+            }
+        });
+        userdescription.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.ENTER)) {
+                addNewUser();
+            }
+        });
+        username.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.ENTER)) {
+                addNewUser();
+            }
+        });
+
+    }
+
+    private void buttonListeners() {
         addcertfile.setOnMouseClicked(event -> {
 
             FileChooser fileChooser = new FileChooser();

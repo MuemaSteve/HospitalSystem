@@ -1,14 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controllers.Receptionist.Panel"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Receptionist.Panel">
+    <AnchorPane layoutX="31.0" minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1139.0">
+        <children>
+            <Label fx:id="clock" alignment="CENTER" layoutX="69.0" layoutY="25.0" prefHeight="50.0" prefWidth="348.0"
+                   text="Label">
+                <font>
+                    <Font size="19.0"/>
+                </font>
+            </Label>
+            <Button layoutX="570.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="163.0"
+                    text="LOG OUT">
+                <font>
+                    <Font size="19.0"/>
+                </font>
+            </Button>
+            <TabPane layoutX="24.0" layoutY="92.0" prefHeight="604.0" prefWidth="1108.0" tabClosingPolicy="UNAVAILABLE">
+                <tabs>
+                    <Tab text="Untitled Tab 1">
+                        <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1108.0">
+                                <children>
+                                    <AnchorPane layoutX="206.0" layoutY="25.0" prefHeight="513.0" prefWidth="767.0"
+                                                style="-fx-background-color: white;" styleClass="innerform">
+                                        <children>
+                                            <TextField fx:id="patientname" alignment="CENTER" layoutX="27.0"
+                                                       layoutY="14.0" prefHeight="50.0" prefWidth="348.0"
+                                                       promptText="NAME">
+                                                <font>
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </TextField>
+                                            <TextField fx:id="patientemail" alignment="CENTER" layoutX="27.0"
+                                                       layoutY="71.0" prefHeight="50.0" prefWidth="348.0"
+                                                       promptText="EMAIL">
+                                                <font>
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </TextField>
+                                            <TextField alignment="CENTER" layoutX="27.0" layoutY="132.0"
+                                                       prefHeight="50.0" prefWidth="348.0" promptText="PHONE NUMBER">
+                                                <font>
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </TextField>
+                                            <Button fx:id="addpatient" layoutX="236.0" layoutY="401.0"
+                                                    mnemonicParsing="false" prefHeight="79.0" prefWidth="296.0"
+                                                    text="ADD PATIENT">
+                                                <font>
+                                                    <Font size="21.0"/>
+                                                </font>
+                                            </Button>
+                                            <TextField fx:id="residence" alignment="CENTER" layoutX="27.0"
+                                                       layoutY="194.0" prefHeight="50.0" prefWidth="348.0"
+                                                       promptText="ADDRESS">
+                                                <font>
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </TextField>
+                                            <TextField fx:id="age" alignment="CENTER" layoutX="27.0" layoutY="255.0"
+                                                       prefHeight="50.0" prefWidth="348.0" promptText="AGE">
+                                                <font>
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </TextField>
+                                            <RadioButton layoutX="428.0" layoutY="22.0" mnemonicParsing="false"
+                                                         prefHeight="34.0" prefWidth="122.0" text="MALE"/>
+                                            <RadioButton layoutX="428.0" layoutY="71.0" mnemonicParsing="false"
+                                                         prefHeight="34.0" prefWidth="122.0" text="FEMALE"/>
+                                        </children>
+                                    </AnchorPane>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="Untitled Tab 2">
+                        <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                        </content>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </children>
+    </AnchorPane>
 
 </AnchorPane>

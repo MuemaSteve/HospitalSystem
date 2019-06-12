@@ -1,11 +1,18 @@
 package Controllers;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class Super {
     protected Connection connection;
@@ -26,5 +33,45 @@ public class Super {
         alert.setContentText(message);
         alert.initOwner(owner);
         alert.showAndWait();
+    }
+
+    protected void time(Label clock) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            String mins = null, hrs = null, secs = null, pmam = null;
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            // Convert timestamp to instant
+            Instant instant = timestamp.toInstant();
+            // Convert instant to timestamp
+            Timestamp tsFromInstant = Timestamp.from(instant);
+            int minutes = Integer.parseInt(String.valueOf(tsFromInstant.getMinutes()));
+            int seconds = Integer.parseInt(String.valueOf(tsFromInstant.getSeconds()));
+            int hours = Integer.parseInt(String.valueOf(tsFromInstant.getHours()));
+
+            if (hours >= 12) {
+//                    hrs= "0"+String.valueOf(hours-12);
+                pmam = "PM";
+            } else {
+                pmam = "AM";
+
+            }
+            if (minutes > 9) {
+                mins = String.valueOf(minutes);
+            } else {
+                mins = "0" + minutes;
+
+            }
+            if (seconds > 9) {
+                secs = String.valueOf(seconds);
+            } else {
+                secs = "0" + String.valueOf(seconds);
+
+            }
+            clock.setText(hours + ":" + (mins) + ":" + (secs) + " " + pmam);
+
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
 }

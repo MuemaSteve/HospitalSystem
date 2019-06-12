@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -28,6 +29,24 @@ public class LoginControllerClass extends Super implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clickListeners();
+        enterPressed();
+    }
+
+    private void enterPressed() {
+
+        name.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.ENTER)) {
+                loginValidation();
+            }
+        });
+        password.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.ENTER)) {
+                loginValidation();
+            }
+        });
+
     }
 
     private void clickListeners() {
