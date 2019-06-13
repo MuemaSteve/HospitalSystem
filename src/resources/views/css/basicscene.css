@@ -3,7 +3,7 @@
 }
 
 .basicscene {
-    -fx-background-color: linear-gradient(to right, white, red);
+    -fx-background-color: linear-gradient(to right, rgba(110, 243, 255, 0.4), rgba(255, 56, 87, 0.38));
 
 }
 

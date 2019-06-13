@@ -26,11 +26,10 @@ public class Main extends Application {
             Platform.exit();
             System.exit(123);
         });
-        stage.setMaxWidth(1024.0);
-        stage.setMaxHeight(600.0);
+
         stage.setTitle("E-Doc hospital system");
         stage.setMaxWidth(1200.0);
-        stage.setMaxHeight(700.0);
+        stage.setMaxHeight(1000.0);
         stage.setMaximized(false);
         stage.setFullScreen(false);
         stage.show();

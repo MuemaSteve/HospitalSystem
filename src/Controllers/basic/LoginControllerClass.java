@@ -104,12 +104,13 @@ public class LoginControllerClass extends Super implements Initializable {
                                 panel.getChildren().removeAll();
                                 try {
 //                                    go to admin panel
-                                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Admins/panel.fxml")))));
-                                    assert false;
-//                                    work as sessions and hold user session data
                                     settings.login.put("loggedinasadmin", true);
                                     settings.user.put("user", resultSet.getString("email"));
                                     settings.hospital.put("hospital_name", resultSet.getString("hospital"));
+                                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Admins/panel.fxml")))));
+                                    assert false;
+//                                    work as sessions and hold user session data
+
                                     if (resultSet.getString("email").equals(resultSet.getString("password"))) {
                                         settings.changepassword.put("change", true);
                                     }
@@ -120,13 +121,15 @@ public class LoginControllerClass extends Super implements Initializable {
 //                                user is not admin go to doctor panel
                                 panel.getChildren().removeAll();
                                 try {
+                                    settings.hospital.put("hospital_name", resultSet.getString("hospital"));
+                                    settings.login.put("loggedinasdoctor", true);
+                                    settings.user.put("user", resultSet.getString("email"));
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Physicians/panel.fxml")))));
                                     assert false;
                                     //                                    work as sessions and hold user session data
                                     assert false;
 //                                    work as sessions and hold user session data
-                                    settings.login.put("loggedinasdoctor", true);
-                                    settings.user.put("user", resultSet.getString("email"));
+
                                     if (resultSet.getString("email").equals(resultSet.getString("password"))) {
                                         settings.changepassword.put("change", true);
                                     }
@@ -138,6 +141,10 @@ public class LoginControllerClass extends Super implements Initializable {
 //                                user is not admin go to receptionist panel
                                 panel.getChildren().removeAll();
                                 try {
+                                    settings.login.put("loggedinasreceptionist", true);
+                                    settings.user.put("user", resultSet.getString("email"));
+                                    settings.hospital.put("hospital_name", resultSet.getString("hospital"));
+
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Receptionist/panel.fxml")))));
                                     assert false;
                                     //                                    work as sessions and hold user session data
@@ -146,8 +153,6 @@ public class LoginControllerClass extends Super implements Initializable {
                                     if (resultSet.getString("email").equals(resultSet.getString("password"))) {
                                         settings.changepassword.put("change", true);
                                     }
-                                    settings.login.put("loggedinasreceptionist", true);
-                                    settings.user.put("user", resultSet.getString("email"));
 
 
                                 } catch (IOException e) {

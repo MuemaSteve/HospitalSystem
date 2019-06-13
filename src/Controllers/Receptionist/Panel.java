@@ -1,6 +1,9 @@
 package Controllers.Receptionist;
 
 import Controllers.Super;
+import Controllers.settings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -8,8 +11,13 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Panel extends Super implements Initializable {
     public Label clock;
@@ -21,19 +29,36 @@ public class Panel extends Super implements Initializable {
     public Button logout;
     public Label datepicked;
     public TextField phonenumber;
+    public RadioButton radiomale,radiofemale;
 
-    String date;
+
+    private String date,radioval;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         time(clock);
         buttonListeners();
         pickdate();
-
+        radioListener();
+        System.out.println(settings.user.size());
     }
-
+//snm2@gmail.com
     private void buttonListeners() {
         logout.setOnMouseClicked(event -> logOut(panel));
         addpatient.setOnMouseClicked(event -> validation());
+    }
+    private void radioListener(){
+        ToggleGroup toggleGroup = new ToggleGroup();
+        radiofemale.setToggleGroup(toggleGroup);
+        radiomale.setToggleGroup(toggleGroup);
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
+
+                RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
+                radioval=chk.getText().toLowerCase();
+
+            }
+        });
     }
 
     private void validation() {
@@ -43,7 +68,51 @@ public class Panel extends Super implements Initializable {
 
         } else {
 
+            String regex = "^(.+)@(.+)$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(patientemail.getText());
+            if(matcher.matches()){
+//                proceed
+                insert();
+            }else{
+                showAlert(Alert.AlertType.WARNING,panel.getScene().getWindow(),"INVALID EMAIL","ENTER A VALID EMAIL ADDRESS");
+            }
         }
+    }
+
+    private void insert() {
+        String name,email,number,dateofbirth,radioSelected;
+        name=patientname.getText();
+        email=patientemail.getText();
+        number=phonenumber.getText();
+        dateofbirth=date;
+        radioSelected=radioval;
+        try {
+            PreparedStatement search=connection.prepareStatement("SELECT * FROM patients where email=?");
+            search.setString(1,email);
+            ResultSet rs=search.executeQuery();
+            if(rs.isBeforeFirst()){
+                showAlert(Alert.AlertType.WARNING,panel.getScene().getWindow(),"ERROR","THE USER IS REGISTERED");
+
+            }else{
+                try {
+                    PreparedStatement preparedStatement=connection.prepareStatement("INSERT INTO patients (name, email, phonenumber, birthdate, sex, branch) VALUES (?,?,?,?,?,?)");
+                    preparedStatement.setString(1,name);
+                    preparedStatement.setString(2,email);
+                    preparedStatement.setString(3,number);
+                    preparedStatement.setString(4,dateofbirth);
+                    preparedStatement.setString(5,radioSelected);
+                    preparedStatement.setString(6, settings.hospital.get("hospital_name"));
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private String pickdate() {
