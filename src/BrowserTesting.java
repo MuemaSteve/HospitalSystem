@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 public class BrowserTesting extends Application {
     private Scene scene;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) {
         // create the scene
@@ -26,10 +30,6 @@ public class BrowserTesting extends Application {
         stage.setScene(scene);
 //        scene.getStylesheets().add("webviewsample/BrowserToolbar.css");
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
 

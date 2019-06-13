@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<VBox fx:id="panel" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.basic.LoginControllerClass">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
+      stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+      fx:controller="Controllers.basic.LoginControllerClass">
     <children>
-        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="basicscene" VBox.vgrow="ALWAYS">
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" styleClass="basicscene"
+                    VBox.vgrow="ALWAYS">
             <children>
-                <AnchorPane layoutX="402.0" layoutY="204.0" prefHeight="322.0" prefWidth="397.0" style="-fx-background-color: white;" styleClass="innerform">
+                <AnchorPane layoutX="402.0" layoutY="204.0" prefHeight="322.0" prefWidth="397.0"
+                            style="-fx-background-color: white;" styleClass="innerform">
                     <children>
-                        <TextField fx:id="name" alignment="CENTER" layoutX="57.0" layoutY="102.0" prefHeight="40.0" prefWidth="261.0" promptText="NAME" styleClass="inputfield" text="snm2@gmail.com" />
-                        <PasswordField fx:id="password" alignment="CENTER" layoutX="57.0" layoutY="161.0" prefHeight="40.0" prefWidth="261.0" promptText="PASSWORD" styleClass="input" text="snm2@gmail.com" />
-                        <Button fx:id="login" layoutX="56.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="118.0" text="LOGIN" />
-                        <Button fx:id="help" layoutX="242.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="118.0" text="HELP" />
-                        <Label alignment="CENTER" layoutX="72.0" layoutY="43.0" prefHeight="40.0" prefWidth="254.0" text="E-Doc hospital system" textFill="#ee0404">
+                        <TextField fx:id="name" alignment="CENTER" layoutX="57.0" layoutY="102.0" prefHeight="40.0"
+                                   prefWidth="261.0" promptText="NAME" styleClass="inputfield" text="snm2@gmail.com"/>
+                        <PasswordField fx:id="password" alignment="CENTER" layoutX="57.0" layoutY="161.0"
+                                       prefHeight="40.0" prefWidth="261.0" promptText="PASSWORD" styleClass="input"
+                                       text="snm2@gmail.com"/>
+                        <Button fx:id="login" layoutX="56.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"
+                                prefWidth="118.0" text="LOGIN"/>
+                        <Button fx:id="help" layoutX="242.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"
+                                prefWidth="118.0" text="HELP"/>
+                        <Label alignment="CENTER" layoutX="72.0" layoutY="43.0" prefHeight="40.0" prefWidth="254.0"
+                               text="E-Doc hospital system" textFill="#ee0404">
                             <font>
-                                <Font size="17.0" />
+                                <Font size="17.0"/>
                             </font>
                         </Label>
                     </children>
                 </AnchorPane>
-                <Label fx:id="message" alignment="CENTER" layoutX="395.0" layoutY="69.0" prefHeight="40.0" prefWidth="411.0">
+                <Label fx:id="message" alignment="CENTER" layoutX="395.0" layoutY="69.0" prefHeight="40.0"
+                       prefWidth="411.0">
                     <font>
-                        <Font size="25.0" />
+                        <Font size="25.0"/>
                     </font>
                 </Label>
             </children>

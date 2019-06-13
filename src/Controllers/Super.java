@@ -53,6 +53,7 @@ public class Super {
             e.printStackTrace();
         }
     }
+
     protected void time(Label clock) {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             String mins = null, hrs = null, secs = null, pmam = null;

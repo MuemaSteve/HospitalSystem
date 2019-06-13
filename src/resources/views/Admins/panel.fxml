@@ -6,9 +6,10 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.WebView?>
 <?import java.lang.String?>
-<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="Controllers.Admins.PanelController">
     <children>
         <Label alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="50.0" prefWidth="356.0" fx:id="clock"
