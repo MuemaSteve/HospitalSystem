@@ -14,15 +14,35 @@
                     <Font size="19.0"/>
                 </font>
             </Label>
-            <Button layoutX="570.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="163.0"
-                    text="LOG OUT">
+            <Button fx:id="logout" layoutX="570.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0"
+                    prefWidth="163.0" text="LOG OUT">
                 <font>
                     <Font size="19.0"/>
                 </font>
             </Button>
             <TabPane layoutX="24.0" layoutY="92.0" prefHeight="604.0" prefWidth="1108.0" tabClosingPolicy="UNAVAILABLE">
                 <tabs>
-                    <Tab text="Untitled Tab 1">
+                    <Tab text="EXISTING PATIENTS">
+                        <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <children>
+                                    <TextField alignment="CENTER" layoutX="93.0" layoutY="18.0" prefHeight="50.0"
+                                               prefWidth="306.0" promptText="SEARCH IN RECORDS">
+                                        <font>
+                                            <Font size="19.0"/>
+                                        </font>
+                                    </TextField>
+                                    <Button layoutX="423.0" layoutY="15.0" mnemonicParsing="false" prefHeight="50.0"
+                                            prefWidth="117.0" text="SEARCH">
+                                        <font>
+                                            <Font size="19.0"/>
+                                        </font>
+                                    </Button>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="NEW PATIENTS">
                         <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1108.0">
                                 <children>
@@ -44,7 +64,8 @@
                                                 </font>
                                             </TextField>
                                             <TextField alignment="CENTER" layoutX="27.0" layoutY="132.0"
-                                                       prefHeight="50.0" prefWidth="348.0" promptText="PHONE NUMBER">
+                                                       prefHeight="50.0" prefWidth="348.0" fx:id="phonenumber"
+                                                       promptText="PHONE NUMBER">
                                                 <font>
                                                     <Font size="19.0"/>
                                                 </font>
@@ -56,32 +77,22 @@
                                                     <Font size="21.0"/>
                                                 </font>
                                             </Button>
-                                            <TextField fx:id="residence" alignment="CENTER" layoutX="27.0"
-                                                       layoutY="194.0" prefHeight="50.0" prefWidth="348.0"
-                                                       promptText="ADDRESS">
-                                                <font>
-                                                    <Font size="19.0"/>
-                                                </font>
-                                            </TextField>
-                                            <TextField fx:id="age" alignment="CENTER" layoutX="27.0" layoutY="255.0"
-                                                       prefHeight="50.0" prefWidth="348.0" promptText="AGE">
-                                                <font>
-                                                    <Font size="19.0"/>
-                                                </font>
-                                            </TextField>
                                             <RadioButton layoutX="428.0" layoutY="22.0" mnemonicParsing="false"
                                                          prefHeight="34.0" prefWidth="122.0" text="MALE"/>
                                             <RadioButton layoutX="428.0" layoutY="71.0" mnemonicParsing="false"
                                                          prefHeight="34.0" prefWidth="122.0" text="FEMALE"/>
+                                            <DatePicker fx:id="dob" layoutX="27.0" layoutY="211.0" prefHeight="44.0"
+                                                        prefWidth="348.0" promptText="DOB" styleClass="inputefield"/>
+                                            <Label fx:id="datepicked" alignment="CENTER" layoutX="391.0" layoutY="211.0"
+                                                   prefHeight="50.0" prefWidth="283.0" text="Label">
+                                                <font>
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </Label>
                                         </children>
                                     </AnchorPane>
                                 </children>
                             </AnchorPane>
-                        </content>
-                    </Tab>
-                    <Tab text="Untitled Tab 2">
-                        <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
                         </content>
                     </Tab>
                 </tabs>

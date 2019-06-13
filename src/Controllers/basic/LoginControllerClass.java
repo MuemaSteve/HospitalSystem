@@ -29,7 +29,7 @@ public class LoginControllerClass extends Super implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clickListeners();
-        enterPressed();
+//        enterPressed();
     }
 
     private void enterPressed() {

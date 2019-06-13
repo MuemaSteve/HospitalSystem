@@ -6,3 +6,7 @@
     -fx-background-color: linear-gradient(to right, white, red);
 
 }
+
+.inputfield {
+    -fx-font-size: 19px;
+}

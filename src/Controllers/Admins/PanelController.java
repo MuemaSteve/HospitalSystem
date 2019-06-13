@@ -1,7 +1,6 @@
 package Controllers.Admins;
 
 import Controllers.Super;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -19,13 +18,11 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Controllers.settings.*;
+import static Controllers.settings.siteHelp;
 
 
 public class PanelController extends Super implements Initializable {
@@ -137,14 +134,7 @@ public class PanelController extends Super implements Initializable {
             addNewUser();
         });
         logout.setOnMouseClicked(event -> {
-            try {
-                //logout code
-                login.clear();
-                user.clear();
-                panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/basic/LoginScene.fxml")))));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            logOut(panel);
 
         });
     }
