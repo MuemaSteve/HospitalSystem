@@ -44,6 +44,9 @@ public class Panel extends Super implements Initializable {
     public TableColumn<Records, String> colpatientname;
     public TableColumn<Records, String> colpatientemail;
     public TableColumn<Records, String> colpatientnumber;
+    public TabPane tabpane;
+    public Tab tabexisting;
+    public Tab tabnew;
     private ObservableList<Records> data = FXCollections.observableArrayList();
     private String date, radioval = null;
 
@@ -55,6 +58,7 @@ public class Panel extends Super implements Initializable {
         radioListener();
         patienttable.setPlaceholder(new Label(""));
     }
+
 
     //snm2@gmail.com
     private void buttonListeners() {
