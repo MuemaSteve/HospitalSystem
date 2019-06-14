@@ -7,12 +7,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,12 +121,62 @@ public class Panel extends Super implements Initializable {
 
     private void pickdate() {
 
+        String pattern = "dd-MM-yyyy";
+        dob.setPromptText(pattern.toLowerCase());
+
+        dob.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
+
+        Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        // Must call super
+                        super.updateItem(item, empty);
+
+                        // Show Weekends in blue color
+                        DayOfWeek day = DayOfWeek.from(item);
+                        if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+                            this.setTextFill(Color.BLUE);
+                        }
+
+                        // Disable all future date cells
+                        if (item.isAfter(LocalDate.now())) {
+                            this.setDisable(true);
+                        }
+                    }
+                };
+            }
+        };
+
+        dob.setDayCellFactory(dayCellFactory);
         EventHandler<ActionEvent> event = e -> {
             // get the date picker value
+
             LocalDate i = dob.getValue();
             if (i.isAfter(LocalDate.now())) {
                 showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "TIME TRAVEL IS NOT YET A THING ");
-                dob.setValue(null);
+//                dob.setValue(null);
             } else {
                 // get the selected date
                 datepicked.setText(String.valueOf(i));
