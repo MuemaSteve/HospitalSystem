@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 13, 2019 at 06:47 AM
+-- Generation Time: Jun 14, 2019 at 01:42 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -53,17 +53,30 @@ VALUES (1, 'JKUAT', 'JUJA'),
 
 CREATE TABLE `patients`
 (
-    `id`             int(11)    NOT NULL,
-    `name`           text       NOT NULL,
-    `email`          text       NOT NULL,
-    `phonenumber`    text       NOT NULL,
-    `birthdate`      date       NOT NULL,
-    `identifier`     text       NOT NULL,
-    `sex`            varchar(2) NOT NULL,
-    `branch`         text       NOT NULL,
-    `dateregistered` datetime   NOT NULL
+    `id`             int(11)   NOT NULL,
+    `name`           text      NOT NULL,
+    `email`          text      NOT NULL,
+    `phonenumber`    text      NOT NULL,
+    `birthdate`      date      NOT NULL,
+    `identifier`     text,
+    `sex`            text      NOT NULL,
+    `branch`         text      NOT NULL,
+    `dateregistered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB
   DEFAULT CHARSET = latin1;
+
+--
+-- Dumping data for table `patients`
+--
+
+INSERT INTO `patients` (`id`, `name`, `email`, `phonenumber`, `birthdate`, `identifier`, `sex`, `branch`,
+                        `dateregistered`)
+VALUES (1, 'steve', 'snm@gmail.com', '0702653268', '2019-06-05', NULL, 'male', 'NAIROBI', '2019-06-14 08:33:47'),
+       (2, 'aphonse', 'alphonsekiprop@gmail.com', '0725616871', '1997-06-16', NULL, 'male', 'NAIROBI',
+        '2019-06-14 09:53:26'),
+       (3, 'cvbcb', 'dfgd@fg.fghh', 'dfgdfg', '2019-06-12', NULL, 'male', 'NAIROBI', '2019-06-14 10:01:55'),
+       (4, 'aphonse', 'aphonse@mail.com', '787876382', '2019-06-04', NULL, 'male', 'NAIROBI', '2019-06-14 10:48:09'),
+       (5, 'aphonse', 'aphonse@yahoo.com', '7676732682', '2019-06-04', NULL, 'male', 'NAIROBI', '2019-06-14 10:51:48');
 
 -- --------------------------------------------------------
 
@@ -141,7 +154,8 @@ ALTER TABLE `hospital`
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 6;
 
 --
 -- AUTO_INCREMENT for table `users`

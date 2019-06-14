@@ -1,11 +1,15 @@
 package Controllers.Receptionist;
 
+import Controllers.Records;
 import Controllers.Super;
 import Controllers.settings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
@@ -15,6 +19,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,9 +39,13 @@ public class Panel extends Super implements Initializable {
     public TextField phonenumber;
     public RadioButton radiomale, radiofemale;
     public TextField findinrecords;
-
-
-    private String date, radioval;
+    public Button findinrecordsbutton;
+    public TableView<Records> patienttable;
+    public TableColumn<Records, String> colpatientname;
+    public TableColumn<Records, String> colpatientemail;
+    public TableColumn<Records, String> colpatientnumber;
+    private ObservableList<Records> data = FXCollections.observableArrayList();
+    private String date, radioval = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -44,13 +53,50 @@ public class Panel extends Super implements Initializable {
         buttonListeners();
         pickdate();
         radioListener();
-
+        patienttable.setPlaceholder(new Label(""));
     }
 
     //snm2@gmail.com
     private void buttonListeners() {
         logout.setOnMouseClicked(event -> logOut(panel));
         addpatient.setOnMouseClicked(event -> validation());
+        findinrecordsbutton.setOnMouseClicked(event -> {
+            if (data.size() > 0) {
+                data.clear();
+            }
+            findInRecordsMethod();
+        });
+    }
+
+    private void findInRecordsMethod() {
+        String[] name = {findinrecords.getText()};
+
+        String query = "SELECT * FROM patients WHERE name LIKE '%" + name[0] + "%'";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet foundrecords = statement.executeQuery(query);
+            if (foundrecords.isBeforeFirst()) {
+
+                while (foundrecords.next()) {
+                    Records records = new Records();
+                    records.setName(foundrecords.getString("name"));
+                    records.setEmail(foundrecords.getString("email"));
+                    records.setPhonenumber(foundrecords.getString("phonenumber"));
+                    data.add(records);
+                }
+                patienttable.setItems(data);
+
+                colpatientname.setCellValueFactory(new PropertyValueFactory<Records, String>("name"));
+                colpatientemail.setCellValueFactory(new PropertyValueFactory<Records, String>("email"));
+                colpatientnumber.setCellValueFactory(new PropertyValueFactory<Records, String>("phonenumber"));
+                patienttable.refresh();
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT DOES NOT EXIST");
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
     }
 
     private void radioListener() {
@@ -66,7 +112,7 @@ public class Panel extends Super implements Initializable {
     }
 
     private void validation() {
-        if (patientname.getText().isEmpty() || patientemail.getText().isEmpty() || phonenumber.getText().isEmpty() || dob.getValue() == null) {
+        if (radioval == null || patientname.getText().isEmpty() || patientemail.getText().isEmpty() || phonenumber.getText().isEmpty() || dob.getValue() == null) {
             showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(),
                     "FILL ALL FIELDS", "PLEASE FILL ALL FIELDS");
 
@@ -107,7 +153,10 @@ public class Panel extends Super implements Initializable {
                     preparedStatement.setString(4, dateofbirth);
                     preparedStatement.setString(5, radioSelected);
                     preparedStatement.setString(6, settings.hospital.get("hospital_name"));
-                    preparedStatement.executeUpdate();
+                    if (preparedStatement.executeUpdate() != 0) {
+                        clearFields();
+                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "THE PATIENT HAS BEEN ADDED SUCCESSFULLY");
+                    }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -116,6 +165,13 @@ public class Panel extends Super implements Initializable {
             e.printStackTrace();
         }
 
+
+    }
+
+    private void clearFields() {
+        patientemail.clear();
+        phonenumber.clear();
+        patientname.clear();
 
     }
 

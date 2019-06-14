@@ -20,7 +20,8 @@
                                             <Font size="19.0"/>
                                         </font>
                                     </TextField>
-                                    <Button layoutX="582.0" layoutY="18.0" mnemonicParsing="false" prefHeight="50.0"
+                                    <Button layoutX="582.0" layoutY="18.0" mnemonicParsing="false"
+                                            fx:id="findinrecordsbutton" prefHeight="50.0"
                                             prefWidth="117.0" text="SEARCH">
                                         <font>
                                             <Font size="19.0"/>
@@ -35,13 +36,17 @@
                                                     <AnchorPane prefHeight="406.0" prefWidth="925.0">
                                                         <children>
                                                             <TableView layoutX="-2.0" layoutY="2.0" prefHeight="388.0"
+                                                                       fx:id="patienttable"
                                                                        prefWidth="926.0">
                                                                 <columns>
                                                                     <TableColumn prefWidth="295.20005798339844"
+                                                                                 fx:id="colpatientname"
                                                                                  text="NAME"/>
                                                                     <TableColumn prefWidth="295.20005798339844"
+                                                                                 fx:id="colpatientemail"
                                                                                  text="EMAIL"/>
                                                                     <TableColumn prefWidth="295.20005798339844"
+                                                                                 fx:id="colpatientnumber"
                                                                                  text="PHONE NUMBER"/>
                                                                 </columns>
                                                             </TableView>

@@ -11,10 +11,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Objects;
@@ -34,6 +31,17 @@ public class Super {
         }
     }
 
+    protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
+        int counter = 1;
+        for (String x : fields) {
+            preparedStatement.setString(counter, x);
+            counter += 1;
+        }
+        return preparedStatement.executeQuery();
+
+
+    }
     protected void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
