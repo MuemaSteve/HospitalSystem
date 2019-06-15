@@ -3,17 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
-            styleClass="basicscene" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Receptionist.Panel">
-    <AnchorPane layoutX="30.0" layoutY="22.0" minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1139.0">
+<?import javafx.scene.web.WebView?>
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Receptionist.Panel">
+    <AnchorPane layoutX="2.0" minHeight="0.0" minWidth="0.0" prefHeight="722.0" prefWidth="1200.0">
         <children>
-            <TabPane layoutX="31.0" prefHeight="604.0" prefWidth="1108.0" fx:id="tabpane"
+            <TabPane fx:id="tabpane" layoutX="-1.0" layoutY="65.0" prefHeight="656.0" prefWidth="1200.0"
                      tabClosingPolicy="UNAVAILABLE">
                 <tabs>
-                    <Tab text="EXISTING PATIENTS" fx:id="tabexisting">
+                    <Tab fx:id="tabexisting" text="EXISTING PATIENTS">
                         <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <AnchorPane fx:id="existingcontainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                        prefWidth="200.0">
                                 <children>
                                     <TextField fx:id="findinrecords" alignment="CENTER" layoutX="93.0" layoutY="18.0"
                                                prefHeight="50.0" prefWidth="478.0" promptText="SEARCH IN RECORDS">
@@ -21,9 +23,8 @@
                                             <Font size="19.0"/>
                                         </font>
                                     </TextField>
-                                    <Button layoutX="582.0" layoutY="18.0" mnemonicParsing="false"
-                                            fx:id="findinrecordsbutton" prefHeight="50.0"
-                                            prefWidth="117.0" text="SEARCH">
+                                    <Button fx:id="findinrecordsbutton" layoutX="582.0" layoutY="18.0"
+                                            mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0" text="SEARCH">
                                         <font>
                                             <Font size="19.0"/>
                                         </font>
@@ -36,19 +37,17 @@
                                                 <content>
                                                     <AnchorPane prefHeight="406.0" prefWidth="925.0">
                                                         <children>
-                                                            <TableView layoutX="-2.0" layoutY="2.0" prefHeight="388.0"
-                                                                       fx:id="patienttable"
-                                                                       prefWidth="926.0">
+                                                            <TableView fx:id="patienttable" layoutX="-2.0" layoutY="2.0"
+                                                                       prefHeight="388.0" prefWidth="926.0">
                                                                 <columns>
-                                                                    <TableColumn prefWidth="295.20005798339844"
-                                                                                 fx:id="colpatientname"
+                                                                    <TableColumn fx:id="colpatientname"
+                                                                                 prefWidth="295.20005798339844"
                                                                                  text="NAME"/>
-                                                                    <TableColumn prefWidth="295.20005798339844"
-                                                                                 fx:id="colpatientemail"
+                                                                    <TableColumn fx:id="colpatientemail"
+                                                                                 prefWidth="295.20005798339844"
                                                                                  text="EMAIL"/>
-                                                                    <TableColumn prefWidth="295.20005798339844"
-                                                                                 fx:id="colpatientnumber"
-                                                                                 text="PHONE NUMBER"/>
+                                                                    <TableColumn fx:id="colpatientnumber"
+                                                                                 prefWidth="333.0" text="PHONE NUMBER"/>
                                                                 </columns>
                                                             </TableView>
                                                         </children>
@@ -61,9 +60,10 @@
                             </AnchorPane>
                         </content>
                     </Tab>
-                    <Tab text="NEW PATIENTS" fx:id="tabnew">
+                    <Tab fx:id="tabnew" text="NEW PATIENTS">
                         <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1108.0">
+                            <AnchorPane fx:id="newcontainer" minHeight="0.0" minWidth="0.0" prefHeight="550.0"
+                                        prefWidth="1108.0">
                                 <children>
                                     <AnchorPane layoutX="206.0" layoutY="25.0" prefHeight="513.0" prefWidth="767.0"
                                                 style="-fx-background-color: white;" styleClass="innerform">
@@ -117,20 +117,36 @@
                             </AnchorPane>
                         </content>
                     </Tab>
+                    <Tab text="NEWS">
+                        <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="626.0" prefWidth="1200.0">
+                                <children>
+                                    <WebView fx:id="webview" layoutX="1.0" layoutY="2.0" prefHeight="624.0"
+                                             prefWidth="1200.0"/>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
                 </tabs>
             </TabPane>
-            <Label fx:id="clock" alignment="CENTER" layoutX="162.0" layoutY="603.0" prefHeight="50.0" prefWidth="348.0"
-                   text="00:00:00 PM">
-                <font>
-                    <Font size="19.0"/>
-                </font>
-            </Label>
-            <Button fx:id="logout" layoutX="768.0" layoutY="598.0" mnemonicParsing="false" prefHeight="60.0"
-                    prefWidth="163.0" text="LOG OUT">
+            <Button fx:id="logout" layoutX="960.0" layoutY="9.0" mnemonicParsing="false" prefHeight="48.0"
+                    prefWidth="151.0" text="LOG OUT">
                 <font>
                     <Font size="19.0"/>
                 </font>
             </Button>
+            <Label fx:id="clock" alignment="CENTER" layoutX="22.0" layoutY="14.0" prefHeight="48.0" prefWidth="362.0"
+                   text="00:00:00 PM">
+                <font>
+                    <Font size="20.0"/>
+                </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="417.0" layoutY="9.0" prefHeight="48.0" prefWidth="362.0" fx:id="title"
+                   text="THE RECEPTION PANEL">
+                <font>
+                    <Font size="19.0"/>
+                </font>
+            </Label>
         </children>
     </AnchorPane>
 

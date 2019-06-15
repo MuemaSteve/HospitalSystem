@@ -6,27 +6,27 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.WebView?>
 <?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
-            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene" stylesheets="@../css/basicscene.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.Admins.PanelController">
     <children>
-        <Label alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="50.0" prefWidth="356.0" fx:id="clock"
+        <Label fx:id="clock" alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="50.0" prefWidth="356.0"
                text="TIME">
             <font>
                 <Font size="30.0"/>
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="447.0" layoutY="4.0" prefHeight="50.0" prefWidth="630.0"
+        <Label alignment="CENTER" layoutX="447.0" layoutY="4.0" prefHeight="50.0" prefWidth="630.0" fx:id="title"
                text="E-Doc Admin Panel">
             <font>
                 <Font size="27.0"/>
             </font>
         </Label>
-        <TabPane layoutX="5.0" layoutY="51.0" prefHeight="650.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane layoutX="5.0" layoutY="51.0" fx:id="tabpane" prefHeight="650.0" prefWidth="1200.0"
+                 tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="REGISTER STAFF" fx:id="regstaff">
+                <Tab fx:id="regstaff" text="REGISTER STAFF">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -90,19 +90,18 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="VIEW PATIENT INFORMATION" fx:id="patientinfo">
+                <Tab fx:id="patientinfo" text="VIEW PATIENT INFORMATION">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TextField alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="50.0"
-                                           prefWidth="408.0" promptText="PATIENT ID" fx:id="searchPatientID">
+                                <TextField fx:id="searchPatientID" alignment="CENTER" layoutX="14.0" layoutY="14.0"
+                                           prefHeight="50.0" prefWidth="408.0" promptText="PATIENT ID">
                                     <font>
                                         <Font size="20.0"/>
                                     </font>
                                 </TextField>
-                                <Button layoutX="438.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0"
-                                        fx:id="searchpatientbutton"
-                                        prefWidth="107.0" text="SEARCH">
+                                <Button fx:id="searchpatientbutton" layoutX="438.0" layoutY="14.0"
+                                        mnemonicParsing="false" prefHeight="50.0" prefWidth="107.0" text="SEARCH">
                                     <font>
                                         <Font size="20.0"/>
                                     </font>
@@ -125,7 +124,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="VIEW STAFF INFORMATION" fx:id="staffinfo">
+                <Tab fx:id="staffinfo" text="VIEW STAFF INFORMATION">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -142,7 +141,7 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="NEWS" fx:id="news">
+                <Tab fx:id="news" text="NEWS">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -153,8 +152,8 @@
                 </Tab>
             </tabs>
         </TabPane>
-        <Button fx:id="logout" layoutX="426.0" layoutY="6.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="136.0"
-                text="LOG OUT">
+        <Button fx:id="logout" layoutX="1043.0" layoutY="4.0" mnemonicParsing="false" prefHeight="41.0"
+                prefWidth="136.0" text="LOG OUT">
             <font>
                 <Font size="18.0"/>
             </font>

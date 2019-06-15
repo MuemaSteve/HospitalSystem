@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static Controllers.settings.appName;
+
 public class LoginControllerClass extends Super implements Initializable {
     public VBox panel;
     public TextField name;
@@ -25,11 +27,13 @@ public class LoginControllerClass extends Super implements Initializable {
     public Button login;
     public Button help;
     public Label message;
+    public Label title;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         clickListeners();
 //        enterPressed();
+        title.setText(appName + " Login");
     }
 
     private void enterPressed() {

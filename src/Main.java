@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import static Controllers.settings.appName;
+
 public class Main extends Application {
     public static void main(String[] args) {
         Main.launch(args);
@@ -22,7 +24,7 @@ public class Main extends Application {
         stage.getIcons().add(new Image("resources/images/22-Cardi-B-Money.png"));
         stage.setOnCloseRequest(event -> Platform.exit());
 
-        stage.setTitle("E-Doctor hospital system");
+        stage.setTitle(appName + " hospital system");
         stage.setMaxWidth(1200.0);
         stage.setMaxHeight(1000.0);
         stage.setMaximized(false);

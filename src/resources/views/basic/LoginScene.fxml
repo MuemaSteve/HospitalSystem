@@ -23,7 +23,8 @@
                                 prefWidth="118.0" text="LOGIN"/>
                         <Button fx:id="help" layoutX="242.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"
                                 prefWidth="118.0" text="HELP"/>
-                        <Label alignment="CENTER" layoutX="72.0" layoutY="43.0" prefHeight="40.0" prefWidth="254.0"
+                        <Label alignment="CENTER" fx:id="title" layoutX="72.0" layoutY="43.0" prefHeight="40.0"
+                               prefWidth="254.0"
                                text="E-Doc hospital system" textFill="#ee0404">
                             <font>
                                 <Font size="17.0"/>

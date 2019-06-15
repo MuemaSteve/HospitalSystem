@@ -8,10 +8,17 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -26,6 +33,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static Controllers.settings.appName;
+import static Controllers.settings.siteHelp;
 
 public class Panel extends Super implements Initializable {
     public Label clock;
@@ -47,9 +57,13 @@ public class Panel extends Super implements Initializable {
     public TabPane tabpane;
     public Tab tabexisting;
     public Tab tabnew;
+    public AnchorPane existingcontainer;
+    public AnchorPane newcontainer;
+    public WebView webview;
+    public Label title;
     private ObservableList<Records> data = FXCollections.observableArrayList();
     private String date, radioval = null;
-
+    private double tabWidth = 200.0;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         time(clock);
@@ -57,6 +71,47 @@ public class Panel extends Super implements Initializable {
         pickdate();
         radioListener();
         patienttable.setPlaceholder(new Label(""));
+        configureView();
+        WebEngine engine = webview.getEngine();//help web page
+        engine.load(siteHelp);
+        title.setText(appName + " Reception");
+    }
+    // Private
+
+    private void configureView() {
+        tabpane.setTabMinWidth(tabWidth);
+        tabpane.setTabMaxWidth(tabWidth);
+        tabpane.setTabMinHeight(tabWidth - 140.0);
+        tabpane.setTabMaxHeight(tabWidth - 140.0);
+        tabpane.setRotateGraphic(true);
+
+
+//        configureTab(tabexisting, "EXISTING PATIENTS", "resources/images/22-Cardi-B-Money.png");
+//        configureTab(tabnew, "NEW PATIENTS", "resources/images/22-Cardi-B-Money.png");
+    }
+
+    private void configureTab(Tab tab, String title, String iconPath) {
+        double imageWidth = 40.0;
+
+        ImageView imageView = new ImageView(new Image(iconPath));
+        imageView.setFitHeight(imageWidth);
+        imageView.setFitWidth(imageWidth);
+
+        Label label = new Label(title);
+        label.setMaxWidth(tabWidth - 20);
+        label.setPadding(new Insets(5, 0, 0, 0));
+        label.setStyle("-fx-text-fill: black; -fx-font-size: 8pt; -fx-font-weight: normal;");
+        label.setTextAlignment(TextAlignment.CENTER);
+
+        BorderPane tabPane = new BorderPane();
+//        tabPane.setRotate(90.0);
+
+        tabPane.setMaxWidth(tabWidth);
+        tabPane.setCenter(imageView);
+        tabPane.setBottom(label);
+
+        tab.setText("");
+        tab.setGraphic(tabPane);
     }
 
 
@@ -107,6 +162,7 @@ public class Panel extends Super implements Initializable {
         ToggleGroup toggleGroup = new ToggleGroup();
         radiofemale.setToggleGroup(toggleGroup);
         radiomale.setToggleGroup(toggleGroup);
+        radiomale.setSelected(true);
         toggleGroup.selectedToggleProperty().addListener((ov, t, t1) -> {
 
             RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
