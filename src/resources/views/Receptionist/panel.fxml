@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.WebView?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
-            styleClass="basicscene" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Receptionist.Panel">
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Receptionist.Panel">
     <AnchorPane layoutX="2.0" minHeight="0.0" minWidth="0.0" prefHeight="722.0" prefWidth="1200.0">
         <children>
             <TabPane fx:id="tabpane" layoutX="-1.0" layoutY="65.0" prefHeight="656.0" prefWidth="1200.0"
@@ -69,21 +69,21 @@
                                                 style="-fx-background-color: white;" styleClass="innerform">
                                         <children>
                                             <TextField fx:id="patientname" alignment="CENTER" layoutX="27.0"
-                                                       layoutY="14.0" prefHeight="50.0" prefWidth="348.0"
+                                                       layoutY="39.0" prefHeight="50.0" prefWidth="348.0"
                                                        promptText="NAME">
                                                 <font>
                                                     <Font size="19.0"/>
                                                 </font>
                                             </TextField>
                                             <TextField fx:id="patientemail" alignment="CENTER" layoutX="27.0"
-                                                       layoutY="71.0" prefHeight="50.0" prefWidth="348.0"
+                                                       layoutY="105.0" prefHeight="50.0" prefWidth="348.0"
                                                        promptText="EMAIL">
                                                 <font>
                                                     <Font size="19.0"/>
                                                 </font>
                                             </TextField>
                                             <TextField fx:id="phonenumber" alignment="CENTER" layoutX="27.0"
-                                                       layoutY="132.0" prefHeight="50.0" prefWidth="348.0"
+                                                       layoutY="175.0" prefHeight="50.0" prefWidth="348.0"
                                                        promptText="PHONE NUMBER">
                                                 <font>
                                                     <Font size="19.0"/>
@@ -97,18 +97,24 @@
                                                 </font>
                                             </Button>
 
-                                            <RadioButton fx:id="radiomale" layoutX="428.0" layoutY="22.0"
+                                            <RadioButton fx:id="radiomale" layoutX="428.0" layoutY="64.0"
                                                          mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0"
                                                          text="MALE"/>
-                                            <RadioButton fx:id="radiofemale" layoutX="428.0" layoutY="71.0"
+                                            <RadioButton fx:id="radiofemale" layoutX="428.0" layoutY="105.0"
                                                          mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0"
                                                          text="FEMALE"/>
-                                            <DatePicker fx:id="dob" layoutX="27.0" layoutY="211.0" prefHeight="44.0"
+                                            <DatePicker fx:id="dob" layoutX="27.0" layoutY="248.0" prefHeight="44.0"
                                                         prefWidth="348.0" promptText="DOB" styleClass="inputefield"/>
-                                            <Label fx:id="datepicked" alignment="CENTER" layoutX="391.0" layoutY="211.0"
+                                            <Label fx:id="datepicked" alignment="CENTER" layoutX="399.0" layoutY="245.0"
                                                    prefHeight="50.0" prefWidth="283.0" text="Label">
                                                 <font>
                                                     <Font size="19.0"/>
+                                                </font>
+                                            </Label>
+                                            <Label alignment="CENTER" layoutX="127.0" layoutY="2.0" prefHeight="29.0"
+                                                   prefWidth="431.0" text="ALL FIELDS ARE REQUIRED" textFill="#f80303">
+                                                <font>
+                                                    <Font size="14.0"/>
                                                 </font>
                                             </Label>
                                         </children>
@@ -141,7 +147,7 @@
                     <Font size="20.0"/>
                 </font>
             </Label>
-            <Label alignment="CENTER" layoutX="417.0" layoutY="9.0" prefHeight="48.0" prefWidth="362.0" fx:id="title"
+            <Label fx:id="title" alignment="CENTER" layoutX="417.0" layoutY="9.0" prefHeight="48.0" prefWidth="362.0"
                    text="THE RECEPTION PANEL">
                 <font>
                     <Font size="19.0"/>

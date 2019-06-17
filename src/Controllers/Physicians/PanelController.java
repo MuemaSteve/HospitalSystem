@@ -17,7 +17,6 @@ import static Controllers.settings.appName;
 public class PanelController extends Super implements Initializable {
     public TabPane tabContainer;
     public Tab searchPatientTab;
-    public AnchorPane patientsearchcontainer;
     public Tab addpatienthistoryTab;
     public AnchorPane addPatientHistoryContainer;
     public Tab labtestsTab;

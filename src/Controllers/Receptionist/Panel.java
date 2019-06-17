@@ -62,7 +62,6 @@ public class Panel extends Super implements Initializable {
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private String date, radioval = null;
     private double tabWidth = 200.0;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         time(clock);
@@ -131,7 +130,6 @@ public class Panel extends Super implements Initializable {
         ToggleGroup toggleGroup = new ToggleGroup();
         radiofemale.setToggleGroup(toggleGroup);
         radiomale.setToggleGroup(toggleGroup);
-        radiomale.setSelected(true);
         toggleGroup.selectedToggleProperty().addListener((ov, t, t1) -> {
 
             RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
