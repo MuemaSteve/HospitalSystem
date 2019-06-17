@@ -1,6 +1,6 @@
 package Controllers.Receptionist;
 
-import Controllers.Records;
+import Controllers.RecordsMasterClass;
 import Controllers.Super;
 import Controllers.settings;
 import javafx.collections.FXCollections;
@@ -10,7 +10,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -26,7 +25,6 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -50,10 +48,10 @@ public class Panel extends Super implements Initializable {
     public RadioButton radiomale, radiofemale;
     public TextField findinrecords;
     public Button findinrecordsbutton;
-    public TableView<Records> patienttable;
-    public TableColumn<Records, String> colpatientname;
-    public TableColumn<Records, String> colpatientemail;
-    public TableColumn<Records, String> colpatientnumber;
+    public TableView<RecordsMasterClass> patienttable;
+    public TableColumn<RecordsMasterClass, String> colpatientname;
+    public TableColumn<RecordsMasterClass, String> colpatientemail;
+    public TableColumn<RecordsMasterClass, String> colpatientnumber;
     public TabPane tabpane;
     public Tab tabexisting;
     public Tab tabnew;
@@ -61,9 +59,10 @@ public class Panel extends Super implements Initializable {
     public AnchorPane newcontainer;
     public WebView webview;
     public Label title;
-    private ObservableList<Records> data = FXCollections.observableArrayList();
+    private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private String date, radioval = null;
     private double tabWidth = 200.0;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         time(clock);
@@ -123,40 +122,10 @@ public class Panel extends Super implements Initializable {
             if (data.size() > 0) {
                 data.clear();
             }
-            findInRecordsMethod();
+            findInRecordsMethod(panel, data, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
         });
     }
 
-    private void findInRecordsMethod() {
-        String[] name = {findinrecords.getText()};
-
-        String query = "SELECT * FROM patients WHERE name LIKE '%" + name[0] + "%'";
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet foundrecords = statement.executeQuery(query);
-            if (foundrecords.isBeforeFirst()) {
-
-                while (foundrecords.next()) {
-                    Records records = new Records();
-                    records.setName(foundrecords.getString("name"));
-                    records.setEmail(foundrecords.getString("email"));
-                    records.setPhonenumber(foundrecords.getString("phonenumber"));
-                    data.add(records);
-                }
-                patienttable.setItems(data);
-
-                colpatientname.setCellValueFactory(new PropertyValueFactory<Records, String>("name"));
-                colpatientemail.setCellValueFactory(new PropertyValueFactory<Records, String>("email"));
-                colpatientnumber.setCellValueFactory(new PropertyValueFactory<Records, String>("phonenumber"));
-                patienttable.refresh();
-            } else {
-                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT DOES NOT EXIST");
-            }
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-    }
 
     private void radioListener() {
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -228,13 +197,6 @@ public class Panel extends Super implements Initializable {
 
     }
 
-    private void clearFields() {
-        patientemail.clear();
-        phonenumber.clear();
-        patientname.clear();
-
-    }
-
     private void pickdate() {
 
         String pattern = "dd-MM-yyyy";
@@ -303,4 +265,10 @@ public class Panel extends Super implements Initializable {
         dob.setOnAction(event);
     }
 
+    private void clearFields() {
+        patientemail.clear();
+        phonenumber.clear();
+        patientname.clear();
+
+    }
 }

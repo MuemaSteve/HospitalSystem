@@ -1,35 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Physicians.PanelController">
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
+            styleClass="basicscene" stylesheets="@../css/basicscene.css"
+            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Physicians.PanelController">
     <children>
-        <StackPane prefHeight="431.0" prefWidth="661.0" stylesheets="@../css/global.css">
+        <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
             <children>
-                <TabPane fx:id="tabContainer" prefHeight="128.0" prefWidth="308.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tabContainer" prefHeight="623.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab fx:id="userProfileTab" closable="false" text="User Profile">
+                        <Tab fx:id="searchPatientTab" closable="false" text="Find Patient">
                             <content>
-                                <AnchorPane fx:id="userProfileContainer" minHeight="0.0" minWidth="0.0"
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TextField fx:id="findinrecords" alignment="CENTER" layoutX="93.0"
+                                                   layoutY="18.0" prefHeight="50.0" prefWidth="478.0"
+                                                   promptText="SEARCH IN RECORDS">
+                                            <font>
+                                                <Font size="19.0"/>
+                                            </font>
+                                        </TextField>
+                                        <Button fx:id="findinrecordsbutton" layoutX="582.0" layoutY="18.0"
+                                                mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0"
+                                                text="SEARCH">
+                                            <font>
+                                                <Font size="19.0"/>
+                                            </font>
+                                        </Button>
+                                        <AnchorPane layoutX="71.0" layoutY="85.0" prefHeight="433.0" prefWidth="962.0"
+                                                    style="-fx-background-color: white;" styleClass="innerform">
+                                            <children>
+                                                <ScrollPane layoutX="8.0" layoutY="13.0" prefHeight="408.0"
+                                                            prefWidth="942.0">
+                                                    <content>
+                                                        <AnchorPane prefHeight="406.0" prefWidth="925.0">
+                                                            <children>
+                                                                <TableView fx:id="patienttable" layoutX="-2.0"
+                                                                           layoutY="2.0" prefHeight="388.0"
+                                                                           prefWidth="926.0">
+                                                                    <columns>
+                                                                        <TableColumn fx:id="colpatientname"
+                                                                                     prefWidth="295.20005798339844"
+                                                                                     text="NAME"/>
+                                                                        <TableColumn fx:id="colpatientemail"
+                                                                                     prefWidth="295.20005798339844"
+                                                                                     text="EMAIL"/>
+                                                                        <TableColumn fx:id="colpatientnumber"
+                                                                                     prefWidth="333.0"
+                                                                                     text="PHONE NUMBER"/>
+                                                                    </columns>
+                                                                </TableView>
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                </ScrollPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="addpatienthistoryTab" closable="false" text="Patient History">
+                            <content>
+                                <AnchorPane fx:id="addPatientHistoryContainer" minHeight="0.0" minWidth="0.0"
                                             prefHeight="180.0" prefWidth="200.0"/>
                             </content>
                         </Tab>
-                        <Tab fx:id="settingsTab" closable="false" text="Settings">
+                        <Tab fx:id="labtestsTab" closable="false" text="Clinic">
                             <content>
-                                <AnchorPane fx:id="settingsContainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                <AnchorPane fx:id="labtestscontainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                             prefWidth="200.0"/>
-                            </content>
-                        </Tab>
-                        <Tab fx:id="logoutTab" closable="false" text="Logout">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
                             </content>
                         </Tab>
                     </tabs>
                 </TabPane>
             </children>
         </StackPane>
+        <Label fx:id="clock" alignment="CENTER" layoutX="10.0" layoutY="9.0" prefHeight="49.0" prefWidth="327.0"
+               text="Label">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
+        <Button fx:id="logout" layoutX="978.0" layoutY="9.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="171.0"
+                text="LOG OUT">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Label fx:id="title" alignment="CENTER" layoutX="384.0" layoutY="9.0" prefHeight="49.0" prefWidth="502.0"
+               text="Label">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
     </children>
 </AnchorPane>

@@ -3,9 +3,10 @@ package Controllers;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -31,6 +32,37 @@ public class Super {
         }
     }
 
+    protected void findInRecordsMethod(AnchorPane panel, ObservableList<RecordsMasterClass> data, TextField findinrecords, TableView<RecordsMasterClass> patienttable, TableColumn<RecordsMasterClass, String> colpatientname, TableColumn<RecordsMasterClass, String> colpatientemail, TableColumn<RecordsMasterClass, String> colpatientnumber) {
+        String[] name = {findinrecords.getText()};
+
+        String query = "SELECT * FROM patients WHERE name LIKE '%" + name[0] + "%'";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet foundrecords = statement.executeQuery(query);
+            if (foundrecords.isBeforeFirst()) {
+
+                while (foundrecords.next()) {
+                    RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+                    recordsMasterClass.setName(foundrecords.getString("name"));
+                    recordsMasterClass.setEmail(foundrecords.getString("email"));
+                    recordsMasterClass.setPhonenumber(foundrecords.getString("phonenumber"));
+                    data.add(recordsMasterClass);
+                }
+                patienttable.setItems(data);
+
+                colpatientname.setCellValueFactory(new PropertyValueFactory<>("name"));
+                colpatientemail.setCellValueFactory(new PropertyValueFactory<>("email"));
+                colpatientnumber.setCellValueFactory(new PropertyValueFactory<>("phonenumber"));
+                patienttable.refresh();
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT DOES NOT EXIST");
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
     protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
         int counter = 1;
@@ -42,6 +74,7 @@ public class Super {
 
 
     }
+
     protected void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

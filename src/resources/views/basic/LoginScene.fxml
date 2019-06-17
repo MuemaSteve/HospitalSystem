@@ -15,17 +15,16 @@
                             style="-fx-background-color: white;" styleClass="innerform">
                     <children>
                         <TextField fx:id="name" alignment="CENTER" layoutX="57.0" layoutY="102.0" prefHeight="40.0"
-                                   prefWidth="261.0" promptText="NAME" styleClass="inputfield" text="snm2@gmail.com"/>
+                                   prefWidth="261.0" promptText="NAME" styleClass="inputfield" text="snm@gmail.com"/>
                         <PasswordField fx:id="password" alignment="CENTER" layoutX="57.0" layoutY="161.0"
                                        prefHeight="40.0" prefWidth="261.0" promptText="PASSWORD" styleClass="input"
-                                       text="snm2@gmail.com"/>
+                                       text="snm@gmail.com"/>
                         <Button fx:id="login" layoutX="56.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"
                                 prefWidth="118.0" text="LOGIN"/>
                         <Button fx:id="help" layoutX="242.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"
                                 prefWidth="118.0" text="HELP"/>
-                        <Label alignment="CENTER" fx:id="title" layoutX="72.0" layoutY="43.0" prefHeight="40.0"
-                               prefWidth="254.0"
-                               text="E-Doc hospital system" textFill="#ee0404">
+                        <Label fx:id="title" alignment="CENTER" layoutX="72.0" layoutY="43.0" prefHeight="40.0"
+                               prefWidth="254.0" text="E-Doc hospital system" textFill="#ee0404">
                             <font>
                                 <Font size="17.0"/>
                             </font>

@@ -53,10 +53,10 @@ public class PanelController extends Super implements Initializable {
     public Label clock;
     public TabPane tabpane;
     public Label title;
+    double tabWidth = 200.0;
     private File file;
     private FileInputStream fileInputStream;
     private int length;
-    double tabWidth = 200.0;
 
     //Administrator panel controller
     @Override
@@ -127,6 +127,7 @@ public class PanelController extends Super implements Initializable {
         tab.setText("");
         tab.setGraphic(tabPane);
     }
+
     private void enterPressed() {
 
         useridentifier.setOnKeyPressed(event -> {
