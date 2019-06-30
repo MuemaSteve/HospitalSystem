@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
@@ -31,11 +32,16 @@ public class PanelController extends Super implements Initializable {
     public TableColumn<RecordsMasterClass, String> colpatientname;
     public TableColumn<RecordsMasterClass, String> colpatientemail;
     public TableColumn<RecordsMasterClass, String> colpatientnumber;
+    public TabPane tabcontainerhistorypane;
+    public TabPane tabcontainerclinicpane;
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
-
+    private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        configureView();
+        tabPaneArrayList.add(tabContainer);
+        tabPaneArrayList.add(tabcontainerclinicpane);
+        tabPaneArrayList.add(tabcontainerhistorypane);
+        configureView(tabPaneArrayList);
         time(clock);
         title.setText(appName + " Clinic Panel");
         buttonListeners();
@@ -51,12 +57,16 @@ public class PanelController extends Super implements Initializable {
         });
     }
 
-    private void configureView() {
-        double tabWidth = 200.0;
-        tabContainer.setTabMinWidth(tabWidth);
-        tabContainer.setTabMaxWidth(tabWidth);
-        tabContainer.setTabMinHeight(tabWidth - 100.0);
-        tabContainer.setTabMaxHeight(tabWidth - 100.0);
+    private void configureView(ArrayList<TabPane> tabPanes) {
+        for (TabPane tabpane : tabPanes
+        ) {
+            double tabWidth = 200.0;
+            tabpane.setTabMinWidth(tabWidth);
+            tabpane.setTabMaxWidth(tabWidth);
+            tabpane.setTabMinHeight(tabWidth - 150.0);
+            tabpane.setTabMaxHeight(tabWidth - 150.0);
+        }
+
 
     }
 

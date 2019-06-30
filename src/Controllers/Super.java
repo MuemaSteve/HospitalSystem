@@ -12,6 +12,9 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.*;
 import java.time.Instant;
 import java.util.Collections;
@@ -29,6 +32,23 @@ public class Super {
                     .getConnection(settings.des[0], settings.des[1], settings.des[2]);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected boolean isInternetAvailable() throws IOException {
+        return isHostAvailable("www.google.com") || isHostAvailable("wwww.amazon.com")
+                || isHostAvailable("www.facebook.com") || isHostAvailable("www.apple.com");
+    }
+
+    private boolean isHostAvailable(String hostName) throws IOException {
+        try (Socket socket = new Socket()) {
+            int port = 80;
+            InetSocketAddress socketAddress = new InetSocketAddress(hostName, port);
+            socket.connect(socketAddress, 13000);
+
+            return true;
+        } catch (UnknownHostException unknownHost) {
+            return false;
         }
     }
 

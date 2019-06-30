@@ -8,9 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 import static Controllers.settings.appName;
 
 public class LoginControllerClass extends Super implements Initializable {
-    public VBox panel;
+    public AnchorPane panel;
     public TextField name;
     public PasswordField password;
     public Button login;
@@ -31,7 +32,11 @@ public class LoginControllerClass extends Super implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        clickListeners();
+        try {
+            clickListeners();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
 //        enterPressed();
         title.setText(appName + " Login");
     }
@@ -53,7 +58,7 @@ public class LoginControllerClass extends Super implements Initializable {
 
     }
 
-    private void clickListeners() {
+    private void clickListeners() throws SocketException {
 
         login.setOnMouseClicked(event -> {
             loginValidation();
@@ -62,15 +67,32 @@ public class LoginControllerClass extends Super implements Initializable {
 
         help.setOnMousePressed(new EventHandler<MouseEvent>() {
             //            got to help page
+
+
             @Override
             public void handle(MouseEvent event) {
-                panel.getChildren().removeAll();
+
+
                 try {
-                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/basic/Help.fxml")))));
+                    if (isInternetAvailable()) {
+
+                        panel.getChildren().removeAll();
+                        try {
+                            panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/basic/Help.fxml")))));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "CONNECTION ERROR", "Looks Like your machine is offline");
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
+
+
+
         });
     }
 

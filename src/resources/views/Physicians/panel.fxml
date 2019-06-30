@@ -3,15 +3,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
-            styleClass="basicscene" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Physicians.PanelController">
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Physicians.PanelController">
     <children>
         <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
             <children>
                 <TabPane fx:id="tabContainer" prefHeight="623.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab fx:id="searchPatientTab" closable="false" text="Find Patient">
+                        <Tab fx:id="searchPatientTab" closable="false" text="FIND PATIENT">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
@@ -62,16 +62,74 @@
                                 </AnchorPane>
                             </content>
                         </Tab>
-                        <Tab fx:id="addpatienthistoryTab" closable="false" text="Patient History">
+                        <Tab fx:id="addpatienthistoryTab" closable="false" text="PATIENT RECORDS">
                             <content>
                                 <AnchorPane fx:id="addPatientHistoryContainer" minHeight="0.0" minWidth="0.0"
-                                            prefHeight="180.0" prefWidth="200.0"/>
+                                            prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <TabPane fx:id="tabcontainerhistorypane" layoutX="-2.0" layoutY="1.0"
+                                                 prefHeight="602.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+                                            <tabs>
+                                                <Tab text="ADD CONDITIONS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                                <Tab text="VIEW HISTORY">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                                <Tab text="CONDITIONS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                            </tabs>
+                                        </TabPane>
+                                    </children>
+                                </AnchorPane>
                             </content>
                         </Tab>
-                        <Tab fx:id="labtestsTab" closable="false" text="Clinic">
+                        <Tab fx:id="labtestsTab" closable="false" text="CLINIC">
                             <content>
                                 <AnchorPane fx:id="labtestscontainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                            prefWidth="200.0"/>
+                                            prefWidth="200.0">
+                                    <children>
+                                        <TabPane fx:id="tabcontainerclinicpane" layoutX="3.0" prefHeight="604.0"
+                                                 prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+                                            <tabs>
+                                                <Tab text="APPOINTMENTS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                                <Tab text="LAB TESTS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                                <Tab text="DIAGNOSIS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                                <Tab text="PRESCRIPTION">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                                                    prefWidth="200.0"/>
+                                                    </content>
+                                                </Tab>
+                                            </tabs>
+                                        </TabPane>
+                                    </children>
+                                </AnchorPane>
                             </content>
                         </Tab>
                     </tabs>
