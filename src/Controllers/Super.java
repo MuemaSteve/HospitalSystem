@@ -31,7 +31,7 @@ public class Super {
             connection = DriverManager
                     .getConnection(settings.des[0], settings.des[1], settings.des[2]);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error connecting to database:" + e.getMessage());
         }
     }
 
