@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
 
-public class PanelController extends Super implements Initializable {
+public class PanelController extends Super implements Initializable, Physician {
     public TabPane tabContainer;
     public Tab searchPatientTab;
     public Tab addpatienthistoryTab;
@@ -73,5 +73,40 @@ public class PanelController extends Super implements Initializable {
     @Override
     protected void findInRecordsMethod(AnchorPane panel, ObservableList<RecordsMasterClass> data, TextField findinrecords, TableView<RecordsMasterClass> patienttable, TableColumn<RecordsMasterClass, String> colpatientname, TableColumn<RecordsMasterClass, String> colpatientemail, TableColumn<RecordsMasterClass, String> colpatientnumber) {
         super.findInRecordsMethod(panel, data, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
+    }
+
+    @Override
+    public void addPatientDetails() {
+
+    }
+
+    @Override
+    public void viewPatientDetails() {
+
+    }
+
+    @Override
+    public void viewPatientHistory() {
+
+    }
+
+    @Override
+    public void viewPatientLabTests() {
+
+    }
+
+    @Override
+    public void viewPatientAppointments() {
+
+    }
+
+    @Override
+    public void Patientdiagnosis() {
+
+    }
+
+    @Override
+    public void Patientprescription() {
+
     }
 }
