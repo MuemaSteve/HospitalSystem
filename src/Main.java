@@ -24,12 +24,12 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+import static Controllers.settings.APPLICATION_ICON;
+
 
 public class Main extends Application {
-    public static final String APPLICATION_ICON =
-            "resources/images/logo.png";
-    public static final String SPLASH_IMAGE =
-            "resources/images/logo.png";
+
+
     private Pane splashLayout;
     private ProgressBar loadProgress;
     private Label progressText;
@@ -44,18 +44,18 @@ public class Main extends Application {
     @Override
     public void init() {
         ImageView splash = new ImageView(new Image(
-                SPLASH_IMAGE
+                APPLICATION_ICON
         ));
         splash.setFitWidth(SPLASH_WIDTH - 20);
         loadProgress = new ProgressBar();
         loadProgress.setPrefWidth(SPLASH_WIDTH - 20);
-        progressText = new Label("Will find friends for peanuts . . .");
+        progressText = new Label();
         splashLayout = new VBox();
         splashLayout.getChildren().addAll(splash, loadProgress, progressText);
         progressText.setAlignment(Pos.CENTER);
         splashLayout.setStyle(
                 "-fx-padding: 5; " +
-                        "-fx-background-color: cornsilk; " +
+                        "-fx-background-color: #a9ff83; " +
                         "-fx-border-width:5; " +
                         "-fx-border-color: " +
                         "linear-gradient(to right, rgba(110, 243, 255, 0.4), rgba(255, 56, 87, 0.38))"
@@ -64,7 +64,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(final Stage initStage) throws Exception {
+    public void start(final Stage initStage) {
         final Task<ObservableList<String>> listTask = new Task<ObservableList<String>>() {
             @Override
             protected ObservableList<String> call() throws InterruptedException {
@@ -107,13 +107,16 @@ public class Main extends Application {
     private void showMainStage(
     ) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("resources/views/basic/LoginScene.fxml"));
-
+        FadeTransition ft = new FadeTransition(Duration.millis(2500), root);
+        ft.setFromValue(0.3);
+        ft.setToValue(1.0);
+        ft.play();
         mainStage = new Stage(StageStyle.DECORATED);
         mainStage.getIcons().add(new Image(
                 APPLICATION_ICON
         ));
 
-
+        mainStage.setResizable(false);
         mainStage.setScene(new Scene(root));
         mainStage.show();
     }
@@ -123,6 +126,7 @@ public class Main extends Application {
             Task<?> task,
             InitCompletionHandler initCompletionHandler
     ) {
+
         progressText.textProperty().bind(task.messageProperty());
         loadProgress.progressProperty().bind(task.progressProperty());
         task.stateProperty().addListener((observableValue, oldState, newState) -> {
@@ -143,6 +147,7 @@ public class Main extends Application {
         Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
         final Rectangle2D bounds = Screen.getPrimary().getBounds();
         initStage.setScene(splashScene);
+        initStage.setResizable(false);
         initStage.setHeight(SPLASH_HEIGHT);
         initStage.setWidth(SPLASH_WIDTH);
         initStage.initStyle(StageStyle.TRANSPARENT);

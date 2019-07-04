@@ -12,4 +12,6 @@ public interface settings {
     IdentityHashMap<String, Boolean> changepassword = new IdentityHashMap<>();
     String[] des = {"jdbc:mysql://127.0.0.1/edoc_hospitals", "root", ""};
     String appName = "Medica ";
+    public static final String APPLICATION_ICON =
+            "resources/images/logo.png";
 }

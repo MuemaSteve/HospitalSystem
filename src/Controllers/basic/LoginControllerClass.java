@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +21,7 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static Controllers.settings.APPLICATION_ICON;
 import static Controllers.settings.appName;
 
 public class LoginControllerClass extends Super implements Initializable {
@@ -29,6 +32,10 @@ public class LoginControllerClass extends Super implements Initializable {
     public Button help;
     public Label message;
     public Label title;
+    public ImageView logo1;
+    public ImageView logo2;
+    public ImageView logo3;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -37,8 +44,15 @@ public class LoginControllerClass extends Super implements Initializable {
         } catch (SocketException e) {
             e.printStackTrace();
         }
-//        enterPressed();
+        setLogos();
         title.setText(appName + " Login");
+    }
+
+    private void setLogos() {
+        logo1.setImage(new Image(APPLICATION_ICON));
+        logo2.setImage(new Image(APPLICATION_ICON));
+        logo3.setImage(new Image(APPLICATION_ICON));
+
     }
 
     private void enterPressed() {

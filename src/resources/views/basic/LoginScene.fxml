@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -11,7 +12,7 @@
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
                     VBox.vgrow="ALWAYS">
             <children>
-                <AnchorPane layoutX="402.0" layoutY="204.0" prefHeight="322.0" prefWidth="397.0"
+                <AnchorPane layoutX="389.0" layoutY="232.0" prefHeight="370.0" prefWidth="424.0"
                             style="-fx-background-color: white;" styleClass="innerform">
                     <children>
                         <TextField fx:id="name" alignment="CENTER" layoutX="57.0" layoutY="102.0" prefHeight="40.0"
@@ -37,6 +38,12 @@
                         <Font size="25.0"/>
                     </font>
                 </Label>
+                <ImageView fx:id="logo1" fitHeight="150.0" fitWidth="200.0" layoutX="58.0" layoutY="267.0"
+                           pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="logo2" fitHeight="150.0" fitWidth="200.0" layoutX="929.0" layoutY="275.0"
+                           pickOnBounds="true" preserveRatio="true"/>
+                <ImageView fx:id="logo3" fitHeight="150.0" fitWidth="200.0" layoutX="501.0" layoutY="61.0"
+                           pickOnBounds="true" preserveRatio="true"/>
             </children>
         </AnchorPane>
     </children>

@@ -76,7 +76,7 @@
                                                                     prefWidth="200.0">
                                                             <children>
                                                                 <AnchorPane layoutX="68.0" layoutY="14.0"
-                                                                            prefHeight="523.0" prefWidth="988.0"
+                                                                            prefHeight="464.0" prefWidth="988.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
@@ -97,13 +97,13 @@
                                                                             </font>
                                                                         </TextField>
                                                                         <TextArea layoutX="74.0" layoutY="219.0"
-                                                                                  prefHeight="193.0" prefWidth="800.0"
+                                                                                  prefHeight="155.0" prefWidth="800.0"
                                                                                   promptText="CAUSATIVE AGENTS AND SHORT DESCRIPTION">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
                                                                         </TextArea>
-                                                                        <Button layoutX="410.0" layoutY="435.0"
+                                                                        <Button layoutX="412.0" layoutY="388.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="197.0"
                                                                                 text="SUBMIT DETAILS"/>
@@ -122,15 +122,15 @@
                                                                     prefWidth="200.0">
                                                             <children>
                                                                 <AnchorPane layoutX="42.0" layoutY="25.0"
-                                                                            prefHeight="539.0" prefWidth="1141.0"
+                                                                            prefHeight="479.0" prefWidth="1141.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
                                                                         <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                                                    prefHeight="493.0"
+                                                                                    prefHeight="422.0"
                                                                                     prefWidth="709.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="490.0" prefWidth="709.0">
+                                                                                   prefHeight="419.0" prefWidth="709.0">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
                                                                                              text="ID"/>
@@ -173,15 +173,16 @@
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
                                                             <children>
-                                                                <AnchorPane prefHeight="547.0" prefWidth="1141.0"
+                                                                <AnchorPane layoutX="30.0" layoutY="20.0"
+                                                                            prefHeight="475.0" prefWidth="1141.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
                                                                         <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                                                    prefHeight="493.0"
+                                                                                    prefHeight="433.0"
                                                                                     prefWidth="710.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="490.0" prefWidth="709.0">
+                                                                                   prefHeight="430.0" prefWidth="709.0">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
                                                                                              text="ID"/>
@@ -224,15 +225,16 @@
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
                                                             <children>
-                                                                <AnchorPane prefHeight="552.0" prefWidth="1141.0"
+                                                                <AnchorPane layoutX="14.0" layoutY="24.0"
+                                                                            prefHeight="469.0" prefWidth="1141.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
                                                                         <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                                                    prefHeight="493.0"
+                                                                                    prefHeight="416.0"
                                                                                     prefWidth="710.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="490.0" prefWidth="709.0">
+                                                                                   prefHeight="411.0" prefWidth="709.0">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
                                                                                              text="ID"/>
@@ -260,15 +262,16 @@
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
                                                             <children>
-                                                                <AnchorPane prefHeight="552.0" prefWidth="1141.0"
+                                                                <AnchorPane layoutX="30.0" layoutY="29.0"
+                                                                            prefHeight="471.0" prefWidth="1141.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
                                                                         <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                                                    prefHeight="493.0"
+                                                                                    prefHeight="426.0"
                                                                                     prefWidth="710.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="490.0" prefWidth="709.0">
+                                                                                   prefHeight="422.0" prefWidth="709.0">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
                                                                                              text="ID"/>
@@ -300,7 +303,8 @@
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
                                                             <children>
-                                                                <AnchorPane prefHeight="552.0" prefWidth="1141.0"
+                                                                <AnchorPane layoutX="30.0" layoutY="36.0"
+                                                                            prefHeight="461.0" prefWidth="1141.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
@@ -326,7 +330,8 @@
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
                                                             <children>
-                                                                <AnchorPane prefHeight="552.0" prefWidth="1141.0"
+                                                                <AnchorPane layoutX="30.0" layoutY="72.0"
+                                                                            prefHeight="431.0" prefWidth="1141.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
@@ -335,7 +340,7 @@
                                                                                 prefHeight="49.0" prefWidth="193.0"
                                                                                 text="SUBMIT"/>
                                                                         <TextArea layoutX="24.0" layoutY="30.0"
-                                                                                  prefHeight="328.0" prefWidth="764.0"
+                                                                                  prefHeight="273.0" prefWidth="736.0"
                                                                                   promptText="TYPE YOUR PRESCRIPTION HERE">
                                                                             <font>
                                                                                 <Font size="20.0"/>
