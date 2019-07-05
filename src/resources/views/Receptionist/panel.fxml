@@ -29,11 +29,11 @@
                                             <Font size="19.0"/>
                                         </font>
                                     </Button>
-                                    <AnchorPane layoutX="71.0" layoutY="85.0" prefHeight="433.0" prefWidth="962.0"
+                                    <AnchorPane layoutX="71.0" layoutY="85.0" prefHeight="433.0" prefWidth="1124.0"
                                                 style="-fx-background-color: white;" styleClass="innerform">
                                         <children>
-                                            <ScrollPane layoutX="8.0" layoutY="13.0" prefHeight="408.0"
-                                                        prefWidth="942.0">
+                                            <ScrollPane layoutX="8.0" layoutY="13.0" prefHeight="400.0"
+                                                        prefWidth="929.0">
                                                 <content>
                                                     <AnchorPane prefHeight="406.0" prefWidth="925.0">
                                                         <children>
@@ -54,6 +54,10 @@
                                                     </AnchorPane>
                                                 </content>
                                             </ScrollPane>
+                                            <Button layoutX="961.0" layoutY="102.0" mnemonicParsing="false"
+                                                    prefHeight="48.0" prefWidth="151.0" text="BOOK APPOINTMENT"/>
+                                            <Button layoutX="961.0" layoutY="183.0" mnemonicParsing="false"
+                                                    prefHeight="48.0" prefWidth="151.0" text="SPECIAL APPOINTMENT"/>
                                         </children>
                                     </AnchorPane>
                                 </children>

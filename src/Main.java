@@ -6,7 +6,6 @@ import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -17,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -37,7 +35,7 @@ public class Main extends Application {
     private static final int SPLASH_WIDTH = 676;
     private static final int SPLASH_HEIGHT = 227;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -68,7 +66,7 @@ public class Main extends Application {
         final Task<ObservableList<String>> listTask = new Task<ObservableList<String>>() {
             @Override
             protected ObservableList<String> call() throws InterruptedException {
-                ObservableList<String> foundFriends =
+                ObservableList<String> observableArrayList =
                         FXCollections.<String>observableArrayList();
                 ObservableList<String> tasksToDo =
                         FXCollections.observableArrayList(
@@ -80,13 +78,13 @@ public class Main extends Application {
                     Thread.sleep(1400);
                     updateProgress(i + 1, tasksToDo.size());
                     String nextTask = tasksToDo.get(i);
-                    foundFriends.add(nextTask);
+                    observableArrayList.add(nextTask);
                     updateMessage("Running task . . . " + nextTask);
                 }
                 Thread.sleep(1400);
                 updateMessage("All TASKS COMPLETED.");
 
-                return foundFriends;
+                return observableArrayList;
             }
         };
 
@@ -141,12 +139,12 @@ public class Main extends Application {
                 fadeSplash.play();
 
                 initCompletionHandler.complete();
-            } // todo add code to gracefully handle other task states.
+            }
         });
 
         Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
-        final Rectangle2D bounds = Screen.getPrimary().getBounds();
         initStage.setScene(splashScene);
+        initStage.getIcons().add(new Image(APPLICATION_ICON));
         initStage.setResizable(false);
         initStage.setHeight(SPLASH_HEIGHT);
         initStage.setWidth(SPLASH_WIDTH);

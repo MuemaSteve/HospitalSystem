@@ -83,6 +83,45 @@ public class Super {
         }
     }
 
+    /**
+     * @param table
+     * @param records
+     * @param values
+     * @return integer of the rows affected by the sql update
+     * @throws SQLException
+     */
+    protected int insertIntoTable(String table, String[] records, String[] values) throws SQLException {
+        StringBuilder cols = null, prepstmts = null;
+        int maxIndex = records.length - 1, counter = 0;
+        for (String record : records
+        ) {
+            if (counter <= maxIndex) {
+                Objects.requireNonNull(prepstmts).append("?").append(",");
+                cols.append(record).append(",");
+            } else {
+                prepstmts.append("?");
+                cols.append(record);
+            }
+
+            counter++;
+
+        }
+        String query = "";
+//        insert into ____ (records)Values(records.length())
+//foreach(e : records):
+//    counter++.....
+        query = "INSERT INTO " + table + "(" + cols + ")" + "VALUES(" + prepstmts + ")";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        for (String element : values
+        ) {
+            counter++;
+            preparedStatement.setString(counter, element);
+
+        }
+        return preparedStatement.executeUpdate();
+
+    }
     protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
         int counter = 1;

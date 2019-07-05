@@ -10,8 +10,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -35,14 +42,14 @@ public class PanelController extends Super implements Initializable, Physician {
     public TableColumn<RecordsMasterClass, String> colpatientname;
     public TableColumn<RecordsMasterClass, String> colpatientemail;
     public TableColumn<RecordsMasterClass, String> colpatientnumber;
-    public TabPane tabcontainerhistorypane;
-    public TabPane tabcontainerclinicpane;
+    public TabPane tabcontainerhistorypane;//history tab
+    public TabPane tabcontainerclinicpane;//clinic tab
     //code for condition panel variable initialisation
     public Tab addconditionssubtab;
     public TextField conditionAddField;
     public TextField conditionAddCategoryField;
     public TextArea conditionAddDescription;
-    public Button conditionAddButton;
+    public Button conditionAddButton;//Add condition button
     public DatePicker conditionAddDateDiagnosed;
     //code for history tab
     public Tab viewHistoryTab;
@@ -93,6 +100,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public Button endPatientSession;
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
+    String date;
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         tabPaneArrayList.add(tabContainer);
@@ -102,6 +110,7 @@ public class PanelController extends Super implements Initializable, Physician {
         time(clock);
         title.setText(appName + " Clinic Panel");
         buttonListeners();
+        date = datepicker(conditionAddDateDiagnosed);
     }
 
     private void buttonListeners() {
@@ -122,6 +131,7 @@ public class PanelController extends Super implements Initializable, Physician {
             @Override
             public void handle(ActionEvent event) {
                 //add condition button
+                addPatientDetails();
             }
         });
 
@@ -147,7 +157,20 @@ public class PanelController extends Super implements Initializable, Physician {
 
     @Override
     public void addPatientDetails() {
-
+        String condition = conditionAddField.getText();
+        String category = conditionAddCategoryField.getText();
+        String description = conditionAddDescription.getText();
+        String tablename = "conditions";
+        String[] colRecs = {"conditionName", "date", "category", "description"};
+        String[] values = {condition, date, category, description};
+        try {
+            if (insertIntoTable(tablename, colRecs, values) > 0)
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION WAS SUCCESSFULL");
+            else
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "OPERATION FAILED");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -178,5 +201,70 @@ public class PanelController extends Super implements Initializable, Physician {
     @Override
     public void Patientprescription() {
 
+    }
+
+    public String datepicker(DatePicker dob) {
+        final String[] date = new String[1];
+        String pattern = "dd-MM-yyyy";
+        dob.setPromptText(pattern.toLowerCase());
+
+        dob.setConverter(new StringConverter<LocalDate>() {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+            @Override
+            public String toString(LocalDate date) {
+                if (date != null) {
+                    return dateFormatter.format(date);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
+
+        Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        // Must call super
+                        super.updateItem(item, empty);
+
+                        // Show Weekends in blue color
+                        DayOfWeek day = DayOfWeek.from(item);
+                        if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+                            this.setTextFill(Color.BLUE);
+                        }
+                        if (item.isAfter(LocalDate.now())) {
+                            this.setDisable(true);
+                        }
+                    }
+                };
+            }
+        };
+
+        dob.setDayCellFactory(dayCellFactory);
+        EventHandler<ActionEvent> event = e -> {
+            // get the date picker value
+
+            LocalDate i = dob.getValue();
+            if (i.isAfter(LocalDate.now())) {
+                showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "TIME TRAVEL IS NOT YET A THING ");
+//                dob.setValue(null);
+            } else {
+                date[0] = String.valueOf(i);
+            }
+
+        };
+        dob.setOnAction(event);
+        return date[0];
     }
 }
