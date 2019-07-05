@@ -59,6 +59,8 @@ public class Panel extends Super implements Initializable {
     public AnchorPane newcontainer;
     public WebView webview;
     public Label title;
+    public Button bookAppointmentsButton;
+    public Button bookVIPAppointments;
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private String date, radioval = null;
     private double tabWidth = 200.0;
@@ -74,7 +76,6 @@ public class Panel extends Super implements Initializable {
         engine.load(siteHelp);
         title.setText(appName + " Reception");
     }
-    // Private
 
     private void configureView() {
         tabpane.setTabMinWidth(tabWidth);
@@ -115,6 +116,12 @@ public class Panel extends Super implements Initializable {
 
     //snm2@gmail.com
     private void buttonListeners() {
+        bookVIPAppointments.setOnMouseClicked(event -> {
+            bookVIPAppointment();
+        });
+        bookAppointmentsButton.setOnMouseClicked(event -> {
+            bookAppointments();
+        });
         logout.setOnMouseClicked(event -> logOut(panel));
         addpatient.setOnMouseClicked(event -> validation());
         findinrecordsbutton.setOnMouseClicked(event -> {
@@ -123,6 +130,13 @@ public class Panel extends Super implements Initializable {
             }
             findInRecordsMethod(panel, data, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
         });
+    }
+
+    private void bookVIPAppointment() {
+
+    }
+
+    private void bookAppointments() {
     }
 
 

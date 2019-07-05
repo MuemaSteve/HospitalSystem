@@ -55,9 +55,11 @@
                                                 </content>
                                             </ScrollPane>
                                             <Button layoutX="961.0" layoutY="102.0" mnemonicParsing="false"
-                                                    prefHeight="48.0" prefWidth="151.0" text="BOOK APPOINTMENT"/>
+                                                    prefHeight="48.0" fx:id="bookAppointmentsButton" prefWidth="151.0"
+                                                    text="BOOK APPOINTMENT"/>
                                             <Button layoutX="961.0" layoutY="183.0" mnemonicParsing="false"
-                                                    prefHeight="48.0" prefWidth="151.0" text="SPECIAL APPOINTMENT"/>
+                                                    prefHeight="48.0" fx:id="bookVIPAppointments" prefWidth="151.0"
+                                                    text="SPECIAL APPOINTMENT"/>
                                         </children>
                                     </AnchorPane>
                                 </children>

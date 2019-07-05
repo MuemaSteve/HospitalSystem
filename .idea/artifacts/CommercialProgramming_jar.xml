@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CommercialProgramming:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CommercialProgramming_jar</output-path>
+    <root id="archive" name="CommercialProgramming.jar">
+      <element id="module-output" name="CommercialProgramming" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libraries/org.apache.commons.io.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libraries/mail.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/src/libraries/mysqlconnector.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
