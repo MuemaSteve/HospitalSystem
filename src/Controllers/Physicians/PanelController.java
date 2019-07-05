@@ -4,6 +4,8 @@ import Controllers.RecordsMasterClass;
 import Controllers.Super;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -26,6 +28,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public Label clock;
     public Label title;
     public Button logout;
+    //logout
     public TextField findinrecords;
     public Button findinrecordsbutton;
     public TableView<RecordsMasterClass> patienttable;
@@ -34,6 +37,60 @@ public class PanelController extends Super implements Initializable, Physician {
     public TableColumn<RecordsMasterClass, String> colpatientnumber;
     public TabPane tabcontainerhistorypane;
     public TabPane tabcontainerclinicpane;
+    //code for condition panel variable initialisation
+    public Tab addconditionssubtab;
+    public TextField conditionAddField;
+    public TextField conditionAddCategoryField;
+    public TextArea conditionAddDescription;
+    public Button conditionAddButton;
+    public DatePicker conditionAddDateDiagnosed;
+    //code for history tab
+    public Tab viewHistoryTab;
+    public TableView tablehistory;
+    public TableColumn tablehistoryId;
+    public TableColumn tablehistoryDate;
+    public TableColumn tablehistoryDoctor;
+    public TableColumn tablehistoryPrescription;
+    public TableColumn tablehistoryTests;
+    public TableColumn tablehistoryRatings;
+    public Button tablehistoryViewPrescriptionsButton;
+    public Button tablehistoryViewLabTestButton;
+    public Button tablehistoryViewDiagnosisButton;
+    public Button tablehistoryGetReportButton;
+    //existing conditions code
+    public Tab existingConditionsTab;
+    public TableView existingConditionsTabTable;
+    public TableColumn existingConditionsTabTableId;
+    public TableColumn existingConditionsTabTableName;
+    public TableColumn existingConditionsTabTableDateAdded;
+    public TableColumn existingConditionsTabTableCategory;
+    public TableColumn existingConditionsTabTableDoctor;
+    public Button existingConditionsTabTableViewDetailsButton;
+    //    clinic Appointments
+    public Tab tabClinicAppointments;
+    public TableView tabClinicAppointmentsTable;
+    public TableColumn tabClinicAppointmentsTableId;
+    public TableColumn tabClinicAppointmentsTableVisitorName;
+    public TableColumn tabClinicAppointmentsTableTypeOfVisit;
+    public TableColumn tabClinicAppointmentsTableTimeOfAppointment;
+    public Button tabClinicAppointmentsTableCallInButton;
+    //    clinic lab tests
+    public Tab tabClinicLabTests;
+    public TableView tabClinicLabTestsTable;
+    public TableColumn tabClinicLabTestsTableId;
+    public TableColumn tabClinicLabTestsTableTestType;
+    public TableColumn tabClinicLabTestsTableTechnician;
+    public TableColumn tabClinicLabTestsTablePatientName;
+    public Button tabClinicLabTestsTableGetFullReportButton;
+    public Button tabClinicLabTestsTablemoveReportToDiagnosis;
+    //    clinic diagnosis
+    public Tab tabClinicDiagnosis;
+    public TextArea tabClinicDiagnosisInput;
+    public Button tabClinicDiagnosisSubmit;
+    public Tab tabClinicPrescription;
+    public Button tabClinicPrescriptionSubmit;
+    public TextArea tabClinicPrescriptionText;
+    public Button endPatientSession;
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     @FXML
@@ -55,6 +112,19 @@ public class PanelController extends Super implements Initializable, Physician {
             }
             findInRecordsMethod(panel, data, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
         });
+        endPatientSession.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //end patient session
+            }
+        });
+        conditionAddButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //add condition button
+            }
+        });
+
     }
 
     private void configureView(ArrayList<TabPane> tabPanes) {

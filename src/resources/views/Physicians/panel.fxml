@@ -70,7 +70,7 @@
                                         <TabPane fx:id="tabcontainerhistorypane" layoutX="-2.0" layoutY="1.0"
                                                  prefHeight="602.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                                             <tabs>
-                                                <Tab text="ADD CONDITIONS">
+                                                <Tab text="ADD CONDITIONS" fx:id="addconditionssubtab">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -83,7 +83,8 @@
                                                                         <TextField alignment="CENTER" layoutX="324.0"
                                                                                    layoutY="14.0" prefHeight="49.0"
                                                                                    prefWidth="369.0"
-                                                                                   promptText="CONDITION">
+                                                                                   promptText="CONDITION"
+                                                                                   fx:id="conditionAddField">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
@@ -91,14 +92,16 @@
                                                                         <TextField alignment="CENTER" layoutX="324.0"
                                                                                    layoutY="85.0" prefHeight="49.0"
                                                                                    prefWidth="369.0"
-                                                                                   promptText="CATEGORY">
+                                                                                   promptText="CATEGORY"
+                                                                                   fx:id="conditionAddCategoryField">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
                                                                         </TextField>
                                                                         <TextArea layoutX="74.0" layoutY="219.0"
                                                                                   prefHeight="155.0" prefWidth="800.0"
-                                                                                  promptText="CAUSATIVE AGENTS AND SHORT DESCRIPTION">
+                                                                                  promptText="CAUSATIVE AGENTS AND SHORT DESCRIPTION"
+                                                                                  fx:id="conditionAddDescription">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
@@ -106,17 +109,19 @@
                                                                         <Button layoutX="412.0" layoutY="388.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="197.0"
-                                                                                text="SUBMIT DETAILS"/>
+                                                                                text="SUBMIT DETAILS"
+                                                                                fx:id="conditionAddButton"/>
                                                                         <DatePicker layoutX="325.0" layoutY="148.0"
                                                                                     prefHeight="49.0" prefWidth="370.0"
-                                                                                    promptText="DATE DIAGNOSED"/>
+                                                                                    promptText="DATE DIAGNOSED"
+                                                                                    fx:id="conditionAddDateDiagnosed"/>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
                                                 </Tab>
-                                                <Tab text="VIEW HISTORY">
+                                                <Tab text="VIEW HISTORY" fx:id="viewHistoryTab">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -130,45 +135,56 @@
                                                                                     prefHeight="422.0"
                                                                                     prefWidth="709.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="419.0" prefWidth="709.0">
+                                                                                   prefHeight="419.0" prefWidth="709.0"
+                                                                                   fx:id="tablehistory">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
-                                                                                             text="ID"/>
+                                                                                             text="ID"
+                                                                                             fx:id="tablehistoryId"/>
                                                                                 <TableColumn prefWidth="138.0"
-                                                                                             text="DATE"/>
+                                                                                             text="DATE"
+                                                                                             fx:id="tablehistoryDate"/>
                                                                                 <TableColumn prefWidth="110.0"
-                                                                                             text="DOCTOR"/>
+                                                                                             text="DOCTOR"
+                                                                                             fx:id="tablehistoryDoctor"/>
                                                                                 <TableColumn prefWidth="97.0"
-                                                                                             text="PRESCRIPTION"/>
+                                                                                             text="PRESCRIPTION"
+                                                                                             fx:id="tablehistoryPrescription"/>
                                                                                 <TableColumn prefWidth="163.0"
-                                                                                             text="TESTS"/>
+                                                                                             text="TESTS"
+                                                                                             fx:id="tablehistoryTests"/>
                                                                                 <TableColumn prefWidth="123.0"
-                                                                                             text="RATINGS"/>
+                                                                                             text="RATINGS"
+                                                                                             fx:id="tablehistoryRatings"/>
                                                                             </columns>
                                                                         </TableView>
                                                                         <Button layoutX="829.0" layoutY="54.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="VIEW PRESCRIPTION"/>
+                                                                                text="VIEW PRESCRIPTION"
+                                                                                fx:id="tablehistoryViewPrescriptionsButton"/>
                                                                         <Button layoutX="829.0" layoutY="122.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="VIEW LAB TESTS"/>
+                                                                                text="VIEW LAB TESTS"
+                                                                                fx:id="tablehistoryViewLabTestButton"/>
                                                                         <Button layoutX="829.0" layoutY="194.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="VIEW DIAGNOSIS"/>
+                                                                                text="VIEW DIAGNOSIS"
+                                                                                fx:id="tablehistoryViewDiagnosisButton"/>
                                                                         <Button layoutX="829.0" layoutY="259.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="GET REPORT"/>
+                                                                                text="GET REPORT"
+                                                                                fx:id="tablehistoryGetReportButton"/>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
                                                 </Tab>
-                                                <Tab text="CONDITIONS">
+                                                <Tab text="CONDITIONS" fx:id="existingConditionsTab">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -182,24 +198,31 @@
                                                                                     prefHeight="433.0"
                                                                                     prefWidth="710.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="430.0" prefWidth="709.0">
+                                                                                   prefHeight="430.0" prefWidth="709.0"
+                                                                                   fx:id="existingConditionsTabTable">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
-                                                                                             text="ID"/>
+                                                                                             text="ID"
+                                                                                             fx:id="existingConditionsTabTableId"/>
                                                                                 <TableColumn prefWidth="111.0"
-                                                                                             text="NAME"/>
+                                                                                             text="NAME"
+                                                                                             fx:id="existingConditionsTabTableName"/>
                                                                                 <TableColumn prefWidth="124.0"
-                                                                                             text="DATE ADDED"/>
+                                                                                             text="DATE ADDED"
+                                                                                             fx:id="existingConditionsTabTableDateAdded"/>
                                                                                 <TableColumn prefWidth="206.0"
-                                                                                             text="CATEGORY"/>
+                                                                                             text="CATEGORY"
+                                                                                             fx:id="existingConditionsTabTableCategory"/>
                                                                                 <TableColumn prefWidth="192.0"
-                                                                                             text="DOCTOR"/>
+                                                                                             text="DOCTOR"
+                                                                                             fx:id="existingConditionsTabTableDoctor"/>
                                                                             </columns>
                                                                         </TableView>
                                                                         <Button layoutX="846.0" layoutY="165.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="VIEW DETAILS"/>
+                                                                                text="VIEW DETAILS"
+                                                                                fx:id="existingConditionsTabTableViewDetailsButton"/>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
@@ -220,7 +243,7 @@
                                         <TabPane fx:id="tabcontainerclinicpane" layoutX="3.0" prefHeight="604.0"
                                                  prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                                             <tabs>
-                                                <Tab text="APPOINTMENTS">
+                                                <Tab text="APPOINTMENTS" fx:id="tabClinicAppointments">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -234,30 +257,36 @@
                                                                                     prefHeight="416.0"
                                                                                     prefWidth="710.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="411.0" prefWidth="709.0">
+                                                                                   prefHeight="411.0" prefWidth="709.0"
+                                                                                   fx:id="tabClinicAppointmentsTable">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
-                                                                                             text="ID"/>
+                                                                                             text="ID"
+                                                                                             fx:id="tabClinicAppointmentsTableId"/>
                                                                                 <TableColumn prefWidth="219.0"
-                                                                                             text="VISITOR NAME"/>
+                                                                                             text="VISITOR NAME"
+                                                                                             fx:id="tabClinicAppointmentsTableVisitorName"/>
                                                                                 <TableColumn minWidth="2.0"
                                                                                              prefWidth="145.0"
-                                                                                             text="TYPE OF VISIT"/>
+                                                                                             text="TYPE OF VISIT"
+                                                                                             fx:id="tabClinicAppointmentsTableTypeOfVisit"/>
                                                                                 <TableColumn prefWidth="177.0"
-                                                                                             text="TIME OF APPOINTMENT"/>
+                                                                                             text="TIME OF APPOINTMENT"
+                                                                                             fx:id="tabClinicAppointmentsTableTimeOfAppointment"/>
                                                                             </columns>
                                                                         </TableView>
                                                                         <Button layoutX="846.0" layoutY="165.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="CALL IN"/>
+                                                                                text="CALL IN"
+                                                                                fx:id="tabClinicAppointmentsTableCallInButton"/>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
                                                 </Tab>
-                                                <Tab text="LAB TESTS">
+                                                <Tab text="LAB TESTS" fx:id="tabClinicLabTests">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -271,34 +300,41 @@
                                                                                     prefHeight="426.0"
                                                                                     prefWidth="710.0"/>
                                                                         <TableView layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="422.0" prefWidth="709.0">
+                                                                                   prefHeight="422.0" prefWidth="709.0"
+                                                                                   fx:id="tabClinicLabTestsTable">
                                                                             <columns>
                                                                                 <TableColumn prefWidth="75.0"
-                                                                                             text="ID"/>
+                                                                                             text="ID"
+                                                                                             fx:id="tabClinicLabTestsTableId"/>
                                                                                 <TableColumn prefWidth="219.0"
-                                                                                             text="TYPE OF TEST"/>
+                                                                                             text="TYPE OF TEST"
+                                                                                             fx:id="tabClinicLabTestsTableTestType"/>
                                                                                 <TableColumn minWidth="2.0"
                                                                                              prefWidth="145.0"
-                                                                                             text="TECHNICIAN"/>
+                                                                                             text="TECHNICIAN"
+                                                                                             fx:id="tabClinicLabTestsTableTechnician"/>
                                                                                 <TableColumn prefWidth="177.0"
-                                                                                             text="PATIENT NAME"/>
+                                                                                             text="PATIENT NAME"
+                                                                                             fx:id="tabClinicLabTestsTablePatientName"/>
                                                                             </columns>
                                                                         </TableView>
                                                                         <Button layoutX="846.0" layoutY="165.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="VIEW FULL REPORT"/>
+                                                                                text="VIEW FULL REPORT"
+                                                                                fx:id="tabClinicLabTestsTableGetFullReportButton"/>
                                                                         <Button layoutX="846.0" layoutY="237.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="MOVE REPORT TO DIAGNOSIS"/>
+                                                                                text="MOVE REPORT TO DIAGNOSIS"
+                                                                                fx:id="tabClinicLabTestsTablemoveReportToDiagnosis"/>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
                                                 </Tab>
-                                                <Tab text="DIAGNOSIS">
+                                                <Tab text="DIAGNOSIS" fx:id="tabClinicDiagnosis">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -311,10 +347,12 @@
                                                                         <Button layoutX="846.0" layoutY="165.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="SUBMIT"/>
+                                                                                text="SUBMIT"
+                                                                                fx:id="tabClinicDiagnosisSubmit"/>
                                                                         <TextArea layoutX="24.0" layoutY="30.0"
                                                                                   prefHeight="328.0" prefWidth="764.0"
-                                                                                  promptText="TYPE YOUR DIAGNOSIS HERE">
+                                                                                  promptText="TYPE YOUR DIAGNOSIS HERE"
+                                                                                  fx:id="tabClinicDiagnosisInput">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
@@ -325,7 +363,7 @@
                                                         </AnchorPane>
                                                     </content>
                                                 </Tab>
-                                                <Tab text="PRESCRIPTION">
+                                                <Tab text="PRESCRIPTION" fx:id="tabClinicPrescription">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                                                     prefWidth="200.0">
@@ -338,10 +376,12 @@
                                                                         <Button layoutX="846.0" layoutY="165.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="SUBMIT"/>
+                                                                                text="SUBMIT"
+                                                                                fx:id="tabClinicPrescriptionSubmit"/>
                                                                         <TextArea layoutX="24.0" layoutY="30.0"
                                                                                   prefHeight="273.0" prefWidth="736.0"
-                                                                                  promptText="TYPE YOUR PRESCRIPTION HERE">
+                                                                                  promptText="TYPE YOUR PRESCRIPTION HERE"
+                                                                                  fx:id="tabClinicPrescriptionText">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
@@ -349,7 +389,8 @@
                                                                         <Button layoutX="846.0" layoutY="265.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
-                                                                                text="END PATIENT SESSION"/>
+                                                                                text="END PATIENT SESSION"
+                                                                                fx:id="endPatientSession"/>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
