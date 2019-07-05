@@ -22,7 +22,6 @@ import java.util.Objects;
 
 import static Controllers.settings.login;
 import static Controllers.settings.user;
-
 public class Super {
     protected Connection connection;
 
@@ -31,7 +30,8 @@ public class Super {
             connection = DriverManager
                     .getConnection(settings.des[0], settings.des[1], settings.des[2]);
         } catch (SQLException e) {
-            System.out.println("Error connecting to database:" + e.getMessage());
+//            System.out.println("Error connecting to database:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
