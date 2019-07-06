@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -85,8 +86,6 @@ public class Panel extends Super implements Initializable {
         tabpane.setRotateGraphic(true);
 
 
-//        configureTab(tabexisting, "EXISTING PATIENTS", "resources/images/22-Cardi-B-Money.png");
-//        configureTab(tabnew, "NEW PATIENTS", "resources/images/22-Cardi-B-Money.png");
     }
 
     private void configureTab(Tab tab, String title, String iconPath) {
@@ -137,6 +136,36 @@ public class Panel extends Super implements Initializable {
     }
 
     private void bookAppointments() {
+        RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+        try {
+            tableRowIdSelected(recordsMasterClass, patienttable);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void tableRowIdSelected(RecordsMasterClass recordsMasterClass, TableView<RecordsMasterClass> patienttable) throws SQLException {
+        recordsMasterClass = patienttable.getSelectionModel().getSelectedItem();
+        String id = recordsMasterClass.getId();
+        String mail = recordsMasterClass.getEmail();
+        String name = recordsMasterClass.getName();
+        String docSelection = "SELECT * FROM users WHERE userclearancelevel=? and status=?";
+        PreparedStatement selectDoctors = connection.prepareStatement(docSelection);
+        selectDoctors.setString(1, "doctor".toUpperCase());
+        selectDoctors.setString(2, "active");
+        ResultSet resultSet = selectDoctors.executeQuery();
+        HashMap<String, Integer> max = new HashMap<>();
+        while (resultSet.next()) {
+            //check count of patients for each doctor
+            String selectCount = "SELECT * FROM appointments WHERE doctorId=?";
+            PreparedStatement selectCountPrepStmt = connection.prepareStatement(selectCount);
+            selectCountPrepStmt.setString(1, resultSet.getString("id"));
+            ResultSet rs = selectCountPrepStmt.executeQuery();
+            int counter = 0;
+            while (rs.next()) {
+                counter++;
+            }
+        }
     }
 
 

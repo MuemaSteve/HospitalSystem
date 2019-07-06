@@ -10,8 +10,8 @@ public interface settings {
     IdentityHashMap<String, String> user = new IdentityHashMap<>();
     IdentityHashMap<String, String> hospital = new IdentityHashMap<>();
     IdentityHashMap<String, Boolean> changepassword = new IdentityHashMap<>();
-    //    String[] des = {"jdbc:mysql://127.0.0.1/edoc_hospitals", "root", ""};
-    String[] des = {"jdbc:mysql://nanotechsoftwares.co.ke:3306/nanotech_HospitalSystem", "nanotech_admin", ",4=y4,Zv6hR}"};
+    String[] des = {"jdbc:mysql://127.0.0.1/edoc_hospitals", "root", ""};
+//    String[] des = {"jdbc:mysql://nanotechsoftwares.co.ke:3306/nanotech_HospitalSystem", "nanotech_admin", ",4=y4,Zv6hR}"};
 
 
     String appName = "Medica ";

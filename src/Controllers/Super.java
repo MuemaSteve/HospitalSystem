@@ -122,6 +122,12 @@ public class Super {
         return preparedStatement.executeUpdate();
 
     }
+
+    protected <E extends OriginMasterClass> String tableRowIdSelected(E object, TableView<E> tab) {
+        int row = 0;
+        object = tab.getSelectionModel().getSelectedItem();
+        return object.getId();
+    }
     protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
         int counter = 1;
