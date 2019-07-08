@@ -196,7 +196,7 @@ public class PanelController extends Super implements Initializable {
 
     private void validation() throws SQLException {
 //check if all fields are filled
-        if (username.getText().isEmpty() || useremail.getText().isEmpty() || userdescription.getText().isEmpty() || useridentifier.getText().isEmpty()) {
+        if (username.getText().isEmpty() || useremail.getText().isEmpty() || userdescription.getText().isEmpty() || useridentifier.getText().isEmpty() || !file.exists()) {
             showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(),
                     "FILL ALL FIELDS", "PLEASE FILL ALL FIELDS");
 
@@ -233,7 +233,15 @@ public class PanelController extends Super implements Initializable {
                     }
                     insertStaff.setString(8, identification);
                     insertStaff.setString(9, description);
-                    insertStaff.executeUpdate();
+                    int x = insertStaff.executeUpdate();
+                    if (x > 0) {
+                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                        username.clear();
+                        userdescription.clear();
+                        useremail.clear();
+                        location.clear();
+                        useridentifier.clear();
+                    }
                 } else {
                     showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(),
                             "INVALID EMAIL", "PLEASE ENTER A VALID EMAIL");
