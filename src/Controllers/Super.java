@@ -2,6 +2,7 @@ package Controllers;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -63,6 +64,7 @@ public class Super {
 
                 while (foundrecords.next()) {
                     RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+                    recordsMasterClass.setId(foundrecords.getString("id"));
                     recordsMasterClass.setName(foundrecords.getString("name"));
                     recordsMasterClass.setEmail(foundrecords.getString("email"));
                     recordsMasterClass.setPhonenumber(foundrecords.getString("phonenumber"));
@@ -91,12 +93,13 @@ public class Super {
      * @throws SQLException
      */
     protected int insertIntoTable(String table, String[] records, String[] values) throws SQLException {
-        StringBuilder cols = null, prepstmts = null;
-        int maxIndex = records.length - 1, counter = 0;
+        StringBuilder cols = new StringBuilder(), prepstmts = new StringBuilder();
+        int maxIndex = records.length - 1, counter = 0, count = 1;
         for (String record : records
         ) {
-            if (counter <= maxIndex) {
-                Objects.requireNonNull(prepstmts).append("?").append(",");
+//            System.out.println(record);
+            if (counter < maxIndex) {
+                prepstmts.append("?").append(",");
                 cols.append(record).append(",");
             } else {
                 prepstmts.append("?");
@@ -106,18 +109,19 @@ public class Super {
             counter++;
 
         }
+        System.out.println(prepstmts + "\n" + cols);
         String query = "";
 //        insert into ____ (records)Values(records.length())
 //foreach(e : records):
 //    counter++.....
-        query = "INSERT INTO " + table + "(" + cols + ")" + "VALUES(" + prepstmts + ")";
+        query = "INSERT INTO " + table + "(" + cols.toString() + ")" + "VALUES(" + prepstmts.toString() + ")";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         for (String element : values
         ) {
-            counter++;
-            preparedStatement.setString(counter, element);
 
+            preparedStatement.setString(count, element);
+            count++;
         }
         return preparedStatement.executeUpdate();
 
@@ -198,5 +202,15 @@ public class Super {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    public void LabelInvisible(Label label) {
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(8)
+        );
+        visiblePause.setOnFinished(
+                event -> label.setVisible(false)
+        );
+        visiblePause.play();
     }
 }

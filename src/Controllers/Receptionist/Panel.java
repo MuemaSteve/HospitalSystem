@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -154,18 +154,59 @@ public class Panel extends Super implements Initializable {
         selectDoctors.setString(1, "doctor".toUpperCase());
         selectDoctors.setString(2, "active");
         ResultSet resultSet = selectDoctors.executeQuery();
-        HashMap<String, Integer> max = new HashMap<>();
-        while (resultSet.next()) {
-            //check count of patients for each doctor
-            String selectCount = "SELECT * FROM appointments WHERE doctorId=?";
-            PreparedStatement selectCountPrepStmt = connection.prepareStatement(selectCount);
-            selectCountPrepStmt.setString(1, resultSet.getString("id"));
-            ResultSet rs = selectCountPrepStmt.executeQuery();
-            int counter = 0;
-            while (rs.next()) {
-                counter++;
+        String checkAppointment = "SELECT * FROM appointments WHERE PatientId=? ";
+        PreparedStatement prep = connection.prepareStatement(checkAppointment);
+        prep.setString(1, id);
+        if (prep.executeQuery().isBeforeFirst()) {
+            showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "RECORD EXISTS IN DATABASE", "THE USER ALREADY HAS AN APPOINTMENT");
+        } else {
+            if (resultSet.isBeforeFirst()) {
+                ArrayList<Integer> count = new ArrayList<>();
+                ArrayList<Integer> docid = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    count.add(Integer.valueOf(resultSet.getString("numberoofappointments")));
+                    docid.add(Integer.valueOf(resultSet.getString("id")));
+
+                }
+                int min = Integer.MAX_VALUE;
+                for (Integer integer : count) {
+                    if (integer < min) {
+                        min = integer;
+                    }
+                }
+
+
+                String docSelect = "SELECT * FROM users WHERE numberoofappointments=? AND userclearancelevel=?";
+                PreparedStatement p1 = connection.prepareStatement(docSelect);
+                p1.setInt(1, min);
+                p1.setString(2, "DOCTOR");
+                ResultSet r1 = p1.executeQuery();
+                if (r1.next()) {
+                    //continue from here
+                    String idDoc = r1.getString("id");
+
+                    String recs[] = {"PatientId", "doctorId"};
+                    String values[] = {id, idDoc};
+                    insertIntoTable("appointments", recs, values);
+                    String docUpdate = "UPDATE users SET numberoofappointments=? WHERE id=?";
+                    PreparedStatement preparedStatement = connection.prepareStatement(docUpdate);
+                    preparedStatement.setInt(1, min + 1);
+                    preparedStatement.setString(2, idDoc);
+                    int x = preparedStatement.executeUpdate();
+                    if (x > 0) {
+                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "OPERATION FAILED");
+                    }
+                }
+
+
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "No doctors", "No doctors are available");
             }
         }
+
     }
 
 

@@ -36,7 +36,7 @@ public class LoginControllerClass extends Super implements Initializable {
     public ImageView logo2;
     public ImageView logo3;
 
-
+    ToastController toastController = new ToastController();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -46,6 +46,7 @@ public class LoginControllerClass extends Super implements Initializable {
         }
         setLogos();
         title.setText(appName + " Login");
+        LabelInvisible(message);
     }
 
     private void setLogos() {
@@ -220,7 +221,10 @@ public class LoginControllerClass extends Super implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
+//            toastController.showToast("CHECK YOUR CONNECTION!!",panel,6000,1000,1000);
             message.setText("CHECK YOUR CONNECTION!!");
+            message.setVisible(true);
+            LabelInvisible(message);
         }
     }
 
