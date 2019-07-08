@@ -10,5 +10,6 @@
     <orderEntry type="library" name="mysqlconnector" level="project" />
     <orderEntry type="library" name="mail" level="project" />
     <orderEntry type="library" name="org.apache.commons.io" level="project" />
+    <orderEntry type="library" name="JavaFXModalProgressBar" level="project" />
   </component>
 </module>

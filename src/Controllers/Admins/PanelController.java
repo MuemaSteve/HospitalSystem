@@ -2,9 +2,14 @@ package Controllers.Admins;
 
 import Controllers.Super;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -22,6 +27,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static Controllers.settings.appName;
 import static Controllers.settings.siteHelp;
 
 
@@ -45,6 +51,9 @@ public class PanelController extends Super implements Initializable {
     public TextField searchPatientID;
     public Button searchpatientbutton;
     public Label clock;
+    public TabPane tabpane;
+    public Label title;
+    double tabWidth = 200.0;
     private File file;
     private FileInputStream fileInputStream;
     private int length;
@@ -53,6 +62,7 @@ public class PanelController extends Super implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         init();
+        title.setText(appName + " Admin Panel ");
     }
 
     private void init() {
@@ -79,6 +89,43 @@ public class PanelController extends Super implements Initializable {
         enterPressed();
         WebEngine engine = webview.getEngine();//help web page
         engine.load(siteHelp);
+        configureView();
+    }
+
+    private void configureView() {
+        tabpane.setTabMinWidth(tabWidth);
+        tabpane.setTabMaxWidth(tabWidth);
+        tabpane.setTabMinHeight(tabWidth - 140.0);
+        tabpane.setTabMaxHeight(tabWidth - 140.0);
+        tabpane.setRotateGraphic(true);
+
+
+//        configureTab(tabexisting, "EXISTING PATIENTS", "resources/images/22-Cardi-B-Money.png");
+//        configureTab(tabnew, "NEW PATIENTS", "resources/images/22-Cardi-B-Money.png");
+    }
+
+    private void configureTab(Tab tab, String title, String iconPath) {
+        double imageWidth = 40.0;
+
+        ImageView imageView = new ImageView(new Image(iconPath));
+        imageView.setFitHeight(imageWidth);
+        imageView.setFitWidth(imageWidth);
+
+        Label label = new Label(title);
+        label.setMaxWidth(tabWidth - 20);
+        label.setPadding(new Insets(5, 0, 0, 0));
+        label.setStyle("-fx-text-fill: black; -fx-font-size: 8pt; -fx-font-weight: normal;");
+        label.setTextAlignment(TextAlignment.CENTER);
+
+        BorderPane tabPane = new BorderPane();
+//        tabPane.setRotate(90.0);
+
+        tabPane.setMaxWidth(tabWidth);
+        tabPane.setCenter(imageView);
+        tabPane.setBottom(label);
+
+        tab.setText("");
+        tab.setGraphic(tabPane);
     }
 
     private void enterPressed() {

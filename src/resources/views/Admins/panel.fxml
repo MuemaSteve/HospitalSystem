@@ -11,21 +11,22 @@
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.Admins.PanelController">
     <children>
-        <Label alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="50.0" prefWidth="356.0" fx:id="clock"
+        <Label fx:id="clock" alignment="CENTER" layoutX="51.0" layoutY="6.0" prefHeight="50.0" prefWidth="356.0"
                text="TIME">
             <font>
                 <Font size="30.0"/>
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="447.0" layoutY="4.0" prefHeight="50.0" prefWidth="630.0"
+        <Label fx:id="title" alignment="CENTER" layoutX="447.0" layoutY="4.0" prefHeight="50.0" prefWidth="630.0"
                text="E-Doc Admin Panel">
             <font>
                 <Font size="27.0"/>
             </font>
         </Label>
-        <TabPane layoutX="5.0" layoutY="51.0" prefHeight="650.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabpane" layoutX="5.0" layoutY="51.0" prefHeight="650.0" prefWidth="1200.0"
+                 tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="REGISTER STAFF" fx:id="regstaff">
+                <Tab fx:id="regstaff" text="REGISTER STAFF">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -89,59 +90,84 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="VIEW PATIENT INFORMATION" fx:id="patientinfo">
+                <Tab fx:id="patientinfo" text="VIEW PATIENT INFORMATION">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TextField alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="50.0"
-                                           prefWidth="408.0" promptText="PATIENT ID" fx:id="searchPatientID">
+                                <TextField fx:id="searchPatientID" alignment="CENTER" layoutX="14.0" layoutY="14.0"
+                                           prefHeight="50.0" prefWidth="408.0" promptText="PATIENT ID">
                                     <font>
                                         <Font size="20.0"/>
                                     </font>
                                 </TextField>
-                                <Button layoutX="438.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0"
-                                        fx:id="searchpatientbutton"
-                                        prefWidth="107.0" text="SEARCH">
+                                <Button fx:id="searchpatientbutton" layoutX="438.0" layoutY="14.0"
+                                        mnemonicParsing="false" prefHeight="50.0" prefWidth="107.0" text="SEARCH">
                                     <font>
                                         <Font size="20.0"/>
                                     </font>
                                 </Button>
-                                <TableView layoutX="14.0" layoutY="73.0" prefHeight="428.0" prefWidth="479.0">
-                                    <columns>
-                                        <TableColumn prefWidth="142.0" text="ID"/>
-                                        <TableColumn prefWidth="167.0" text="DATE"/>
-                                        <TableColumn prefWidth="167.0" text="DIAGNOSIS"/>
-                                    </columns>
-                                </TableView>
-                                <TableView layoutX="554.0" layoutY="73.0" prefHeight="428.0" prefWidth="479.0">
-                                    <columns>
-                                        <TableColumn prefWidth="142.0" text="PHYSICIAN"/>
-                                        <TableColumn prefWidth="167.0" text="PRESCRIPTION"/>
-                                        <TableColumn prefWidth="167.0" text="TESTS DONE"/>
-                                    </columns>
-                                </TableView>
+                                <AnchorPane layoutX="98.0" layoutY="87.0" prefHeight="479.0" prefWidth="1141.0"
+                                            style="-fx-background-color: white;" styleClass="innerform">
+                                    <children>
+                                        <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="422.0" prefWidth="709.0"/>
+                                        <TableView layoutX="22.0" layoutY="24.0" prefHeight="419.0" prefWidth="709.0">
+                                            <columns>
+                                                <TableColumn prefWidth="75.0" text="ID"/>
+                                                <TableColumn prefWidth="138.0" text="DATE"/>
+                                                <TableColumn prefWidth="110.0" text="DOCTOR"/>
+                                                <TableColumn prefWidth="97.0" text="PRESCRIPTION"/>
+                                                <TableColumn prefWidth="163.0" text="TESTS"/>
+                                                <TableColumn prefWidth="123.0" text="RATINGS"/>
+                                            </columns>
+                                        </TableView>
+                                        <Button layoutX="829.0" layoutY="54.0" mnemonicParsing="false" prefHeight="49.0"
+                                                prefWidth="193.0" text="VIEW PRESCRIPTION"/>
+                                        <Button layoutX="829.0" layoutY="122.0" mnemonicParsing="false"
+                                                prefHeight="49.0" prefWidth="193.0" text="VIEW LAB TESTS"/>
+                                        <Button layoutX="829.0" layoutY="194.0" mnemonicParsing="false"
+                                                prefHeight="49.0" prefWidth="193.0" text="VIEW DIAGNOSIS"/>
+                                        <Button layoutX="829.0" layoutY="259.0" mnemonicParsing="false"
+                                                prefHeight="49.0" prefWidth="193.0" text="GET REPORT"/>
+                                    </children>
+                                </AnchorPane>
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="VIEW STAFF INFORMATION" fx:id="staffinfo">
+                <Tab fx:id="staffinfo" text="VIEW STAFF INFORMATION">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TableView layoutX="211.0" layoutY="26.0" prefHeight="479.0" prefWidth="968.0">
-                                    <columns>
-                                        <TableColumn prefWidth="75.0" text="ID"/>
-                                        <TableColumn prefWidth="160.0" text="NAME"/>
-                                        <TableColumn prefWidth="212.0" text="EMAIL"/>
-                                        <TableColumn prefWidth="268.0" text="IDENTIFIER"/>
-                                        <TableColumn prefWidth="250.0" text="BRANCH"/>
-                                    </columns>
-                                </TableView>
+                                <AnchorPane layoutX="16.0" layoutY="22.0" prefHeight="548.0" prefWidth="1169.0"
+                                            style="-fx-background-color: white;" styleClass="innerform">
+                                    <children>
+                                        <TableView layoutX="34.0" layoutY="42.0" prefHeight="479.0" prefWidth="968.0">
+                                            <columns>
+                                                <TableColumn prefWidth="75.0" text="ID"/>
+                                                <TableColumn prefWidth="160.0" text="NAME"/>
+                                                <TableColumn prefWidth="212.0" text="EMAIL"/>
+                                                <TableColumn prefWidth="183.0" text="IDENTIFIER"/>
+                                                <TableColumn prefWidth="183.0" text="BRANCH"/>
+                                                <TableColumn prefWidth="152.0" text="STATUS"/>
+                                            </columns>
+                                        </TableView>
+                                        <Button layoutX="1025.0" layoutY="94.0" mnemonicParsing="false"
+                                                prefHeight="50.0" prefWidth="122.0" text="FIRE"/>
+                                        <Button layoutX="1025.0" layoutY="175.0" mnemonicParsing="false"
+                                                prefHeight="50.0" prefWidth="122.0" text="SUSPEND"/>
+                                        <Button layoutX="1025.0" layoutY="257.0" mnemonicParsing="false"
+                                                prefHeight="50.0" prefWidth="122.0" text="LEAVE"/>
+                                        <Button layoutX="1025.0" layoutY="337.0" mnemonicParsing="false"
+                                                prefHeight="50.0" prefWidth="122.0" text="GIVE BREAK"/>
+                                        <Button layoutX="1025.0" layoutY="416.0" mnemonicParsing="false"
+                                                prefHeight="50.0" prefWidth="122.0" text="MATERNITY LEAVE"/>
+                                    </children>
+                                </AnchorPane>
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab text="NEWS" fx:id="news">
+                <Tab fx:id="news" text="NEWS">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
@@ -152,8 +178,8 @@
                 </Tab>
             </tabs>
         </TabPane>
-        <Button fx:id="logout" layoutX="426.0" layoutY="6.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="136.0"
-                text="LOG OUT">
+        <Button fx:id="logout" layoutX="1043.0" layoutY="4.0" mnemonicParsing="false" prefHeight="41.0"
+                prefWidth="136.0" text="LOG OUT">
             <font>
                 <Font size="18.0"/>
             </font>

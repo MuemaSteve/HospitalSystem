@@ -2,26 +2,27 @@ package Controllers;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.sql.*;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Objects;
 
 import static Controllers.settings.login;
 import static Controllers.settings.user;
-
 public class Super {
     protected Connection connection;
 
@@ -30,8 +31,117 @@ public class Super {
             connection = DriverManager
                     .getConnection(settings.des[0], settings.des[1], settings.des[2]);
         } catch (SQLException e) {
+//            System.out.println("Error connecting to database:" + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    protected boolean isInternetAvailable() throws IOException {
+        return isHostAvailable("www.google.com") || isHostAvailable("wwww.amazon.com")
+                || isHostAvailable("www.facebook.com") || isHostAvailable("www.apple.com");
+    }
+
+    private boolean isHostAvailable(String hostName) throws IOException {
+        try (Socket socket = new Socket()) {
+            int port = 80;
+            InetSocketAddress socketAddress = new InetSocketAddress(hostName, port);
+            socket.connect(socketAddress, 13000);
+
+            return true;
+        } catch (UnknownHostException unknownHost) {
+            return false;
+        }
+    }
+
+    protected void findInRecordsMethod(AnchorPane panel, ObservableList<RecordsMasterClass> data, TextField findinrecords, TableView<RecordsMasterClass> patienttable, TableColumn<RecordsMasterClass, String> colpatientname, TableColumn<RecordsMasterClass, String> colpatientemail, TableColumn<RecordsMasterClass, String> colpatientnumber) {
+        String[] name = {findinrecords.getText()};
+
+        String query = "SELECT * FROM patients WHERE name LIKE '%" + name[0] + "%'";
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet foundrecords = statement.executeQuery(query);
+            if (foundrecords.isBeforeFirst()) {
+
+                while (foundrecords.next()) {
+                    RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+                    recordsMasterClass.setId(foundrecords.getString("id"));
+                    recordsMasterClass.setName(foundrecords.getString("name"));
+                    recordsMasterClass.setEmail(foundrecords.getString("email"));
+                    recordsMasterClass.setPhonenumber(foundrecords.getString("phonenumber"));
+                    data.add(recordsMasterClass);
+                }
+                patienttable.setItems(data);
+
+                colpatientname.setCellValueFactory(new PropertyValueFactory<>("name"));
+                colpatientemail.setCellValueFactory(new PropertyValueFactory<>("email"));
+                colpatientnumber.setCellValueFactory(new PropertyValueFactory<>("phonenumber"));
+                patienttable.refresh();
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT DOES NOT EXIST");
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param table
+     * @param records
+     * @param values
+     * @return integer of the rows affected by the sql update
+     * @throws SQLException
+     */
+    protected int insertIntoTable(String table, String[] records, String[] values) throws SQLException {
+        StringBuilder cols = new StringBuilder(), prepstmts = new StringBuilder();
+        int maxIndex = records.length - 1, counter = 0, count = 1;
+        for (String record : records
+        ) {
+//            System.out.println(record);
+            if (counter < maxIndex) {
+                prepstmts.append("?").append(",");
+                cols.append(record).append(",");
+            } else {
+                prepstmts.append("?");
+                cols.append(record);
+            }
+
+            counter++;
+
+        }
+        System.out.println(prepstmts + "\n" + cols);
+        String query = "";
+//        insert into ____ (records)Values(records.length())
+//foreach(e : records):
+//    counter++.....
+        query = "INSERT INTO " + table + "(" + cols.toString() + ")" + "VALUES(" + prepstmts.toString() + ")";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        for (String element : values
+        ) {
+
+            preparedStatement.setString(count, element);
+            count++;
+        }
+        return preparedStatement.executeUpdate();
+
+    }
+
+    protected <E extends OriginMasterClass> String tableRowIdSelected(E object, TableView<E> tab) {
+        int row = 0;
+        object = tab.getSelectionModel().getSelectedItem();
+        return object.getId();
+    }
+    protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
+        int counter = 1;
+        for (String x : fields) {
+            preparedStatement.setString(counter, x);
+            counter += 1;
+        }
+        return preparedStatement.executeQuery();
+
+
     }
 
     protected void showAlert(Alert.AlertType alertType, Window owner, String title, String message) {
@@ -53,6 +163,7 @@ public class Super {
             e.printStackTrace();
         }
     }
+
     protected void time(Label clock) {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             String mins = null, hrs = null, secs = null, pmam = null;
@@ -91,5 +202,15 @@ public class Super {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    public void LabelInvisible(Label label) {
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(8)
+        );
+        visiblePause.setOnFinished(
+                event -> label.setVisible(false)
+        );
+        visiblePause.play();
     }
 }

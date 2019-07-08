@@ -1,93 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
-<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene" stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Receptionist.Panel">
-    <AnchorPane layoutX="30.0" layoutY="22.0" minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1139.0">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.WebView?>
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Receptionist.Panel">
+    <AnchorPane layoutX="2.0" minHeight="0.0" minWidth="0.0" prefHeight="722.0" prefWidth="1200.0">
         <children>
-            <TabPane prefHeight="604.0" prefWidth="1139.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabpane" layoutX="-1.0" layoutY="65.0" prefHeight="656.0" prefWidth="1200.0"
+                     tabClosingPolicy="UNAVAILABLE">
                 <tabs>
-                    <Tab text="EXISTING PATIENTS">
+                    <Tab fx:id="tabexisting" text="EXISTING PATIENTS">
                         <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="534.0" prefWidth="1108.0">
+                            <AnchorPane fx:id="existingcontainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                        prefWidth="200.0">
                                 <children>
-                                    <TextField alignment="CENTER" layoutX="70.0" layoutY="26.0" prefHeight="42.0" prefWidth="780.0" promptText="SEARCH IN RECORDS">
+                                    <TextField fx:id="findinrecords" alignment="CENTER" layoutX="93.0" layoutY="18.0"
+                                               prefHeight="50.0" prefWidth="478.0" promptText="SEARCH IN RECORDS">
                                         <font>
-                                            <Font size="19.0" />
+                                            <Font size="19.0"/>
                                         </font>
                                     </TextField>
-                                    <Button layoutX="860.0" layoutY="26.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="173.0" text="SEARCH">
+                                    <Button fx:id="findinrecordsbutton" layoutX="582.0" layoutY="18.0"
+                                            mnemonicParsing="false" prefHeight="50.0" prefWidth="117.0" text="SEARCH">
                                         <font>
-                                            <Font size="19.0" />
+                                            <Font size="19.0"/>
                                         </font>
                                     </Button>
-                           <AnchorPane layoutX="71.0" layoutY="85.0" prefHeight="433.0" prefWidth="962.0" style="-fx-background-color: white;" styleClass="innerform">
-                              <children>
-                                 <ScrollPane layoutX="8.0" layoutY="13.0" prefHeight="408.0" prefWidth="942.0">
-                                    <content>
-                                       <AnchorPane prefHeight="406.0" prefWidth="925.0">
-                                          <children>
-                                             <TableView layoutX="-2.0" layoutY="2.0" prefHeight="388.0" prefWidth="941.0">
-                                               <columns>
-                                                 <TableColumn prefWidth="295.20005798339844" text="NAME" />
-                                                   <TableColumn prefWidth="390.0" text="EMAIL" />
-                                                   <TableColumn prefWidth="253.0" text="PHONE NUMBER" />
-                                               </columns>
-                                             </TableView>
-                                          </children>
-                                       </AnchorPane>
-                                    </content>
-                                 </ScrollPane>
-                              </children>
-                           </AnchorPane>
+                                    <AnchorPane layoutX="71.0" layoutY="85.0" prefHeight="433.0" prefWidth="1124.0"
+                                                style="-fx-background-color: white;" styleClass="innerform">
+                                        <children>
+                                            <ScrollPane layoutX="8.0" layoutY="13.0" prefHeight="400.0"
+                                                        prefWidth="929.0">
+                                                <content>
+                                                    <AnchorPane prefHeight="406.0" prefWidth="925.0">
+                                                        <children>
+                                                            <TableView fx:id="patienttable" layoutX="-2.0" layoutY="2.0"
+                                                                       prefHeight="388.0" prefWidth="926.0">
+                                                                <columns>
+                                                                    <TableColumn fx:id="colpatientname"
+                                                                                 prefWidth="295.20005798339844"
+                                                                                 text="NAME"/>
+                                                                    <TableColumn fx:id="colpatientemail"
+                                                                                 prefWidth="295.20005798339844"
+                                                                                 text="EMAIL"/>
+                                                                    <TableColumn fx:id="colpatientnumber"
+                                                                                 prefWidth="333.0" text="PHONE NUMBER"/>
+                                                                </columns>
+                                                            </TableView>
+                                                        </children>
+                                                    </AnchorPane>
+                                                </content>
+                                            </ScrollPane>
+                                            <Button fx:id="bookAppointmentsButton" layoutX="961.0" layoutY="102.0"
+                                                    mnemonicParsing="false" prefHeight="48.0" prefWidth="151.0"
+                                                    text="BOOK APPOINTMENT"/>
+                                            <Button fx:id="bookVIPAppointments" layoutX="961.0" layoutY="183.0"
+                                                    mnemonicParsing="false" prefHeight="48.0" prefWidth="151.0"
+                                                    text="SPECIAL APPOINTMENT"/>
+                                        </children>
+                                    </AnchorPane>
                                 </children>
                             </AnchorPane>
                         </content>
                     </Tab>
-                    <Tab text="NEW PATIENTS">
+                    <Tab fx:id="tabnew" text="NEW PATIENTS">
                         <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1108.0">
+                            <AnchorPane fx:id="newcontainer" minHeight="0.0" minWidth="0.0" prefHeight="550.0"
+                                        prefWidth="1108.0">
                                 <children>
-                                    <AnchorPane layoutX="171.0" layoutY="28.0" prefHeight="513.0" prefWidth="767.0" style="-fx-background-color: white;" styleClass="innerform">
+                                    <AnchorPane layoutX="206.0" layoutY="25.0" prefHeight="513.0" prefWidth="767.0"
+                                                style="-fx-background-color: white;" styleClass="innerform">
                                         <children>
-                                            <TextField fx:id="patientname" alignment="CENTER" layoutX="81.0" layoutY="64.0" prefHeight="50.0" prefWidth="598.0" promptText="NAME">
+                                            <TextField fx:id="patientname" alignment="CENTER" layoutX="29.0"
+                                                       layoutY="55.0" prefHeight="50.0" prefWidth="700.0"
+                                                       promptText="NAME">
                                                 <font>
-                                                    <Font size="19.0" />
+                                                    <Font size="19.0"/>
                                                 </font>
                                             </TextField>
-                                            <TextField fx:id="patientemail" alignment="CENTER" layoutX="81.0" layoutY="167.0" prefHeight="50.0" prefWidth="597.0" promptText="EMAIL">
+                                            <TextField fx:id="patientemail" alignment="CENTER" layoutX="28.0"
+                                                       layoutY="162.0" prefHeight="50.0" prefWidth="703.0"
+                                                       promptText="EMAIL">
                                                 <font>
-                                                    <Font size="19.0" />
+                                                    <Font size="19.0"/>
                                                 </font>
                                             </TextField>
-                                            <TextField fx:id="phonenumber" alignment="CENTER" layoutX="80.0" layoutY="238.0" prefHeight="50.0" prefWidth="598.0" promptText="PHONE NUMBER">
+                                            <TextField fx:id="phonenumber" alignment="CENTER" layoutX="26.0"
+                                                       layoutY="249.0" prefHeight="50.0" prefWidth="703.0"
+                                                       promptText="PHONE NUMBER">
                                                 <font>
-                                                    <Font size="19.0" />
+                                                    <Font size="19.0"/>
                                                 </font>
                                             </TextField>
-                                            <Button fx:id="addpatient" layoutX="236.0" layoutY="411.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="296.0" text="ADD PATIENT">
+                                            <Button fx:id="addpatient" layoutX="236.0" layoutY="401.0"
+                                                    mnemonicParsing="false" prefHeight="79.0" prefWidth="296.0"
+                                                    text="ADD PATIENT">
                                                 <font>
-                                                    <Font size="21.0" />
+                                                    <Font size="21.0"/>
                                                 </font>
                                             </Button>
 
-                                            <RadioButton fx:id="radiomale" layoutX="265.0" layoutY="122.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="147.0" text="MALE" />
-                                            <RadioButton fx:id="radiofemale" layoutX="420.0" layoutY="122.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="163.0" text="FEMALE" />
-                                            <DatePicker fx:id="dob" layoutX="81.0" layoutY="310.0" prefHeight="44.0" prefWidth="368.0" promptText="DOB" styleClass="inputefield" />
-                                            <Label fx:id="datepicked" alignment="CENTER" layoutX="449.0" layoutY="307.0" prefHeight="50.0" prefWidth="219.0" text="Label">
+                                            <RadioButton fx:id="radiomale" layoutX="140.0" layoutY="114.0"
+                                                         mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0"
+                                                         text="MALE"/>
+                                            <RadioButton fx:id="radiofemale" layoutX="429.0" layoutY="114.0"
+                                                         mnemonicParsing="false" prefHeight="34.0" prefWidth="122.0"
+                                                         text="FEMALE"/>
+                                            <DatePicker fx:id="dob" layoutX="26.0" layoutY="326.0" prefHeight="44.0"
+                                                        prefWidth="342.0" promptText="DOB" styleClass="inputefield"/>
+                                            <Label fx:id="datepicked" alignment="CENTER" layoutX="401.0" layoutY="323.0"
+                                                   prefHeight="50.0" prefWidth="283.0" text="Label">
                                                 <font>
-                                                    <Font size="19.0" />
+                                                    <Font size="19.0"/>
+                                                </font>
+                                            </Label>
+                                            <Label alignment="CENTER" layoutX="127.0" layoutY="2.0" prefHeight="29.0"
+                                                   prefWidth="431.0" text="ALL FIELDS ARE REQUIRED" textFill="#f80303">
+                                                <font>
+                                                    <Font size="14.0"/>
                                                 </font>
                                             </Label>
                                         </children>
@@ -96,18 +129,36 @@
                             </AnchorPane>
                         </content>
                     </Tab>
+                    <Tab text="NEWS">
+                        <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="626.0" prefWidth="1200.0">
+                                <children>
+                                    <WebView fx:id="webview" layoutX="1.0" layoutY="2.0" prefHeight="624.0"
+                                             prefWidth="1200.0"/>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
                 </tabs>
             </TabPane>
-            <Label fx:id="clock" alignment="CENTER" layoutX="30.0" layoutY="603.0" prefHeight="50.0" prefWidth="251.0" text="00:00:00 PM">
+            <Button fx:id="logout" layoutX="960.0" layoutY="9.0" mnemonicParsing="false" prefHeight="48.0"
+                    prefWidth="151.0" text="LOG OUT">
                 <font>
-                    <Font size="19.0" />
+                    <Font size="19.0"/>
+                </font>
+            </Button>
+            <Label fx:id="clock" alignment="CENTER" layoutX="22.0" layoutY="14.0" prefHeight="48.0" prefWidth="362.0"
+                   text="00:00:00 PM">
+                <font>
+                    <Font size="20.0"/>
                 </font>
             </Label>
-         <Button fx:id="logout" layoutX="890.0" layoutY="597.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="178.0" text="LOG OUT">
-            <font>
-               <Font size="19.0" />
-            </font>
-         </Button>
+            <Label fx:id="title" alignment="CENTER" layoutX="417.0" layoutY="9.0" prefHeight="48.0" prefWidth="362.0"
+                   text="THE RECEPTION PANEL">
+                <font>
+                    <Font size="19.0"/>
+                </font>
+            </Label>
         </children>
     </AnchorPane>
 
