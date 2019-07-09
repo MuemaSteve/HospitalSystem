@@ -1,6 +1,6 @@
 package Controllers.Receptionist;
 
-import Controllers.RecordsMasterClass;
+import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
 import Controllers.settings;
 import javafx.collections.FXCollections;
@@ -119,7 +119,13 @@ public class Panel extends Super implements Initializable {
             bookVIPAppointment();
         });
         bookAppointmentsButton.setOnMouseClicked(event -> {
-            bookAppointments();
+            ObservableList<TablePosition> getCells = patienttable.getSelectionModel().getSelectedCells();
+            if (getCells.size() == 0) {
+//    execute code for null selection
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "SELECT A RECORD FOR THIS OPERATION TO TAKE PLACE");
+            } else {
+                bookAppointments();
+            }
         });
         logout.setOnMouseClicked(event -> logOut(panel));
         addpatient.setOnMouseClicked(event -> validation());

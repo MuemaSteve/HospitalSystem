@@ -1,4 +1,4 @@
-package Controllers;
+package Controllers.MasterClasses;
 
 import javafx.beans.property.SimpleStringProperty;
 
@@ -9,10 +9,18 @@ public class RecordsMasterClass {
     private SimpleStringProperty email = new SimpleStringProperty();
     private SimpleStringProperty phonenumber = new SimpleStringProperty();
 
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    private int size = 0;
     public String getId() {
         return id.get();
     }
-
     public void setId(String id) {
         this.id.set(id);
     }

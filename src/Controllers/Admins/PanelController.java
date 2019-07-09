@@ -196,7 +196,7 @@ public class PanelController extends Super implements Initializable {
 
     private void validation() throws SQLException {
 //check if all fields are filled
-        if (username.getText().isEmpty() || useremail.getText().isEmpty() || userdescription.getText().isEmpty() || useridentifier.getText().isEmpty() || !file.exists()) {
+        if (username.getText().isEmpty() || useremail.getText().isEmpty() || userdescription.getText().isEmpty() || useridentifier.getText().isEmpty() || !file.exists() || file.length() == 0) {
             showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(),
                     "FILL ALL FIELDS", "PLEASE FILL ALL FIELDS");
 

@@ -1,6 +1,6 @@
 package Controllers.Physicians;
 
-import Controllers.RecordsMasterClass;
+import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

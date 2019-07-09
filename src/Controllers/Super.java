@@ -1,5 +1,6 @@
 package Controllers;
 
+import Controllers.MasterClasses.RecordsMasterClass;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
@@ -64,6 +65,7 @@ public class Super {
 
                 while (foundrecords.next()) {
                     RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+                    recordsMasterClass.setSize(recordsMasterClass.getSize() + 1);
                     recordsMasterClass.setId(foundrecords.getString("id"));
                     recordsMasterClass.setName(foundrecords.getString("name"));
                     recordsMasterClass.setEmail(foundrecords.getString("email"));
