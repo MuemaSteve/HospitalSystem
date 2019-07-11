@@ -62,31 +62,25 @@ public class Panel extends Super implements Initializable {
     public Label title;
     public Button bookAppointmentsButton;
     public Button bookVIPAppointments;
+    ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private String date, radioval = null;
     private double tabWidth = 200.0;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tabPaneArrayList.add(tabpane);
         time(clock);
         buttonListeners();
         pickdate();
         radioListener();
         patienttable.setPlaceholder(new Label(""));
-        configureView();
+        configureView(tabPaneArrayList);
         WebEngine engine = webview.getEngine();//help web page
         engine.load(siteHelp);
         title.setText(appName + " Reception");
     }
 
-    private void configureView() {
-        tabpane.setTabMinWidth(tabWidth);
-        tabpane.setTabMaxWidth(tabWidth);
-        tabpane.setTabMinHeight(tabWidth - 140.0);
-        tabpane.setTabMaxHeight(tabWidth - 140.0);
-        tabpane.setRotateGraphic(true);
-
-
-    }
 
     private void configureTab(Tab tab, String title, String iconPath) {
         double imageWidth = 40.0;

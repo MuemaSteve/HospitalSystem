@@ -8,6 +8,7 @@ public class RecordsMasterClass {
     private SimpleStringProperty name = new SimpleStringProperty();
     private SimpleStringProperty email = new SimpleStringProperty();
     private SimpleStringProperty phonenumber = new SimpleStringProperty();
+    private int size = 0;
 
     public int getSize() {
         return size;
@@ -17,10 +18,10 @@ public class RecordsMasterClass {
         this.size = size;
     }
 
-    private int size = 0;
     public String getId() {
         return id.get();
     }
+
     public void setId(String id) {
         this.id.set(id);
     }

@@ -19,11 +19,13 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
 import static Controllers.settings.login;
 import static Controllers.settings.user;
+
 public class Super {
     protected Connection connection;
 
@@ -87,6 +89,7 @@ public class Super {
         }
     }
 
+
     /**
      * @param table
      * @param records
@@ -134,6 +137,7 @@ public class Super {
         object = tab.getSelectionModel().getSelectedItem();
         return object.getId();
     }
+
     protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
         int counter = 1;
@@ -214,5 +218,18 @@ public class Super {
                 event -> label.setVisible(false)
         );
         visiblePause.play();
+    }
+
+    protected void configureView(ArrayList<TabPane> tabPanes) {
+        for (TabPane tabpane : tabPanes
+        ) {
+            double tabWidth = 200.0;
+            tabpane.setTabMinWidth(tabWidth);
+            tabpane.setTabMaxWidth(tabWidth);
+            tabpane.setTabMinHeight(tabWidth - 150.0);
+            tabpane.setTabMaxHeight(tabWidth - 150.0);
+        }
+
+
     }
 }

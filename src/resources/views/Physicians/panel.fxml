@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
-            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Physicians.PanelController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
+            styleClass="basicscene" stylesheets="@../css/basicscene.css"
+            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Physicians.PanelController">
     <children>
         <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
             <children>
@@ -15,9 +15,54 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <TabPane layoutX="2.0" layoutY="8.0" prefHeight="572.0" prefWidth="1190.0"
-                                                 tabClosingPolicy="UNAVAILABLE">
+                                        <TabPane fx:id="appointmentssearch" layoutX="2.0" layoutY="8.0"
+                                                 prefHeight="572.0" prefWidth="1190.0" tabClosingPolicy="UNAVAILABLE">
                                             <tabs>
+                                                <Tab fx:id="tabClinicAppointments" text="APPOINTMENTS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0"
+                                                                    prefWidth="1177.0">
+                                                            <children>
+                                                                <AnchorPane layoutX="14.0" layoutY="24.0"
+                                                                            prefHeight="469.0" prefWidth="1141.0"
+                                                                            style="-fx-background-color: white;"
+                                                                            styleClass="innerform">
+                                                                    <children>
+                                                                        <ScrollPane layoutX="22.0" layoutY="23.0"
+                                                                                    prefHeight="416.0"
+                                                                                    prefWidth="710.0"/>
+                                                                        <TableView fx:id="tabClinicAppointmentsTable"
+                                                                                   layoutX="22.0" layoutY="24.0"
+                                                                                   prefHeight="411.0" prefWidth="709.0">
+                                                                            <columns>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicAppointmentsTableId"
+                                                                                        prefWidth="75.0" text="ID"/>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicAppointmentsTableVisitorName"
+                                                                                        prefWidth="219.0"
+                                                                                        text="VISITOR NAME"/>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicAppointmentsTableTypeOfVisit"
+                                                                                        minWidth="2.0" prefWidth="145.0"
+                                                                                        text="TYPE OF VISIT"/>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicAppointmentsTableTimeOfAppointment"
+                                                                                        prefWidth="177.0"
+                                                                                        text="TIME OF APPOINTMENT"/>
+                                                                            </columns>
+                                                                        </TableView>
+                                                                        <Button fx:id="tabClinicAppointmentsTableCallInButton"
+                                                                                layoutX="846.0" layoutY="165.0"
+                                                                                mnemonicParsing="false"
+                                                                                prefHeight="49.0" prefWidth="193.0"
+                                                                                text="CALL IN"/>
+                                                                    </children>
+                                                                </AnchorPane>
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                </Tab>
                                                 <Tab text="SEARCH PATIENT">
                                                     <content>
                                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="528.0"
@@ -85,51 +130,6 @@
                                                                         <Font size="19.0"/>
                                                                     </font>
                                                                 </TextField>
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </Tab>
-                                                <Tab fx:id="tabClinicAppointments" text="APPOINTMENTS">
-                                                    <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0"
-                                                                    prefWidth="1177.0">
-                                                            <children>
-                                                                <AnchorPane layoutX="14.0" layoutY="24.0"
-                                                                            prefHeight="469.0" prefWidth="1141.0"
-                                                                            style="-fx-background-color: white;"
-                                                                            styleClass="innerform">
-                                                                    <children>
-                                                                        <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                                                    prefHeight="416.0"
-                                                                                    prefWidth="710.0"/>
-                                                                        <TableView fx:id="tabClinicAppointmentsTable"
-                                                                                   layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="411.0" prefWidth="709.0">
-                                                                            <columns>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicAppointmentsTableId"
-                                                                                        prefWidth="75.0" text="ID"/>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicAppointmentsTableVisitorName"
-                                                                                        prefWidth="219.0"
-                                                                                        text="VISITOR NAME"/>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicAppointmentsTableTypeOfVisit"
-                                                                                        minWidth="2.0" prefWidth="145.0"
-                                                                                        text="TYPE OF VISIT"/>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicAppointmentsTableTimeOfAppointment"
-                                                                                        prefWidth="177.0"
-                                                                                        text="TIME OF APPOINTMENT"/>
-                                                                            </columns>
-                                                                        </TableView>
-                                                                        <Button fx:id="tabClinicAppointmentsTableCallInButton"
-                                                                                layoutX="846.0" layoutY="165.0"
-                                                                                mnemonicParsing="false"
-                                                                                prefHeight="49.0" prefWidth="193.0"
-                                                                                text="CALL IN"/>
-                                                                    </children>
-                                                                </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
