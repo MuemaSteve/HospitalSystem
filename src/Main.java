@@ -75,7 +75,7 @@ public class Main extends Application {
                         FXCollections.<String>observableArrayList();
                 ObservableList<String> tasksToDo =
                         FXCollections.observableArrayList(
-                                "Initializing modules", "Opening Files", "Setting up files", "Initiating database"
+                                "Initializing modules", "Setting up files", "Opening Files", "Initiating database", "Synchronising databases"
                         );
 
                 updateMessage("Running task . . .");
@@ -88,6 +88,12 @@ public class Main extends Application {
                     if (i == 3) {
 //                     create sqlite tables and db
                         createLocalDb();
+                    } else if (i == 0) {
+                        try {
+                            getConnection();
+                        } catch (SQLException e) {
+                            System.out.println("COULD NOT CONNECT TO LOCAL DB");
+                        }
                     }
                 }
                 Thread.sleep(1400);
@@ -99,9 +105,8 @@ public class Main extends Application {
             private void createLocalDb() {
                 Connection connection = null;
                 try {
-//            create cartdb
-//            todo remember to change path to db
-                    connection = DriverManager.getConnection(localDb);
+//            create SESSION DB
+                    connection = getConnection();
                     Statement statement = connection.createStatement();
                     statement.setQueryTimeout(30); // set timeout to 30 sec.
                     String sessions = "CREATE TABLE IF NOT EXISTS SessionPatients (" + "id INTEGER primary key autoincrement ,name TEXT ,email TEXT,sessionId  TEXT)";
@@ -119,6 +124,11 @@ public class Main extends Application {
                         e.printStackTrace();
                     }
                 }
+            }
+
+            private Connection getConnection() throws SQLException {
+                return DriverManager.getConnection(localDb);
+
             }
         };
 
