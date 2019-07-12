@@ -21,6 +21,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -106,8 +107,16 @@ public class PanelController extends Super implements Initializable, Physician {
     public TextArea tabClinicPrescriptionText;
     public Button endPatientSession;
     public TabPane appointmentssearch;
+    //SESSIONS TAB
+    public TableView<AppointmentMasterClass> tabClinicSessionsTable;
+    public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTableId;
+    public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTablePatientEmail;
+    public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTableName;
+    public Button tabClinicSessionsTableResumeInButton;
+    public Tab sessionsTab;
     private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
+    private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList2 = FXCollections.observableArrayList();
 
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private String date;
@@ -122,7 +131,36 @@ public class PanelController extends Super implements Initializable, Physician {
         title.setText(appName + " Clinic Panel");
         buttonListeners();
         date = datepicker(conditionAddDateDiagnosed);
-        viewPatientAppointments();
+//        viewPatientAppointments();
+        if (tabClinicAppointments.isSelected()) {
+            viewPatientAppointments();
+        }
+        loadSessions();
+    }
+
+    private void loadSessions() {
+        try {
+            Statement preparedStatement = localDbConnection.createStatement();
+            ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM SessionPatients");
+            if (resultSet.isBeforeFirst()) {
+                while (resultSet.next()) {
+                    AppointmentMasterClass appointmentMasterClass = new AppointmentMasterClass();
+                    appointmentMasterClass.setSize(appointmentMasterClass.getSize() + 1);
+                    appointmentMasterClass.setId(resultSet.getString("sessionId"));
+                    appointmentMasterClass.setName(resultSet.getString("name"));
+                    System.out.println(resultSet.getString("name"));
+                    appointmentMasterClass.setPatientEmail(resultSet.getString("email"));
+                    appointmentMasterClassObservableList2.add(appointmentMasterClass);
+                }
+                tabClinicSessionsTable.setItems(appointmentMasterClassObservableList2);
+                tabClinicSessionsTableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                tabClinicSessionsTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
+                tabClinicSessionsTablePatientEmail.setCellValueFactory(new PropertyValueFactory<>("patientEmail"));
+                tabClinicSessionsTable.refresh();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void buttonListeners() {
@@ -273,8 +311,6 @@ public class PanelController extends Super implements Initializable, Physician {
                 tabClinicAppointmentsTableTypeOfVisit.setCellValueFactory(new PropertyValueFactory<>("type"));
 
                 tabClinicAppointmentsTable.refresh();
-            } else {
-                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT DOES NOT EXIST");
             }
         } catch (SQLException e) {
 

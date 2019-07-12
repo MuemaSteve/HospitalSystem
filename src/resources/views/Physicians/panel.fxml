@@ -444,6 +444,48 @@
                                 </AnchorPane>
                             </content>
                         </Tab>
+                        <Tab fx:id="sessionsTab" text="SESSIONS">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0"
+                                            prefWidth="1177.0">
+                                    <children>
+                                        <AnchorPane layoutX="14.0" layoutY="24.0"
+                                                    prefHeight="469.0" prefWidth="1141.0"
+                                                    style="-fx-background-color: white;"
+                                                    styleClass="innerform">
+                                            <children>
+                                                <ScrollPane layoutX="22.0" layoutY="23.0"
+                                                            prefHeight="416.0"
+                                                            prefWidth="710.0"/>
+                                                <TableView fx:id="tabClinicSessionsTable"
+                                                           layoutX="22.0" layoutY="24.0"
+                                                           prefHeight="411.0" prefWidth="709.0">
+                                                    <columns>
+                                                        <TableColumn
+                                                                fx:id="tabClinicSessionsTableId"
+                                                                prefWidth="75.0" text="ID"/>
+                                                        <TableColumn
+                                                                fx:id="tabClinicSessionsTablePatientEmail"
+                                                                minWidth="2.0" prefWidth="145.0"
+                                                                text="EMAIL"/>
+                                                        <TableColumn
+                                                                fx:id="tabClinicSessionsTableName"
+                                                                prefWidth="177.0"
+                                                                text="PATIENT NAME"/>
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="tabClinicSessionsTableResumeInButton"
+                                                        layoutX="846.0" layoutY="165.0"
+                                                        mnemonicParsing="false"
+                                                        prefHeight="49.0" prefWidth="193.0"
+                                                        text="RESUME SESSION"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+
                     </tabs>
                 </TabPane>
             </children>

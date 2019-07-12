@@ -7,7 +7,7 @@ public class AppointmentMasterClass {
     private SimpleIntegerProperty size = new SimpleIntegerProperty(0);
     private SimpleStringProperty patientId = new SimpleStringProperty();
     private SimpleStringProperty doctorId = new SimpleStringProperty();
-
+    private SimpleStringProperty patientEmail = new SimpleStringProperty();
     private SimpleStringProperty type = new SimpleStringProperty();
     private SimpleStringProperty time = new SimpleStringProperty();
     private SimpleStringProperty id = new SimpleStringProperty();
@@ -99,4 +99,15 @@ public class AppointmentMasterClass {
     }
 
 
+    public String getPatientEmail() {
+        return patientEmail.get();
+    }
+
+    public SimpleStringProperty patientEmailProperty() {
+        return patientEmail;
+    }
+
+    public void setPatientEmail(String patientEmail) {
+        this.patientEmail.set(patientEmail);
+    }
 }

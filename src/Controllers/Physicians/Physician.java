@@ -1,17 +1,17 @@
 package Controllers.Physicians;
 
 public interface Physician {
-    public void addPatientDetails();
+    void addPatientDetails();
 
-    public void viewPatientDetails();
+    void viewPatientDetails();
 
-    public void viewPatientHistory();
+    void viewPatientHistory();
 
-    public void viewPatientLabTests();
+    void viewPatientLabTests();
 
-    public void viewPatientAppointments();
+    void viewPatientAppointments();
 
-    public void Patientdiagnosis();
+    void Patientdiagnosis();
 
-    public void Patientprescription();
+    void Patientprescription();
 }
