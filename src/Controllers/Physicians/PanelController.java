@@ -76,11 +76,11 @@ public class PanelController extends Super implements Initializable, Physician {
     //existing conditions code
     public Tab existingConditionsTab;
     public TableView<ConditionsMasterClass> existingConditionsTabTable;
-    public TableColumn<Object, Object> existingConditionsTabTableId;
-    public TableColumn<Object, Object> existingConditionsTabTableName;
-    public TableColumn existingConditionsTabTableDateAdded;
-    public TableColumn existingConditionsTabTableCategory;
-    public TableColumn existingConditionsTabTableDoctor;
+    public TableColumn<ConditionsMasterClass, String> existingConditionsTabTableId;
+    public TableColumn<ConditionsMasterClass, String> existingConditionsTabTableName;
+    public TableColumn<ConditionsMasterClass, String> existingConditionsTabTableDateAdded;
+    public TableColumn<ConditionsMasterClass, String> existingConditionsTabTableCategory;
+    public TableColumn<ConditionsMasterClass, String> existingConditionsTabTableDoctor;
     public Button existingConditionsTabTableViewDetailsButton;
     //    clinic Appointments
     public Tab tabClinicAppointments;
