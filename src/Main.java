@@ -21,8 +21,13 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static Controllers.settings.APPLICATION_ICON;
+import static Controllers.settings.localDb;
 
 
 public class Main extends Application {
@@ -70,7 +75,7 @@ public class Main extends Application {
                         FXCollections.<String>observableArrayList();
                 ObservableList<String> tasksToDo =
                         FXCollections.observableArrayList(
-                                "Initializing modules", "Opening Files", "Setting up files", "Initiating database sync"
+                                "Initializing modules", "Opening Files", "Setting up files", "Initiating database"
                         );
 
                 updateMessage("Running task . . .");
@@ -80,11 +85,40 @@ public class Main extends Application {
                     String nextTask = tasksToDo.get(i);
                     observableArrayList.add(nextTask);
                     updateMessage("Running task . . . " + nextTask);
+                    if (i == 3) {
+//                     create sqlite tables and db
+                        createLocalDb();
+                    }
                 }
                 Thread.sleep(1400);
                 updateMessage("All TASKS COMPLETED.");
 
                 return observableArrayList;
+            }
+
+            private void createLocalDb() {
+                Connection connection = null;
+                try {
+//            create cartdb
+//            todo remember to change path to db
+                    connection = DriverManager.getConnection(localDb);
+                    Statement statement = connection.createStatement();
+                    statement.setQueryTimeout(30); // set timeout to 30 sec.
+                    String sessions = "CREATE TABLE IF NOT EXISTS SessionPatients (" + "id INTEGER primary key autoincrement ,name TEXT ,email TEXT,sessionId  TEXT)";
+                    statement.executeUpdate(sessions);
+                } catch (SQLException e) {
+                    // if the error message is "out of memory",
+                    // it probably means no securityandtime file is found
+                    System.err.println(e.getMessage());
+                } finally {
+                    try {
+                        if (connection != null)
+                            connection.close();
+                    } catch (SQLException e) {
+                        // connection close failed.
+                        e.printStackTrace();
+                    }
+                }
             }
         };
 
@@ -131,7 +165,7 @@ public class Main extends Application {
             if (newState == Worker.State.SUCCEEDED) {
                 loadProgress.progressProperty().unbind();
                 loadProgress.setProgress(1);
-//                initStage.toFront();
+                initStage.toFront();
                 FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
                 fadeSplash.setFromValue(1.0);
                 fadeSplash.setToValue(0.0);

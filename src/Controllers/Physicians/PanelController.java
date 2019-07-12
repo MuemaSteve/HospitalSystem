@@ -124,6 +124,16 @@ public class PanelController extends Super implements Initializable, Physician {
     }
 
     private void buttonListeners() {
+        tabClinicAppointmentsTableCallInButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                callIn();
+            }
+
+            private void callIn() {
+
+            }
+        });
         logout.setOnMouseClicked(event -> logOut(panel));
         findinrecordsbutton.setOnMouseClicked(event -> {
             if (recordsMasterClassObservableList.size() > 0) {
