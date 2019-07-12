@@ -114,6 +114,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTableName;
     public Button tabClinicSessionsTableResumeInButton;
     public Tab sessionsTab;
+    public Button startSessionButton;
     private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList2 = FXCollections.observableArrayList();
@@ -131,11 +132,28 @@ public class PanelController extends Super implements Initializable, Physician {
         title.setText(appName + " Clinic Panel");
         buttonListeners();
         date = datepicker(conditionAddDateDiagnosed);
+        System.out.println(date);
 //        viewPatientAppointments();
         if (tabClinicAppointments.isSelected()) {
             viewPatientAppointments();
         }
         loadSessions();
+//        createSession();
+    }
+
+    private void createSession(TableView<RecordsMasterClass> tableView) {
+        RecordsMasterClass recordsMasterClass = tableView.getSelectionModel().getSelectedItem();
+        if (currentSession.isEmpty()) {
+            currentSession.put("currentSession", recordsMasterClass.getEmail());
+        } else {
+            currentSession.replace("currentSession", recordsMasterClass.getEmail());
+        }
+//        tabcontainerhistorypane.getSelectionModel().select(1);
+        SingleSelectionModel<Tab> selectionModel = tabcontainerhistorypane.getSelectionModel();
+        selectionModel.select(1); //select by object
+        System.out.println("Success...");
+
+
     }
 
     private void loadSessions() {
@@ -164,6 +182,8 @@ public class PanelController extends Super implements Initializable, Physician {
     }
 
     private void buttonListeners() {
+        tabClinicSessionsTableResumeInButton.setOnAction(event -> resumeSession(tabClinicSessionsTable));
+        startSessionButton.setOnAction(event -> createSession(patienttable));
         tabClinicAppointmentsTableCallInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -237,12 +257,24 @@ public class PanelController extends Super implements Initializable, Physician {
             @Override
             public void handle(ActionEvent event) {
                 //add condition button
-                addPatientDetails();
+                if (currentSession.get("currentSession") == null) {
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "CREATE SESSION FIRST");
+                } else {
+                    addPatientDetails();
+                }
             }
         });
 
     }
 
+    private void resumeSession(TableView<AppointmentMasterClass> tabClinicSessionsTable) {
+        AppointmentMasterClass appointmentMasterClass = tabClinicSessionsTable.getSelectionModel().getSelectedItem();
+        if (currentSession.isEmpty()) {
+            currentSession.put("currentSession", appointmentMasterClass.getPatientEmail());
+        } else {
+            currentSession.replace("currentSession", appointmentMasterClass.getPatientEmail());
+        }
+    }
 
 
     @Override
@@ -256,8 +288,9 @@ public class PanelController extends Super implements Initializable, Physician {
         String category = conditionAddCategoryField.getText();
         String description = conditionAddDescription.getText();
         String tablename = "conditions";
-        String[] colRecs = {"conditionName", "date", "category", "description"};
-        String[] values = {condition, date, category, description};
+        String[] colRecs = {"conditionName", "date", "category", "description", "patientemail"};
+        String[] values = {condition, date, category, description, currentSession.get("currentSession")};
+
         try {
             if (insertIntoTable(tablename, colRecs, values) > 0)
                 showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION WAS SUCCESSFULL");
@@ -330,7 +363,6 @@ public class PanelController extends Super implements Initializable, Physician {
     }
 
     public String datepicker(DatePicker dob) {
-        final String[] date = new String[1];
         String pattern = "dd-MM-yyyy";
         dob.setPromptText(pattern.toUpperCase());
 
@@ -386,11 +418,11 @@ public class PanelController extends Super implements Initializable, Physician {
                 showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "TIME TRAVEL IS NOT YET A THING ");
 //                dob.setValue(null);
             } else {
-                date[0] = String.valueOf(i);
+                this.date = String.valueOf(i);
             }
 
         };
         dob.setOnAction(event);
-        return date[0];
+        return this.date;
     }
 }

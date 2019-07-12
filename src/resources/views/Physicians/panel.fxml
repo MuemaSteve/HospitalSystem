@@ -115,6 +115,7 @@
                                                                         <Button layoutX="966.0" layoutY="189.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="155.0"
+                                                                                fx:id="startSessionButton"
                                                                                 text="START SESSION">
                                                                             <font>
                                                                                 <Font size="18.0"/>
