@@ -131,7 +131,7 @@ public class PanelController extends Super implements Initializable, Physician {
             }
 
             private void callIn() {
-
+                localDbConnection.createStatement();
             }
         });
         logout.setOnMouseClicked(event -> logOut(panel));

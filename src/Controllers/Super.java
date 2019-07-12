@@ -23,10 +23,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-import static Controllers.settings.login;
-import static Controllers.settings.user;
+import static Controllers.settings.*;
 
 public class Super {
+    protected Connection localDbConnection;
+
+    {
+        try {
+            localDbConnection = DriverManager.getConnection(localDb);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected Connection connection;
 
     {
