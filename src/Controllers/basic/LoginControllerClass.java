@@ -36,6 +36,7 @@ public class LoginControllerClass extends Super implements Initializable {
     public ImageView logo2;
     public ImageView logo3;
 
+    ToastController toastController = new ToastController();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,6 +47,7 @@ public class LoginControllerClass extends Super implements Initializable {
         }
         setLogos();
         title.setText(appName + " Login");
+        LabelInvisible(message);
     }
 
     private void setLogos() {
@@ -106,7 +108,6 @@ public class LoginControllerClass extends Super implements Initializable {
             }
 
 
-
         });
     }
 
@@ -146,6 +147,7 @@ public class LoginControllerClass extends Super implements Initializable {
 //                                    go to admin panel
                                     settings.login.put("loggedinasadmin", true);
                                     settings.user.put("user", resultSet.getString("email"));
+                                    settings.id.put("userid", resultSet.getString("id"));
                                     settings.hospital.put("hospital_name", resultSet.getString("hospital"));
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Admins/panel.fxml")))));
                                     assert false;
@@ -164,6 +166,8 @@ public class LoginControllerClass extends Super implements Initializable {
                                     settings.hospital.put("hospital_name", resultSet.getString("hospital"));
                                     settings.login.put("loggedinasdoctor", true);
                                     settings.user.put("user", resultSet.getString("email"));
+                                    settings.id.put("userid", resultSet.getString("id"));
+
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Physicians/panel.fxml")))));
                                     assert false;
                                     //                                    work as sessions and hold user session data
@@ -183,6 +187,8 @@ public class LoginControllerClass extends Super implements Initializable {
                                 try {
                                     settings.login.put("loggedinasreceptionist", true);
                                     settings.user.put("user", resultSet.getString("email"));
+                                    settings.id.put("userid", resultSet.getString("id"));
+
                                     settings.hospital.put("hospital_name", resultSet.getString("hospital"));
 
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Receptionist/panel.fxml")))));
@@ -220,7 +226,10 @@ public class LoginControllerClass extends Super implements Initializable {
 
         } catch (Exception e) {
             e.printStackTrace();
+//            toastController.showToast("CHECK YOUR CONNECTION!!",panel,6000,1000,1000);
             message.setText("CHECK YOUR CONNECTION!!");
+            message.setVisible(true);
+            LabelInvisible(message);
         }
     }
 

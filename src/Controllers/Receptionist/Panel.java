@@ -1,6 +1,6 @@
 package Controllers.Receptionist;
 
-import Controllers.RecordsMasterClass;
+import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
 import Controllers.settings;
 import javafx.collections.FXCollections;
@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,33 +62,25 @@ public class Panel extends Super implements Initializable {
     public Label title;
     public Button bookAppointmentsButton;
     public Button bookVIPAppointments;
+    ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
     private String date, radioval = null;
     private double tabWidth = 200.0;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tabPaneArrayList.add(tabpane);
         time(clock);
         buttonListeners();
         pickdate();
         radioListener();
         patienttable.setPlaceholder(new Label(""));
-        configureView();
+        configureView(tabPaneArrayList);
         WebEngine engine = webview.getEngine();//help web page
         engine.load(siteHelp);
         title.setText(appName + " Reception");
     }
 
-    private void configureView() {
-        tabpane.setTabMinWidth(tabWidth);
-        tabpane.setTabMaxWidth(tabWidth);
-        tabpane.setTabMinHeight(tabWidth - 140.0);
-        tabpane.setTabMaxHeight(tabWidth - 140.0);
-        tabpane.setRotateGraphic(true);
-
-
-//        configureTab(tabexisting, "EXISTING PATIENTS", "resources/images/22-Cardi-B-Money.png");
-//        configureTab(tabnew, "NEW PATIENTS", "resources/images/22-Cardi-B-Money.png");
-    }
 
     private void configureTab(Tab tab, String title, String iconPath) {
         double imageWidth = 40.0;
@@ -120,7 +113,13 @@ public class Panel extends Super implements Initializable {
             bookVIPAppointment();
         });
         bookAppointmentsButton.setOnMouseClicked(event -> {
-            bookAppointments();
+            ObservableList<TablePosition> getCells = patienttable.getSelectionModel().getSelectedCells();
+            if (getCells.size() == 0) {
+//    execute code for null selection
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "SELECT A RECORD FOR THIS OPERATION TO TAKE PLACE");
+            } else {
+                bookAppointments();
+            }
         });
         logout.setOnMouseClicked(event -> logOut(panel));
         addpatient.setOnMouseClicked(event -> validation());
@@ -137,6 +136,77 @@ public class Panel extends Super implements Initializable {
     }
 
     private void bookAppointments() {
+        RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+        try {
+            tableRowIdSelected(recordsMasterClass, patienttable);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void tableRowIdSelected(RecordsMasterClass recordsMasterClass, TableView<RecordsMasterClass> patienttable) throws SQLException {
+        recordsMasterClass = patienttable.getSelectionModel().getSelectedItem();
+        String id = recordsMasterClass.getId();
+        String mail = recordsMasterClass.getEmail();
+        String name = recordsMasterClass.getName();
+        String docSelection = "SELECT * FROM users WHERE userclearancelevel=? and status=?";
+        PreparedStatement selectDoctors = connection.prepareStatement(docSelection);
+        selectDoctors.setString(1, "doctor".toUpperCase());
+        selectDoctors.setString(2, "active");
+        ResultSet resultSet = selectDoctors.executeQuery();
+        String checkAppointment = "SELECT * FROM appointments WHERE PatientId=? ";
+        PreparedStatement prep = connection.prepareStatement(checkAppointment);
+        prep.setString(1, id);
+        if (prep.executeQuery().isBeforeFirst()) {
+            showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "RECORD EXISTS IN DATABASE", "THE USER ALREADY HAS AN APPOINTMENT");
+        } else {
+            if (resultSet.isBeforeFirst()) {
+                ArrayList<Integer> count = new ArrayList<>();
+                ArrayList<Integer> docid = new ArrayList<>();
+
+                while (resultSet.next()) {
+                    count.add(Integer.valueOf(resultSet.getString("numberoofappointments")));
+                    docid.add(Integer.valueOf(resultSet.getString("id")));
+
+                }
+                int min = Integer.MAX_VALUE;
+                for (Integer integer : count) {
+                    if (integer < min) {
+                        min = integer;
+                    }
+                }
+
+
+                String docSelect = "SELECT * FROM users WHERE numberoofappointments=? AND userclearancelevel=?";
+                PreparedStatement p1 = connection.prepareStatement(docSelect);
+                p1.setInt(1, min);
+                p1.setString(2, "DOCTOR");
+                ResultSet r1 = p1.executeQuery();
+                if (r1.next()) {
+                    //continue from here
+                    String idDoc = r1.getString("id");
+
+                    String recs[] = {"PatientId", "doctorId"};
+                    String values[] = {id, idDoc};
+                    insertIntoTable("appointments", recs, values);
+                    String docUpdate = "UPDATE users SET numberoofappointments=? WHERE id=?";
+                    PreparedStatement preparedStatement = connection.prepareStatement(docUpdate);
+                    preparedStatement.setInt(1, min + 1);
+                    preparedStatement.setString(2, idDoc);
+                    int x = preparedStatement.executeUpdate();
+                    if (x > 0) {
+                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "OPERATION FAILED");
+                    }
+                }
+
+
+            } else {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "No doctors", "No doctors are available");
+            }
+        }
+
     }
 
 

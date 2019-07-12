@@ -1,7 +1,9 @@
 package Controllers.Physicians;
 
-import Controllers.RecordsMasterClass;
+import Controllers.MasterClasses.AppointmentMasterClass;
+import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
+import Controllers.settings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,20 +11,26 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
+import static Controllers.settings.user;
 
 public class PanelController extends Super implements Initializable, Physician {
     public TabPane tabContainer;
@@ -75,11 +83,11 @@ public class PanelController extends Super implements Initializable, Physician {
     public Button existingConditionsTabTableViewDetailsButton;
     //    clinic Appointments
     public Tab tabClinicAppointments;
-    public TableView tabClinicAppointmentsTable;
-    public TableColumn tabClinicAppointmentsTableId;
-    public TableColumn tabClinicAppointmentsTableVisitorName;
-    public TableColumn tabClinicAppointmentsTableTypeOfVisit;
-    public TableColumn tabClinicAppointmentsTableTimeOfAppointment;
+    public TableView<AppointmentMasterClass> tabClinicAppointmentsTable;
+    public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableId;
+    //    public TableColumn <AppointmentMasterClass,String> tabClinicAppointmentsTableVisitorName;
+    public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableTypeOfVisit;
+    public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableTimeOfAppointment;
     public Button tabClinicAppointmentsTableCallInButton;
     //    clinic lab tests
     public Tab tabClinicLabTests;
@@ -98,28 +106,146 @@ public class PanelController extends Super implements Initializable, Physician {
     public Button tabClinicPrescriptionSubmit;
     public TextArea tabClinicPrescriptionText;
     public Button endPatientSession;
-    private ObservableList<RecordsMasterClass> data = FXCollections.observableArrayList();
+    public TabPane appointmentssearch;
+    //SESSIONS TAB
+    public TableView<AppointmentMasterClass> tabClinicSessionsTable;
+    public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTableId;
+    public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTablePatientEmail;
+    public TableColumn<AppointmentMasterClass, String> tabClinicSessionsTableName;
+    public Button tabClinicSessionsTableResumeInButton;
+    public Tab sessionsTab;
+    public Button startSessionButton;
+    private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
+    private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
+    private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList2 = FXCollections.observableArrayList();
+
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
-    String date;
+    private String date;
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         tabPaneArrayList.add(tabContainer);
         tabPaneArrayList.add(tabcontainerclinicpane);
         tabPaneArrayList.add(tabcontainerhistorypane);
+        tabPaneArrayList.add(appointmentssearch);
         configureView(tabPaneArrayList);
         time(clock);
         title.setText(appName + " Clinic Panel");
         buttonListeners();
         date = datepicker(conditionAddDateDiagnosed);
+        System.out.println(date);
+//        viewPatientAppointments();
+        if (tabClinicAppointments.isSelected()) {
+            viewPatientAppointments();
+        }
+        loadSessions();
+//        createSession();
+    }
+
+    private void createSession(TableView<RecordsMasterClass> tableView) {
+        RecordsMasterClass recordsMasterClass = tableView.getSelectionModel().getSelectedItem();
+        if (currentSession.isEmpty()) {
+            currentSession.put("currentSession", recordsMasterClass.getEmail());
+        } else {
+            currentSession.replace("currentSession", recordsMasterClass.getEmail());
+        }
+//        tabcontainerhistorypane.getSelectionModel().select(1);
+        SingleSelectionModel<Tab> selectionModel = tabcontainerhistorypane.getSelectionModel();
+        selectionModel.select(1); //select by object
+        System.out.println("Success...");
+
+
+    }
+
+    private void loadSessions() {
+        try {
+            Statement preparedStatement = localDbConnection.createStatement();
+            ResultSet resultSet = preparedStatement.executeQuery("SELECT * FROM SessionPatients");
+            if (resultSet.isBeforeFirst()) {
+                while (resultSet.next()) {
+                    AppointmentMasterClass appointmentMasterClass = new AppointmentMasterClass();
+                    appointmentMasterClass.setSize(appointmentMasterClass.getSize() + 1);
+                    appointmentMasterClass.setId(resultSet.getString("sessionId"));
+                    appointmentMasterClass.setName(resultSet.getString("name"));
+                    System.out.println(resultSet.getString("name"));
+                    appointmentMasterClass.setPatientEmail(resultSet.getString("email"));
+                    appointmentMasterClassObservableList2.add(appointmentMasterClass);
+                }
+                tabClinicSessionsTable.setItems(appointmentMasterClassObservableList2);
+                tabClinicSessionsTableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                tabClinicSessionsTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
+                tabClinicSessionsTablePatientEmail.setCellValueFactory(new PropertyValueFactory<>("patientEmail"));
+                tabClinicSessionsTable.refresh();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void buttonListeners() {
+        tabClinicSessionsTableResumeInButton.setOnAction(event -> resumeSession(tabClinicSessionsTable));
+        startSessionButton.setOnAction(event -> createSession(patienttable));
+        tabClinicAppointmentsTableCallInButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                AppointmentMasterClass appointmentMasterClass = tabClinicAppointmentsTable.getSelectionModel().getSelectedItem();
+
+                callIn(appointmentMasterClass);
+            }
+
+            private void callIn(AppointmentMasterClass appointmentMasterClass) {
+                String patientId = appointmentMasterClass.getPatientId();
+                ResultSet resultSet = null;
+                String query = "SELECT * FROM patients WHERE id =?";
+                try {
+                    PreparedStatement patientSelection = connection.prepareStatement(query);
+                    patientSelection.setString(1, patientId);
+                    resultSet = patientSelection.executeQuery();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    PreparedStatement statement = localDbConnection.prepareStatement("INSERT INTO SessionPatients(name, email, sessionId) VALUES (?,?,?)");
+                    if (resultSet.isBeforeFirst()) {
+                        while (resultSet.next()) {
+                            statement.setString(1, resultSet.getString("name"));
+                            statement.setString(2, resultSet.getString("email"));
+                        }
+                    }
+                    statement.setString(3, dateTimeMethod());
+
+
+                    if (statement.executeUpdate() > 0) {
+//                        remove from table
+                        String query1 = "DELETE FROM appointments WHERE PatientId=?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query1);
+                        preparedStatement.setString(1, patientId);
+                        int rows = preparedStatement.executeUpdate();
+                        if (rows == 1) {
+                            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFUL");
+                            tabClinicAppointmentsTable.refresh();
+                        } else {
+                            showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "THE OPERATION WAS UNSUCCESSFULL");
+
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "THE OPERATION WAS UNSUCCESSFULL");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            private String dateTimeMethod() {
+                Date date = new Date(System.currentTimeMillis());
+                return date.toString() + "::" + user.get("user");
+            }
+        });
         logout.setOnMouseClicked(event -> logOut(panel));
         findinrecordsbutton.setOnMouseClicked(event -> {
-            if (data.size() > 0) {
-                data.clear();
+            if (recordsMasterClassObservableList.size() > 0) {
+                recordsMasterClassObservableList.clear();
             }
-            findInRecordsMethod(panel, data, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
+            findInRecordsMethod(panel, recordsMasterClassObservableList, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
         });
         endPatientSession.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -131,24 +257,25 @@ public class PanelController extends Super implements Initializable, Physician {
             @Override
             public void handle(ActionEvent event) {
                 //add condition button
-                addPatientDetails();
+                if (currentSession.get("currentSession") == null) {
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "CREATE SESSION FIRST");
+                } else {
+                    addPatientDetails();
+                }
             }
         });
 
     }
 
-    private void configureView(ArrayList<TabPane> tabPanes) {
-        for (TabPane tabpane : tabPanes
-        ) {
-            double tabWidth = 200.0;
-            tabpane.setTabMinWidth(tabWidth);
-            tabpane.setTabMaxWidth(tabWidth);
-            tabpane.setTabMinHeight(tabWidth - 150.0);
-            tabpane.setTabMaxHeight(tabWidth - 150.0);
+    private void resumeSession(TableView<AppointmentMasterClass> tabClinicSessionsTable) {
+        AppointmentMasterClass appointmentMasterClass = tabClinicSessionsTable.getSelectionModel().getSelectedItem();
+        if (currentSession.isEmpty()) {
+            currentSession.put("currentSession", appointmentMasterClass.getPatientEmail());
+        } else {
+            currentSession.replace("currentSession", appointmentMasterClass.getPatientEmail());
         }
-
-
     }
+
 
     @Override
     protected void findInRecordsMethod(AnchorPane panel, ObservableList<RecordsMasterClass> data, TextField findinrecords, TableView<RecordsMasterClass> patienttable, TableColumn<RecordsMasterClass, String> colpatientname, TableColumn<RecordsMasterClass, String> colpatientemail, TableColumn<RecordsMasterClass, String> colpatientnumber) {
@@ -161,8 +288,9 @@ public class PanelController extends Super implements Initializable, Physician {
         String category = conditionAddCategoryField.getText();
         String description = conditionAddDescription.getText();
         String tablename = "conditions";
-        String[] colRecs = {"conditionName", "date", "category", "description"};
-        String[] values = {condition, date, category, description};
+        String[] colRecs = {"conditionName", "date", "category", "description", "patientemail"};
+        String[] values = {condition, date, category, description, currentSession.get("currentSession")};
+
         try {
             if (insertIntoTable(tablename, colRecs, values) > 0)
                 showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION WAS SUCCESSFULL");
@@ -191,6 +319,37 @@ public class PanelController extends Super implements Initializable, Physician {
     @Override
     public void viewPatientAppointments() {
 
+
+        String query = "SELECT * FROM appointments WHERE doctorId=?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, settings.id.get("userid"));
+            ResultSet foundrecords = preparedStatement.executeQuery();
+            if (foundrecords.isBeforeFirst()) {
+
+                while (foundrecords.next()) {
+                    AppointmentMasterClass appointmentMasterClass = new AppointmentMasterClass();
+                    appointmentMasterClass.setSize(appointmentMasterClass.getSize() + 1);
+                    appointmentMasterClass.setId(foundrecords.getString("id"));
+                    appointmentMasterClass.setDoctorId(foundrecords.getString("doctorId"));
+                    appointmentMasterClass.setPatientId(foundrecords.getString("PatientId"));
+                    appointmentMasterClass.setTime(foundrecords.getString("time"));
+                    appointmentMasterClass.setType(foundrecords.getString("type"));
+
+                    appointmentMasterClassObservableList.add(appointmentMasterClass);
+                }
+                tabClinicAppointmentsTable.setItems(appointmentMasterClassObservableList);
+                tabClinicAppointmentsTableTimeOfAppointment.setCellValueFactory(new PropertyValueFactory<>("time"));
+                tabClinicAppointmentsTableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                tabClinicAppointmentsTableTypeOfVisit.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+                tabClinicAppointmentsTable.refresh();
+            }
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -204,9 +363,8 @@ public class PanelController extends Super implements Initializable, Physician {
     }
 
     public String datepicker(DatePicker dob) {
-        final String[] date = new String[1];
         String pattern = "dd-MM-yyyy";
-        dob.setPromptText(pattern.toLowerCase());
+        dob.setPromptText(pattern.toUpperCase());
 
         dob.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
@@ -260,11 +418,11 @@ public class PanelController extends Super implements Initializable, Physician {
                 showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "TIME TRAVEL IS NOT YET A THING ");
 //                dob.setValue(null);
             } else {
-                date[0] = String.valueOf(i);
+                this.date = String.valueOf(i);
             }
 
         };
         dob.setOnAction(event);
-        return date[0];
+        return this.date;
     }
 }

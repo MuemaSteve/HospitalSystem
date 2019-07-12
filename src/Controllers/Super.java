@@ -1,7 +1,9 @@
 package Controllers;
 
+import Controllers.MasterClasses.RecordsMasterClass;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +19,23 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.sql.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
-import static Controllers.settings.login;
-import static Controllers.settings.user;
+import static Controllers.settings.*;
 
 public class Super {
+    protected Connection localDbConnection;
+
+    {
+        try {
+            localDbConnection = DriverManager.getConnection(localDb);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected Connection connection;
 
     {
@@ -31,7 +43,8 @@ public class Super {
             connection = DriverManager
                     .getConnection(settings.des[0], settings.des[1], settings.des[2]);
         } catch (SQLException e) {
-            System.out.println("Error connecting to database:" + e.getMessage());
+//            System.out.println("Error connecting to database:" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -63,6 +76,8 @@ public class Super {
 
                 while (foundrecords.next()) {
                     RecordsMasterClass recordsMasterClass = new RecordsMasterClass();
+                    recordsMasterClass.setSize(recordsMasterClass.getSize() + 1);
+                    recordsMasterClass.setId(foundrecords.getString("id"));
                     recordsMasterClass.setName(foundrecords.getString("name"));
                     recordsMasterClass.setEmail(foundrecords.getString("email"));
                     recordsMasterClass.setPhonenumber(foundrecords.getString("phonenumber"));
@@ -83,6 +98,7 @@ public class Super {
         }
     }
 
+
     /**
      * @param table
      * @param records
@@ -91,12 +107,13 @@ public class Super {
      * @throws SQLException
      */
     protected int insertIntoTable(String table, String[] records, String[] values) throws SQLException {
-        StringBuilder cols = null, prepstmts = null;
-        int maxIndex = records.length - 1, counter = 0;
+        StringBuilder cols = new StringBuilder(), prepstmts = new StringBuilder();
+        int maxIndex = records.length - 1, counter = 0, count = 1;
         for (String record : records
         ) {
-            if (counter <= maxIndex) {
-                Objects.requireNonNull(prepstmts).append("?").append(",");
+//            System.out.println(record);
+            if (counter < maxIndex) {
+                prepstmts.append("?").append(",");
                 cols.append(record).append(",");
             } else {
                 prepstmts.append("?");
@@ -106,22 +123,30 @@ public class Super {
             counter++;
 
         }
+        System.out.println(prepstmts + "\n" + cols);
         String query = "";
 //        insert into ____ (records)Values(records.length())
 //foreach(e : records):
 //    counter++.....
-        query = "INSERT INTO " + table + "(" + cols + ")" + "VALUES(" + prepstmts + ")";
+        query = "INSERT INTO " + table + "(" + cols.toString() + ")" + "VALUES(" + prepstmts.toString() + ")";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         for (String element : values
         ) {
-            counter++;
-            preparedStatement.setString(counter, element);
 
+            preparedStatement.setString(count, element);
+            count++;
         }
         return preparedStatement.executeUpdate();
 
     }
+
+    protected <E extends OriginMasterClass> String tableRowIdSelected(E object, TableView<E> tab) {
+        int row = 0;
+        object = tab.getSelectionModel().getSelectedItem();
+        return object.getId();
+    }
+
     protected ResultSet searchDetails(String preparedQuery, String[] fields) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(preparedQuery);
         int counter = 1;
@@ -192,5 +217,28 @@ public class Super {
         );
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+
+    public void LabelInvisible(Label label) {
+        PauseTransition visiblePause = new PauseTransition(
+                Duration.seconds(8)
+        );
+        visiblePause.setOnFinished(
+                event -> label.setVisible(false)
+        );
+        visiblePause.play();
+    }
+
+    protected void configureView(ArrayList<TabPane> tabPanes) {
+        for (TabPane tabpane : tabPanes
+        ) {
+            double tabWidth = 200.0;
+            tabpane.setTabMinWidth(tabWidth);
+            tabpane.setTabMaxWidth(tabWidth);
+            tabpane.setTabMinHeight(tabWidth - 150.0);
+            tabpane.setTabMaxHeight(tabWidth - 150.0);
+        }
+
+
     }
 }

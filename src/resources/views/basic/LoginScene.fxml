@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="Controllers.basic.LoginControllerClass">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
@@ -32,7 +32,7 @@
                         </Label>
                     </children>
                 </AnchorPane>
-                <Label fx:id="message" alignment="CENTER" layoutX="395.0" layoutY="69.0" prefHeight="40.0"
+                <Label fx:id="message" alignment="CENTER" layoutX="395.0" layoutY="14.0" prefHeight="40.0"
                        prefWidth="411.0">
                     <font>
                         <Font size="25.0"/>
@@ -42,7 +42,7 @@
                            pickOnBounds="true" preserveRatio="true"/>
                 <ImageView fx:id="logo2" fitHeight="150.0" fitWidth="200.0" layoutX="929.0" layoutY="275.0"
                            pickOnBounds="true" preserveRatio="true"/>
-                <ImageView fx:id="logo3" fitHeight="150.0" fitWidth="200.0" layoutX="501.0" layoutY="61.0"
+                <ImageView fx:id="logo3" fitHeight="142.0" fitWidth="200.0" layoutX="501.0" layoutY="69.0"
                            pickOnBounds="true" preserveRatio="true"/>
             </children>
         </AnchorPane>

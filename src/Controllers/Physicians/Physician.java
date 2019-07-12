@@ -1,17 +1,20 @@
 package Controllers.Physicians;
 
+import java.util.IdentityHashMap;
+
 public interface Physician {
-    public void addPatientDetails();
+    IdentityHashMap<String, String> currentSession = new IdentityHashMap<>();
+    void addPatientDetails();
 
-    public void viewPatientDetails();
+    void viewPatientDetails();
 
-    public void viewPatientHistory();
+    void viewPatientHistory();
 
-    public void viewPatientLabTests();
+    void viewPatientLabTests();
 
-    public void viewPatientAppointments();
+    void viewPatientAppointments();
 
-    public void Patientdiagnosis();
+    void Patientdiagnosis();
 
-    public void Patientprescription();
+    void Patientprescription();
 }

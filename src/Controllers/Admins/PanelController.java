@@ -23,6 +23,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +55,7 @@ public class PanelController extends Super implements Initializable {
     public TabPane tabpane;
     public Label title;
     double tabWidth = 200.0;
+    ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private File file;
     private FileInputStream fileInputStream;
     private int length;
@@ -84,25 +86,15 @@ public class PanelController extends Super implements Initializable {
 //            }
 //            changepassword.remove("change");
 //        }
+        tabPaneArrayList.add(tabpane);
         time(clock);
         buttonListeners();
         enterPressed();
         WebEngine engine = webview.getEngine();//help web page
         engine.load(siteHelp);
-        configureView();
+        configureView(tabPaneArrayList);
     }
 
-    private void configureView() {
-        tabpane.setTabMinWidth(tabWidth);
-        tabpane.setTabMaxWidth(tabWidth);
-        tabpane.setTabMinHeight(tabWidth - 140.0);
-        tabpane.setTabMaxHeight(tabWidth - 140.0);
-        tabpane.setRotateGraphic(true);
-
-
-//        configureTab(tabexisting, "EXISTING PATIENTS", "resources/images/22-Cardi-B-Money.png");
-//        configureTab(tabnew, "NEW PATIENTS", "resources/images/22-Cardi-B-Money.png");
-    }
 
     private void configureTab(Tab tab, String title, String iconPath) {
         double imageWidth = 40.0;
@@ -196,7 +188,7 @@ public class PanelController extends Super implements Initializable {
 
     private void validation() throws SQLException {
 //check if all fields are filled
-        if (username.getText().isEmpty() || useremail.getText().isEmpty() || userdescription.getText().isEmpty() || useridentifier.getText().isEmpty()) {
+        if (username.getText().isEmpty() || useremail.getText().isEmpty() || userdescription.getText().isEmpty() || useridentifier.getText().isEmpty() || !file.exists() || file.length() == 0) {
             showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(),
                     "FILL ALL FIELDS", "PLEASE FILL ALL FIELDS");
 
@@ -233,7 +225,15 @@ public class PanelController extends Super implements Initializable {
                     }
                     insertStaff.setString(8, identification);
                     insertStaff.setString(9, description);
-                    insertStaff.executeUpdate();
+                    int x = insertStaff.executeUpdate();
+                    if (x > 0) {
+                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                        username.clear();
+                        userdescription.clear();
+                        useremail.clear();
+                        location.clear();
+                        useridentifier.clear();
+                    }
                 } else {
                     showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(),
                             "INVALID EMAIL", "PLEASE ENTER A VALID EMAIL");
