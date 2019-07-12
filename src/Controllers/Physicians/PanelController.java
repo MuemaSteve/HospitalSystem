@@ -25,9 +25,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
+import static Controllers.settings.user;
 
 public class PanelController extends Super implements Initializable, Physician {
     public TabPane tabContainer;
@@ -127,11 +129,57 @@ public class PanelController extends Super implements Initializable, Physician {
         tabClinicAppointmentsTableCallInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                callIn();
+                AppointmentMasterClass appointmentMasterClass = tabClinicAppointmentsTable.getSelectionModel().getSelectedItem();
+
+                callIn(appointmentMasterClass);
             }
 
-            private void callIn() {
-                localDbConnection.createStatement();
+            private void callIn(AppointmentMasterClass appointmentMasterClass) {
+                String patientId = appointmentMasterClass.getPatientId();
+                ResultSet resultSet = null;
+                String query = "SELECT * FROM patients WHERE id =?";
+                try {
+                    PreparedStatement patientSelection = connection.prepareStatement(query);
+                    patientSelection.setString(1, patientId);
+                    resultSet = patientSelection.executeQuery();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    PreparedStatement statement = localDbConnection.prepareStatement("INSERT INTO SessionPatients(name, email, sessionId) VALUES (?,?,?)");
+                    if (resultSet.isBeforeFirst()) {
+                        while (resultSet.next()) {
+                            statement.setString(1, resultSet.getString("name"));
+                            statement.setString(2, resultSet.getString("email"));
+                        }
+                    }
+                    statement.setString(3, dateTimeMethod());
+
+
+                    if (statement.executeUpdate() > 0) {
+//                        remove from table
+                        String query1 = "DELETE FROM appointments WHERE PatientId=?";
+                        PreparedStatement preparedStatement = connection.prepareStatement(query1);
+                        preparedStatement.setString(1, patientId);
+                        int rows = preparedStatement.executeUpdate();
+                        if (rows == 1) {
+                            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFUL");
+                            tabClinicAppointmentsTable.refresh();
+                        } else {
+                            showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "THE OPERATION WAS UNSUCCESSFULL");
+
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "THE OPERATION WAS UNSUCCESSFULL");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            private String dateTimeMethod() {
+                Date date = new Date(System.currentTimeMillis());
+                return date.toString() + "::" + user.get("user");
             }
         });
         logout.setOnMouseClicked(event -> logOut(panel));
@@ -216,10 +264,7 @@ public class PanelController extends Super implements Initializable, Physician {
                     appointmentMasterClass.setPatientId(foundrecords.getString("PatientId"));
                     appointmentMasterClass.setTime(foundrecords.getString("time"));
                     appointmentMasterClass.setType(foundrecords.getString("type"));
-//                        PreparedStatement selectpatientName=connection.prepareStatement("SELECT * FROM patients WHERE  id=?");
-//                        selectpatientName.setString(1,appointmentMasterClass.getPatientId());
-//                        ResultSet resultSet=selectpatientName.executeQuery();
-//                        appointmentMasterClass.setName(resultSet.getString("name"));
+
                     appointmentMasterClassObservableList.add(appointmentMasterClass);
                 }
                 tabClinicAppointmentsTable.setItems(appointmentMasterClassObservableList);
