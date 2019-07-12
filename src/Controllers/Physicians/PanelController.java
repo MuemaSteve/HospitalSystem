@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
-import static Controllers.settings.id;
 
 public class PanelController extends Super implements Initializable, Physician {
     public TabPane tabContainer;
@@ -83,7 +82,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public Tab tabClinicAppointments;
     public TableView<AppointmentMasterClass> tabClinicAppointmentsTable;
     public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableId;
-    public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableVisitorName;
+    //    public TableColumn <AppointmentMasterClass,String> tabClinicAppointmentsTableVisitorName;
     public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableTypeOfVisit;
     public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableTimeOfAppointment;
     public Button tabClinicAppointmentsTableCallInButton;
@@ -110,7 +109,6 @@ public class PanelController extends Super implements Initializable, Physician {
 
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private String date;
-
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         tabPaneArrayList.add(tabContainer);
@@ -148,6 +146,7 @@ public class PanelController extends Super implements Initializable, Physician {
         });
 
     }
+
 
 
     @Override
@@ -190,13 +189,12 @@ public class PanelController extends Super implements Initializable, Physician {
 
     @Override
     public void viewPatientAppointments() {
-//todo continue from here by adding appointments to table make appointment selectible and add session to session sqlite bd on local machine
-        System.out.println(id.get("userid"));
-        String id = settings.id.get("userid");
-        String query = "SELECT * FROM appointments WHERE doctorId = ?";
+
+
+        String query = "SELECT * FROM appointments WHERE doctorId=?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, id);
+            preparedStatement.setString(1, settings.id.get("userid"));
             ResultSet foundrecords = preparedStatement.executeQuery();
             if (foundrecords.isBeforeFirst()) {
 
@@ -206,17 +204,20 @@ public class PanelController extends Super implements Initializable, Physician {
                     appointmentMasterClass.setId(foundrecords.getString("id"));
                     appointmentMasterClass.setDoctorId(foundrecords.getString("doctorId"));
                     appointmentMasterClass.setPatientId(foundrecords.getString("PatientId"));
-                    PreparedStatement selectpatientName = connection.prepareStatement("SELECT * FROM patients WHERE  id=?");
-                    selectpatientName.setString(1, appointmentMasterClass.getPatientId());
-                    ResultSet resultSet = selectpatientName.executeQuery();
-                    appointmentMasterClass.setName(resultSet.getString("name"));
+                    appointmentMasterClass.setTime(foundrecords.getString("time"));
+                    appointmentMasterClass.setType(foundrecords.getString("type"));
+//                        PreparedStatement selectpatientName=connection.prepareStatement("SELECT * FROM patients WHERE  id=?");
+//                        selectpatientName.setString(1,appointmentMasterClass.getPatientId());
+//                        ResultSet resultSet=selectpatientName.executeQuery();
+//                        appointmentMasterClass.setName(resultSet.getString("name"));
                     appointmentMasterClassObservableList.add(appointmentMasterClass);
                 }
                 tabClinicAppointmentsTable.setItems(appointmentMasterClassObservableList);
+                tabClinicAppointmentsTableTimeOfAppointment.setCellValueFactory(new PropertyValueFactory<>("time"));
                 tabClinicAppointmentsTableId.setCellValueFactory(new PropertyValueFactory<>("id"));
-                tabClinicAppointmentsTableVisitorName.setCellValueFactory(new PropertyValueFactory<>("name"));
+                tabClinicAppointmentsTableTypeOfVisit.setCellValueFactory(new PropertyValueFactory<>("type"));
 
-                patienttable.refresh();
+                tabClinicAppointmentsTable.refresh();
             } else {
                 showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT DOES NOT EXIST");
             }
@@ -240,7 +241,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public String datepicker(DatePicker dob) {
         final String[] date = new String[1];
         String pattern = "dd-MM-yyyy";
-        dob.setPromptText(pattern.toLowerCase());
+        dob.setPromptText(pattern.toUpperCase());
 
         dob.setConverter(new StringConverter<LocalDate>() {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);

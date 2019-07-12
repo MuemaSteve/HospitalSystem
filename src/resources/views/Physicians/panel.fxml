@@ -38,10 +38,10 @@
                                                                                 <TableColumn
                                                                                         fx:id="tabClinicAppointmentsTableId"
                                                                                         prefWidth="75.0" text="ID"/>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicAppointmentsTableVisitorName"
-                                                                                        prefWidth="219.0"
-                                                                                        text="VISITOR NAME"/>
+                                                                                <!--                                                                                <TableColumn-->
+                                                                                <!--                                                                                        fx:id="tabClinicAppointmentsTableVisitorName"-->
+                                                                                <!--                                                                                        prefWidth="219.0"-->
+                                                                                <!--                                                                                        text="VISITOR NAME"/>-->
                                                                                 <TableColumn
                                                                                         fx:id="tabClinicAppointmentsTableTypeOfVisit"
                                                                                         minWidth="2.0" prefWidth="145.0"
