@@ -1,6 +1,7 @@
 package Controllers.Physicians;
 
 import Controllers.MasterClasses.AppointmentMasterClass;
+import Controllers.MasterClasses.ConditionsMasterClass;
 import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
 import Controllers.settings;
@@ -74,9 +75,9 @@ public class PanelController extends Super implements Initializable, Physician {
     public Button tablehistoryGetReportButton;
     //existing conditions code
     public Tab existingConditionsTab;
-    public TableView existingConditionsTabTable;
-    public TableColumn existingConditionsTabTableId;
-    public TableColumn existingConditionsTabTableName;
+    public TableView<ConditionsMasterClass> existingConditionsTabTable;
+    public TableColumn<Object, Object> existingConditionsTabTableId;
+    public TableColumn<Object, Object> existingConditionsTabTableName;
     public TableColumn existingConditionsTabTableDateAdded;
     public TableColumn existingConditionsTabTableCategory;
     public TableColumn existingConditionsTabTableDoctor;
@@ -116,6 +117,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public Tab sessionsTab;
     public Button startSessionButton;
     private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
+    private ObservableList<ConditionsMasterClass> conditionsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList2 = FXCollections.observableArrayList();
 
@@ -257,6 +259,7 @@ public class PanelController extends Super implements Initializable, Physician {
             @Override
             public void handle(ActionEvent event) {
                 //add condition button
+                viewPatientDetails();
                 if (currentSession.get("currentSession") == null) {
                     showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "CREATE SESSION FIRST");
                 } else {
@@ -300,12 +303,6 @@ public class PanelController extends Super implements Initializable, Physician {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void viewPatientDetails() {
-
-    }
-
     @Override
     public void viewPatientHistory() {
 
@@ -313,6 +310,47 @@ public class PanelController extends Super implements Initializable, Physician {
 
     @Override
     public void viewPatientLabTests() {
+
+    }
+
+    @Override
+    public void viewPatientDetails() {
+        String query="SELECT * FROM conditions WHERE patientemail=?";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            System.out.println("Email= "+currentSession.get("currentSession"));
+            if(currentSession.get("currentSession")!=null){
+                preparedStatement.setString(1,currentSession.get("currentSession"));
+                ResultSet resultSet=preparedStatement.executeQuery();
+                System.out.println("Table current");
+                if (resultSet.isBeforeFirst()){
+                    System.out.println("Table current resultset");
+                    while (resultSet.next()){
+                        ConditionsMasterClass conditionsMasterClass=new ConditionsMasterClass();
+                        conditionsMasterClass.setSize(conditionsMasterClass.getSize()+1);
+                        conditionsMasterClass.setPatientId(resultSet.getString("id"));
+                        conditionsMasterClass.setPatientemail(resultSet.getString("patientemail"));
+                        conditionsMasterClass.setConditionName(resultSet.getString("conditionName"));
+                        conditionsMasterClass.setDate(resultSet.getString("date"));
+                        conditionsMasterClass.setCategory(resultSet.getString("category"));
+                        conditionsMasterClass.setDoctor(settings.name.get("username"));
+                        conditionsMasterClassObservableList.add(conditionsMasterClass);
+                    }
+                    existingConditionsTabTable.setItems(conditionsMasterClassObservableList);
+                    existingConditionsTabTableId.setCellValueFactory(new PropertyValueFactory<>("patientId"));
+                    existingConditionsTabTableName.setCellValueFactory(new PropertyValueFactory<>("conditionName"));
+                    existingConditionsTabTableDateAdded.setCellValueFactory(new PropertyValueFactory<>("date"));
+                    existingConditionsTabTableCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+                    existingConditionsTabTableDoctor.setCellValueFactory(new PropertyValueFactory<>("doctor"));
+                    existingConditionsTabTable.refresh();
+                }else {
+                    System.out.println("Error");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Table haiwork");
+            e.printStackTrace();
+        }
 
     }
 

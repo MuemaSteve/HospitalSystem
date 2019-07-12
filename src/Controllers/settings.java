@@ -8,6 +8,7 @@ public interface settings {
 
     IdentityHashMap<String, Boolean> login = new IdentityHashMap<>();
     IdentityHashMap<String, String> user = new IdentityHashMap<>();
+    IdentityHashMap<String, String> name = new IdentityHashMap<>();
     IdentityHashMap<String, String> id = new IdentityHashMap<>();
     String localDb = "jdbc:sqlite:sessionLocalDb.conf";
     IdentityHashMap<String, String> hospital = new IdentityHashMap<>();
