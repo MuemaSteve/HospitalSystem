@@ -142,25 +142,25 @@
                                 <AnchorPane layoutX="16.0" layoutY="22.0" prefHeight="548.0" prefWidth="1169.0"
                                             style="-fx-background-color: white;" styleClass="innerform">
                                     <children>
-                                        <TableView layoutX="34.0" layoutY="42.0" prefHeight="479.0" prefWidth="968.0">
+                                        <TableView fx:id="viewStaff" layoutX="34.0" layoutY="42.0" prefHeight="479.0" prefWidth="968.0">
                                             <columns>
-                                                <TableColumn prefWidth="75.0" text="ID"/>
-                                                <TableColumn prefWidth="160.0" text="NAME"/>
-                                                <TableColumn prefWidth="212.0" text="EMAIL"/>
-                                                <TableColumn prefWidth="183.0" text="IDENTIFIER"/>
-                                                <TableColumn prefWidth="183.0" text="BRANCH"/>
-                                                <TableColumn prefWidth="152.0" text="STATUS"/>
+                                                <TableColumn fx:id="viewStaffId" prefWidth="75.0" text="ID"/>
+                                                <TableColumn fx:id="viewStaffName" prefWidth="160.0" text="NAME"/>
+                                                <TableColumn fx:id="viewStaffEmail" prefWidth="212.0" text="EMAIL"/>
+                                                <TableColumn fx:id="viewStaffIdentity" prefWidth="183.0" text="IDENTIFIER"/>
+                                                <TableColumn fx:id="viewStaffBranch" prefWidth="183.0" text="BRANCH"/>
+                                                <TableColumn fx:id="viewStaffStatus" prefWidth="152.0" text="STATUS"/>
                                             </columns>
                                         </TableView>
-                                        <Button layoutX="1025.0" layoutY="94.0" mnemonicParsing="false"
+                                        <Button fx:id="fire" layoutX="1025.0" layoutY="94.0" mnemonicParsing="false"
                                                 prefHeight="50.0" prefWidth="122.0" text="FIRE"/>
-                                        <Button layoutX="1025.0" layoutY="175.0" mnemonicParsing="false"
+                                        <Button fx:id="suspend" layoutX="1025.0" layoutY="175.0" mnemonicParsing="false"
                                                 prefHeight="50.0" prefWidth="122.0" text="SUSPEND"/>
-                                        <Button layoutX="1025.0" layoutY="257.0" mnemonicParsing="false"
+                                        <Button fx:id="leave" layoutX="1025.0" layoutY="257.0" mnemonicParsing="false"
                                                 prefHeight="50.0" prefWidth="122.0" text="LEAVE"/>
-                                        <Button layoutX="1025.0" layoutY="337.0" mnemonicParsing="false"
+                                        <Button fx:id="shortBreak" layoutX="1025.0" layoutY="337.0" mnemonicParsing="false"
                                                 prefHeight="50.0" prefWidth="122.0" text="GIVE BREAK"/>
-                                        <Button layoutX="1025.0" layoutY="416.0" mnemonicParsing="false"
+                                        <Button fx:id="maternity" layoutX="1025.0" layoutY="416.0" mnemonicParsing="false"
                                                 prefHeight="50.0" prefWidth="122.0" text="MATERNITY LEAVE"/>
                                     </children>
                                 </AnchorPane>

@@ -1,9 +1,15 @@
 package Controllers.Admins;
 
+import Controllers.MasterClasses.PatientsMasterClass;
+import Controllers.MasterClasses.RecordsMasterClass;
+import Controllers.MasterClasses.StaffMasterClass;
 import Controllers.Super;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -54,8 +60,21 @@ public class PanelController extends Super implements Initializable {
     public Label clock;
     public TabPane tabpane;
     public Label title;
+    public TableView<StaffMasterClass> viewStaff;
+    public TableColumn<StaffMasterClass,String> viewStaffId;
+    public TableColumn<StaffMasterClass,String> viewStaffName;
+    public TableColumn<StaffMasterClass,String> viewStaffEmail;
+    public TableColumn<StaffMasterClass,String> viewStaffIdentity;
+    public TableColumn<StaffMasterClass,String> viewStaffBranch;
+    public TableColumn<StaffMasterClass,String> viewStaffStatus;
+    public Button fire;
+    public Button suspend;
+    public Button maternity;
+    public Button leave;
+    public Button shortBreak;
     double tabWidth = 200.0;
     ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
+    private ObservableList<StaffMasterClass> staffMasterClassObservableList = FXCollections.observableArrayList();
     private File file;
     private FileInputStream fileInputStream;
     private int length;
@@ -64,6 +83,7 @@ public class PanelController extends Super implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         init();
+        //viewStaffInfo();
         title.setText(appName + " Admin Panel ");
     }
 
@@ -176,6 +196,18 @@ public class PanelController extends Super implements Initializable {
             logOut(panel);
 
         });
+        fire.setOnMouseClicked(event -> fireUser(viewStaff));
+        staffinfo.setOnSelectionChanged(event -> {
+            if (staffinfo.isSelected()) {
+                System.out.println("Tab is Selected");
+                viewStaffInfo();
+            }
+        });
+        suspend.setOnMouseClicked(event -> suspendUser(viewStaff));
+        maternity.setOnMouseClicked(event -> giveMaternityToUser(viewStaff));
+        leave.setOnMouseClicked(event -> giveLeaveToUser(viewStaff));
+        shortBreak.setOnMouseClicked(event -> giveBreakToUser(viewStaff));
+
     }
 
     private void addNewUser() {
@@ -242,6 +274,133 @@ public class PanelController extends Super implements Initializable {
 
 
         }
+    }
+    public void viewStaffInfo(){
+        viewStaff.getItems().clear();
+        String query="SELECT * FROM users";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.isBeforeFirst()){
+                while (resultSet.next()){
+                    StaffMasterClass staffMasterClass=new StaffMasterClass();
+                    staffMasterClass.setId(resultSet.getString("id"));
+                    staffMasterClass.setName(resultSet.getString("name"));
+                    staffMasterClass.setEmail(resultSet.getString("email"));
+                    staffMasterClass.setIdentity(resultSet.getString("userclearancelevel"));
+                    staffMasterClass.setBranch(resultSet.getString("hospital"));
+                    staffMasterClass.setStatus(resultSet.getString("status"));
+                    staffMasterClassObservableList.add(staffMasterClass);
+                }
+                viewStaff.setItems(staffMasterClassObservableList);
+                viewStaffBranch.setCellValueFactory(new PropertyValueFactory<>("branch"));
+                viewStaffEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+                viewStaffId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                viewStaffIdentity.setCellValueFactory(new PropertyValueFactory<>("identity"));
+                viewStaffName.setCellValueFactory(new PropertyValueFactory<>("name"));
+                viewStaffStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void fireUser(TableView<StaffMasterClass> tableView){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION,"DO YOU WANT TO DELETE THE USER", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.setTitle("WARNING");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            StaffMasterClass staffMasterClass=tableView.getSelectionModel().getSelectedItem();
+            String email=staffMasterClass.getEmail();
+            String query="DELETE FROM users WHERE email=?";
+            try {
+                PreparedStatement preparedStatement=connection.prepareStatement(query);
+                preparedStatement.setString(1,email);
+                int resultSet=preparedStatement.executeUpdate();
+                if (resultSet>0){
+                    //viewStaff.getItems().clear();
+                    viewStaffInfo();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void suspendUser(TableView<StaffMasterClass> tableView){
+        StaffMasterClass staffMasterClass=tableView.getSelectionModel().getSelectedItem();
+        String email=staffMasterClass.getEmail();
+        String status="Suspended";
+        String query="UPDATE users SET status=? WHERE email=?";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,status);
+            preparedStatement.setString(2,email);
+            int resultSet=preparedStatement.executeUpdate();
+            if (resultSet>0){
+                viewStaffInfo();
+            }
+        } catch (SQLException e) {
+            System.out.println("No Success");
+            e.printStackTrace();
+        }
+    }
+    public void giveLeaveToUser(TableView<StaffMasterClass> tableView){
+        StaffMasterClass staffMasterClass=tableView.getSelectionModel().getSelectedItem();
+        String email=staffMasterClass.getEmail();
+        String status="On Leave";
+        String query="UPDATE users SET status=? WHERE email=?";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,status);
+            preparedStatement.setString(2,email);
+            int resultSet=preparedStatement.executeUpdate();
+            if (resultSet>0){
+                viewStaffInfo();
+            }
+        } catch (SQLException e) {
+            System.out.println("No Success");
+            e.printStackTrace();
+        }
+    }
+    public void giveBreakToUser(TableView<StaffMasterClass> tableView){
+        StaffMasterClass staffMasterClass=tableView.getSelectionModel().getSelectedItem();
+        String email=staffMasterClass.getEmail();
+        String status="On Break";
+        String query="UPDATE users SET status=? WHERE email=?";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,status);
+            preparedStatement.setString(2,email);
+            int resultSet=preparedStatement.executeUpdate();
+            if (resultSet>0){
+                viewStaffInfo();
+            }
+        } catch (SQLException e) {
+            System.out.println("No Success");
+            e.printStackTrace();
+        }
+    }
+    public void giveMaternityToUser(TableView<StaffMasterClass> tableView){
+        StaffMasterClass staffMasterClass=tableView.getSelectionModel().getSelectedItem();
+        String email=staffMasterClass.getEmail();
+        String status="Maternity Leave";
+        String query="UPDATE users SET status=? WHERE email=?";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,status);
+            preparedStatement.setString(2,email);
+            int resultSet=preparedStatement.executeUpdate();
+            if (resultSet>0){
+                viewStaffInfo();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void searchPatient(){
+
     }
 
 }
