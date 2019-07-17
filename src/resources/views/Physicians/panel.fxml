@@ -3,15 +3,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
-            styleClass="basicscene" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Physicians.PanelController">
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Physicians.PanelController">
     <children>
         <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
             <children>
                 <TabPane fx:id="tabContainer" prefHeight="623.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab fx:id="searchPatientTab" closable="false" text="FIND PATIENT">
+                        <Tab fx:id="searchPatientTab" closable="false" text="PATIENT AND SESSIONS">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
@@ -112,10 +112,10 @@
                                                                                 </AnchorPane>
                                                                             </content>
                                                                         </ScrollPane>
-                                                                        <Button layoutX="966.0" layoutY="189.0"
+                                                                        <Button fx:id="startSessionButton"
+                                                                                layoutX="966.0" layoutY="189.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="155.0"
-                                                                                fx:id="startSessionButton"
                                                                                 text="START SESSION">
                                                                             <font>
                                                                                 <Font size="18.0"/>
@@ -131,6 +131,47 @@
                                                                         <Font size="19.0"/>
                                                                     </font>
                                                                 </TextField>
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                </Tab>
+                                                <Tab fx:id="sessionsTab" text="SESSIONS">
+                                                    <content>
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0"
+                                                                    prefWidth="1177.0">
+                                                            <children>
+                                                                <AnchorPane layoutX="14.0" layoutY="24.0"
+                                                                            prefHeight="469.0" prefWidth="1141.0"
+                                                                            style="-fx-background-color: white;"
+                                                                            styleClass="innerform">
+                                                                    <children>
+                                                                        <ScrollPane layoutX="22.0" layoutY="23.0"
+                                                                                    prefHeight="416.0"
+                                                                                    prefWidth="710.0"/>
+                                                                        <TableView fx:id="tabClinicSessionsTable"
+                                                                                   layoutX="22.0" layoutY="24.0"
+                                                                                   prefHeight="411.0" prefWidth="709.0">
+                                                                            <columns>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicSessionsTableId"
+                                                                                        prefWidth="75.0" text="ID"/>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicSessionsTablePatientEmail"
+                                                                                        minWidth="2.0" prefWidth="145.0"
+                                                                                        text="EMAIL"/>
+                                                                                <TableColumn
+                                                                                        fx:id="tabClinicSessionsTableName"
+                                                                                        prefWidth="177.0"
+                                                                                        text="PATIENT NAME"/>
+                                                                            </columns>
+                                                                        </TableView>
+                                                                        <Button fx:id="tabClinicSessionsTableResumeInButton"
+                                                                                layoutX="846.0" layoutY="165.0"
+                                                                                mnemonicParsing="false"
+                                                                                prefHeight="49.0" prefWidth="193.0"
+                                                                                text="RESUME SESSION"/>
+                                                                    </children>
+                                                                </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -318,7 +359,7 @@
                                 </AnchorPane>
                             </content>
                         </Tab>
-                        <Tab fx:id="labtestsTab" closable="false" text="CLINIC">
+                        <Tab fx:id="labtestsTab" closable="false" text="CLINIC PANEL">
                             <content>
                                 <AnchorPane fx:id="labtestscontainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
                                             prefWidth="200.0">
@@ -441,47 +482,6 @@
                                                 </Tab>
                                             </tabs>
                                         </TabPane>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                        <Tab fx:id="sessionsTab" text="SESSIONS">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0"
-                                            prefWidth="1177.0">
-                                    <children>
-                                        <AnchorPane layoutX="14.0" layoutY="24.0"
-                                                    prefHeight="469.0" prefWidth="1141.0"
-                                                    style="-fx-background-color: white;"
-                                                    styleClass="innerform">
-                                            <children>
-                                                <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                            prefHeight="416.0"
-                                                            prefWidth="710.0"/>
-                                                <TableView fx:id="tabClinicSessionsTable"
-                                                           layoutX="22.0" layoutY="24.0"
-                                                           prefHeight="411.0" prefWidth="709.0">
-                                                    <columns>
-                                                        <TableColumn
-                                                                fx:id="tabClinicSessionsTableId"
-                                                                prefWidth="75.0" text="ID"/>
-                                                        <TableColumn
-                                                                fx:id="tabClinicSessionsTablePatientEmail"
-                                                                minWidth="2.0" prefWidth="145.0"
-                                                                text="EMAIL"/>
-                                                        <TableColumn
-                                                                fx:id="tabClinicSessionsTableName"
-                                                                prefWidth="177.0"
-                                                                text="PATIENT NAME"/>
-                                                    </columns>
-                                                </TableView>
-                                                <Button fx:id="tabClinicSessionsTableResumeInButton"
-                                                        layoutX="846.0" layoutY="165.0"
-                                                        mnemonicParsing="false"
-                                                        prefHeight="49.0" prefWidth="193.0"
-                                                        text="RESUME SESSION"/>
-                                            </children>
-                                        </AnchorPane>
                                     </children>
                                 </AnchorPane>
                             </content>

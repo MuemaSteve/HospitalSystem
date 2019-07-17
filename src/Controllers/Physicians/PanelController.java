@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,9 +28,7 @@ import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static Controllers.settings.appName;
 import static Controllers.settings.user;
@@ -125,6 +125,17 @@ public class PanelController extends Super implements Initializable, Physician {
     private String date;
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        searchPatientTab.setOnSelectionChanged(event -> {
+
+            if (currentSession.isEmpty() && (!searchPatientTab.isSelected() && !sessionsTab.isSelected())) {
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "SESSION ERROR", "YOU NEED TO HAVE A USER SESSION TO ACCESS OTHER TABS");
+                try {
+                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Physicians/panel.fxml")))));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         tabPaneArrayList.add(tabContainer);
         tabPaneArrayList.add(tabcontainerclinicpane);
         tabPaneArrayList.add(tabcontainerhistorypane);
@@ -134,28 +145,61 @@ public class PanelController extends Super implements Initializable, Physician {
         title.setText(appName + " Clinic Panel");
         buttonListeners();
         date = datepicker(conditionAddDateDiagnosed);
-        System.out.println(date);
+//        System.out.println(date);
 //        viewPatientAppointments();
         if (tabClinicAppointments.isSelected()) {
             viewPatientAppointments();
         }
-        loadSessions();
+        if (sessionsTab.isSelected()) {
+            loadSessions();
+        }
+
 //        createSession();
     }
 
-    private void createSession(TableView<RecordsMasterClass> tableView) {
-        RecordsMasterClass recordsMasterClass = tableView.getSelectionModel().getSelectedItem();
+    private void createSession(String id, String email) {
         if (currentSession.isEmpty()) {
-            currentSession.put("currentSession", recordsMasterClass.getEmail());
+            currentSession.put("currentSession", email);
         } else {
-            currentSession.replace("currentSession", recordsMasterClass.getEmail());
+            currentSession.replace("currentSession", email);
         }
-//        tabcontainerhistorypane.getSelectionModel().select(1);
-        SingleSelectionModel<Tab> selectionModel = tabcontainerhistorypane.getSelectionModel();
-        selectionModel.select(1); //select by object
-        System.out.println("Success...");
 
+        System.out.println(email + " is the email");
+        try {
+            PreparedStatement main = connection.prepareStatement("SELECT * FROM patients WHERE id=?");
+            main.setString(1, id);
+            ResultSet rsmain = main.executeQuery();
+            //check if in sessions table
+            PreparedStatement preparedStatement = localDbConnection.prepareStatement("SELECT * FROM SessionPatients WHERE email=?");
+            preparedStatement.setString(1, email);
+            ResultSet check = preparedStatement.executeQuery();
+            if (check.isBeforeFirst()) {
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "PATIENT ALREADY IN SESSION", "THE PATIENT HAS AN EXISTING SESSION");
+            } else {
+                PreparedStatement statement = localDbConnection.prepareStatement("INSERT INTO SessionPatients(name, email, sessionId) VALUES (?,?,?)");
+                if (rsmain.isBeforeFirst()) {
+                    while (rsmain.next()) {
+                        statement.setString(1, rsmain.getString("name"));
+                        statement.setString(2, currentSession.get("currentSession"));
+                        statement.setString(3, dateTimeMethod());
+                        if (statement.executeUpdate() > 0) {
+                            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), currentSession.get("currentSession") + " session", "SESSION CREATED SUCCESSFULLY");
 
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), currentSession.get("currentSession") + " session", "SESSION CREATION FAILED");
+
+                        }
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, conditionAddButton.getScene().getWindow(), "ERROR", "UNEXPECTED ERROR");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        appointmentMasterClassObservableList2.clear();
+
+        loadSessions();
     }
 
     private void loadSessions() {
@@ -183,15 +227,23 @@ public class PanelController extends Super implements Initializable, Physician {
         }
     }
 
+    private String dateTimeMethod() {
+        Date date = new Date(System.currentTimeMillis());
+        return date.toString() + "::" + user.get("user");
+    }
     private void buttonListeners() {
         tabClinicSessionsTableResumeInButton.setOnAction(event -> resumeSession(tabClinicSessionsTable));
-        startSessionButton.setOnAction(event -> createSession(patienttable));
+        startSessionButton.setOnAction(event -> {
+            RecordsMasterClass recordsMasterClass = patienttable.getSelectionModel().getSelectedItem();
+            String id = recordsMasterClass.getId();
+            createSession(id, recordsMasterClass.getEmail());
+        });
         tabClinicAppointmentsTableCallInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 AppointmentMasterClass appointmentMasterClass = tabClinicAppointmentsTable.getSelectionModel().getSelectedItem();
-
                 callIn(appointmentMasterClass);
+                viewPatientAppointments();
             }
 
             private void callIn(AppointmentMasterClass appointmentMasterClass) {
@@ -207,7 +259,7 @@ public class PanelController extends Super implements Initializable, Physician {
                 }
                 try {
                     PreparedStatement statement = localDbConnection.prepareStatement("INSERT INTO SessionPatients(name, email, sessionId) VALUES (?,?,?)");
-                    if (resultSet.isBeforeFirst()) {
+                    if (resultSet != null && resultSet.isBeforeFirst()) {
                         while (resultSet.next()) {
                             statement.setString(1, resultSet.getString("name"));
                             statement.setString(2, resultSet.getString("email"));
@@ -235,12 +287,10 @@ public class PanelController extends Super implements Initializable, Physician {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
             }
 
-            private String dateTimeMethod() {
-                Date date = new Date(System.currentTimeMillis());
-                return date.toString() + "::" + user.get("user");
-            }
+
         });
         logout.setOnMouseClicked(event -> logOut(panel));
         findinrecordsbutton.setOnMouseClicked(event -> {
@@ -272,10 +322,17 @@ public class PanelController extends Super implements Initializable, Physician {
 
     private void resumeSession(TableView<AppointmentMasterClass> tabClinicSessionsTable) {
         AppointmentMasterClass appointmentMasterClass = tabClinicSessionsTable.getSelectionModel().getSelectedItem();
+
         if (currentSession.isEmpty()) {
             currentSession.put("currentSession", appointmentMasterClass.getPatientEmail());
+            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SESSION RESUMED", "SESSION FOR " + currentSession.get("currentSession") + " HAS BEEN RESUMED");
+        } else if (currentSession.get("currentSession").equals(appointmentMasterClass.getPatientEmail())) {
+            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SESSION IS ACTIVE", "SESSION FOR " + currentSession.get("currentSession") + " IS ALREADY ACTIVE");
+
         } else {
             currentSession.replace("currentSession", appointmentMasterClass.getPatientEmail());
+            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SESSION RESUMED", "SESSION FOR " + currentSession.get("currentSession") + " HAS BEEN RESUMED");
+
         }
     }
 
@@ -291,8 +348,8 @@ public class PanelController extends Super implements Initializable, Physician {
         String category = conditionAddCategoryField.getText();
         String description = conditionAddDescription.getText();
         String tablename = "conditions";
-        String[] colRecs = {"conditionName", "date", "category", "description", "patientemail"};
-        String[] values = {condition, date, category, description, currentSession.get("currentSession")};
+        String[] colRecs = {"conditionName", "date", "category", "description", "patientemail", "doctorMail"};
+        String[] values = {condition, date, category, description, currentSession.get("currentSession"), settings.user.get("user")};
 
         try {
             if (insertIntoTable(tablename, colRecs, values) > 0)
@@ -322,9 +379,7 @@ public class PanelController extends Super implements Initializable, Physician {
             if(currentSession.get("currentSession")!=null){
                 preparedStatement.setString(1,currentSession.get("currentSession"));
                 ResultSet resultSet=preparedStatement.executeQuery();
-                System.out.println("Table current");
                 if (resultSet.isBeforeFirst()){
-                    System.out.println("Table current resultset");
                     while (resultSet.next()){
                         ConditionsMasterClass conditionsMasterClass=new ConditionsMasterClass();
                         conditionsMasterClass.setSize(conditionsMasterClass.getSize()+1);

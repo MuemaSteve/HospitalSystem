@@ -123,7 +123,7 @@ public class Super {
             counter++;
 
         }
-        System.out.println(prepstmts + "\n" + cols);
+//        System.out.println(prepstmts + "\n" + cols);
         String query = "";
 //        insert into ____ (records)Values(records.length())
 //foreach(e : records):

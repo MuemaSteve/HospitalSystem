@@ -147,8 +147,6 @@ public class Panel extends Super implements Initializable {
     private void tableRowIdSelected(RecordsMasterClass recordsMasterClass, TableView<RecordsMasterClass> patienttable) throws SQLException {
         recordsMasterClass = patienttable.getSelectionModel().getSelectedItem();
         String id = recordsMasterClass.getId();
-        String mail = recordsMasterClass.getEmail();
-        String name = recordsMasterClass.getName();
         String docSelection = "SELECT * FROM users WHERE userclearancelevel=? and status=?";
         PreparedStatement selectDoctors = connection.prepareStatement(docSelection);
         selectDoctors.setString(1, "doctor".toUpperCase());
