@@ -125,6 +125,9 @@ public class PanelController extends Super implements Initializable, Physician {
     private String date;
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        loadSessions();
+        viewPatientDetails();
+
         searchPatientTab.setOnSelectionChanged(event -> {
 
             if (currentSession.isEmpty() && (!searchPatientTab.isSelected() && !sessionsTab.isSelected())) {
@@ -160,9 +163,11 @@ public class PanelController extends Super implements Initializable, Physician {
     private void createSession(String id, String email) {
         if (currentSession.isEmpty()) {
             currentSession.put("currentSession", email);
+
         } else {
             currentSession.replace("currentSession", email);
         }
+        viewPatientDetails();
 
         System.out.println(email + " is the email");
         try {
@@ -303,13 +308,13 @@ public class PanelController extends Super implements Initializable, Physician {
             @Override
             public void handle(ActionEvent event) {
                 //end patient session
+                currentSession.clear();
             }
         });
         conditionAddButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 //add condition button
-                viewPatientDetails();
                 if (currentSession.get("currentSession") == null) {
                     showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "CREATE SESSION FIRST");
                 } else {
@@ -334,6 +339,8 @@ public class PanelController extends Super implements Initializable, Physician {
             showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SESSION RESUMED", "SESSION FOR " + currentSession.get("currentSession") + " HAS BEEN RESUMED");
 
         }
+        viewPatientDetails();
+
     }
 
 
@@ -347,17 +354,27 @@ public class PanelController extends Super implements Initializable, Physician {
         String condition = conditionAddField.getText();
         String category = conditionAddCategoryField.getText();
         String description = conditionAddDescription.getText();
-        String tablename = "conditions";
-        String[] colRecs = {"conditionName", "date", "category", "description", "patientemail", "doctorMail"};
-        String[] values = {condition, date, category, description, currentSession.get("currentSession"), settings.user.get("user")};
+        if (condition.isEmpty() || category.isEmpty() || description.isEmpty() || date.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "FILL ALL INPUTS", "ALL INPUT FIELDS HAVE TO BE FILLED");
+        } else {
 
-        try {
-            if (insertIntoTable(tablename, colRecs, values) > 0)
-                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION WAS SUCCESSFULL");
-            else
-                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "OPERATION FAILED");
-        } catch (SQLException e) {
-            e.printStackTrace();
+            String tablename = "conditions";
+            String[] colRecs = {"conditionName", "date", "category", "description", "patientemail", "doctorMail"};
+            String[] values = {condition, date, category, description, currentSession.get("currentSession"), settings.user.get("user")};
+
+            try {
+                if (insertIntoTable(tablename, colRecs, values) > 0) {
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION WAS SUCCESSFULL");
+                    conditionAddField.clear();
+                    conditionAddCategoryField.clear();
+                    conditionAddDescription.clear();
+                    String pattern = "dd-MM-yyyy";
+                    conditionAddDateDiagnosed.setPromptText(pattern.toUpperCase());
+                } else
+                    showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "OPERATION FAILED");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
     @Override
