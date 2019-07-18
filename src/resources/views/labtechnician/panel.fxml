@@ -11,9 +11,9 @@
             <children>
                 <TabPane fx:id="tabContainer" prefHeight="623.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                        <Tab fx:id="addpatienthistoryTab" closable="false" text="PENDING TESTS">
+                        <Tab fx:id="pendingteststab" closable="false" text="PENDING TESTS">
                             <content>
-                                <AnchorPane fx:id="addPatientHistoryContainer" minHeight="0.0" minWidth="0.0"
+                                <AnchorPane minHeight="0.0" minWidth="0.0"
                                             prefHeight="180.0" prefWidth="200.0">
                                     <children>
                                         <AnchorPane layoutX="30.0" layoutY="39.0" prefHeight="469.0" prefWidth="1141.0"
@@ -21,21 +21,21 @@
                                             <children>
                                                 <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="416.0"
                                                             prefWidth="710.0"/>
-                                                <TableView fx:id="tabClinicSessionsTable" layoutX="22.0" layoutY="24.0"
+                                                <TableView fx:id="pendingTestsTable" layoutX="22.0" layoutY="24.0"
                                                            prefHeight="411.0" prefWidth="709.0">
                                                     <columns>
-                                                        <TableColumn fx:id="tabClinicSessionsTableId" prefWidth="75.0"
+                                                        <TableColumn fx:id="pendingTestsTableid" prefWidth="75.0"
                                                                      text="ID"/>
-                                                        <TableColumn fx:id="tabClinicSessionsTablePatientEmail"
+                                                        <TableColumn fx:id="pendingTestsTabledoctor"
                                                                      minWidth="2.0" prefWidth="145.0" text="DOCTOR"/>
-                                                        <TableColumn fx:id="tabClinicSessionsTableName"
+                                                        <TableColumn fx:id="pendingTestsTablepatientname"
                                                                      prefWidth="177.0" text="PATIENT NAME"/>
                                                     </columns>
                                                 </TableView>
-                                                <Button fx:id="tabClinicSessionsTableResumeInButton" layoutX="846.0"
+                                                <Button fx:id="pendingTestsTablestartTest" layoutX="846.0"
                                                         layoutY="165.0" mnemonicParsing="false" prefHeight="49.0"
                                                         prefWidth="193.0" text="START TEST"/>
-                                                <Button fx:id="tabClinicSessionsTableResumeInButton1" layoutX="840.0"
+                                                <Button fx:id="pendingTestsTableviewdetails" layoutX="840.0"
                                                         layoutY="74.0" mnemonicParsing="false" prefHeight="49.0"
                                                         prefWidth="193.0" text="VIEW DETAILS"/>
                                             </children>
@@ -44,25 +44,26 @@
                                 </AnchorPane>
                             </content>
                         </Tab>
-                        <Tab fx:id="labtestsTab" closable="false" text="CLINIC PANEL">
+                        <Tab fx:id="labtestresultstab" closable="false" text="TEST RESULTS">
                             <content>
-                                <AnchorPane fx:id="labtestscontainer" minHeight="0.0" minWidth="0.0" prefHeight="180.0"
+                                <AnchorPane fx:id="labtestsresultscontainer" minHeight="0.0" minWidth="0.0"
+                                            prefHeight="180.0"
                                             prefWidth="200.0">
                                     <children>
                                         <AnchorPane layoutX="68.0" layoutY="32.0" prefHeight="464.0" prefWidth="706.0"
                                                     style="-fx-background-color: white;" styleClass="innerform">
                                             <children>
-                                                <TextArea fx:id="conditionAddDescription" layoutX="42.0" layoutY="20.0"
+                                                <TextArea fx:id="testresults" layoutX="42.0" layoutY="20.0"
                                                           prefHeight="250.0" prefWidth="519.0"
                                                           promptText="TEST RESULTS....">
                                                     <font>
                                                         <Font size="20.0"/>
                                                     </font>
                                                 </TextArea>
-                                                <Button fx:id="conditionAddButton" layoutX="55.0" layoutY="299.0"
+                                                <Button fx:id="submitTypedResult" layoutX="55.0" layoutY="299.0"
                                                         mnemonicParsing="false" prefHeight="49.0" prefWidth="197.0"
                                                         text="SUBMIT DETAILS"/>
-                                                <Button fx:id="conditionAddButton1" layoutX="298.0" layoutY="299.0"
+                                                <Button fx:id="submitImageResult" layoutX="298.0" layoutY="299.0"
                                                         mnemonicParsing="false" prefHeight="49.0" prefWidth="197.0"
                                                         text="UPLOAD IMAGE"/>
                                             </children>
@@ -80,18 +81,18 @@
                                             <children>
                                                 <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="416.0"
                                                             prefWidth="710.0"/>
-                                                <TableView fx:id="tabClinicSessionsTable1" layoutX="22.0" layoutY="24.0"
+                                                <TableView fx:id="tablabSessionsTable" layoutX="22.0" layoutY="24.0"
                                                            prefHeight="411.0" prefWidth="709.0">
                                                     <columns>
-                                                        <TableColumn fx:id="tabClinicSessionsTableId1" prefWidth="75.0"
+                                                        <TableColumn fx:id="tablabSessionsTableid" prefWidth="75.0"
                                                                      text="ID"/>
-                                                        <TableColumn fx:id="tabClinicSessionsTablePatientEmail1"
-                                                                     minWidth="2.0" prefWidth="145.0" text="EMAIL"/>
-                                                        <TableColumn fx:id="tabClinicSessionsTableName1"
-                                                                     prefWidth="177.0" text="PATIENT NAME"/>
+                                                        <TableColumn fx:id="tablabSessionsTablepatient"
+                                                                     minWidth="2.0" prefWidth="145.0" text="PATIENT"/>
+                                                        <TableColumn fx:id="tablabSessionsTabledoctor"
+                                                                     prefWidth="177.0" text="DOCTOR"/>
                                                     </columns>
                                                 </TableView>
-                                                <Button fx:id="tabClinicSessionsTableResumeInButton2" layoutX="846.0"
+                                                <Button fx:id="tablabSessionsTableresume" layoutX="846.0"
                                                         layoutY="165.0" mnemonicParsing="false" prefHeight="49.0"
                                                         prefWidth="193.0" text="RESUME SESSION"/>
                                             </children>

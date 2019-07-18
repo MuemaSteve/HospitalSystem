@@ -1,5 +1,6 @@
 package Controllers.MasterClasses;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class HistoryMasterClass {
@@ -9,9 +10,21 @@ public class HistoryMasterClass {
     private SimpleStringProperty ratings = new SimpleStringProperty();
     private SimpleStringProperty prescription = new SimpleStringProperty();
     private SimpleStringProperty tests = new SimpleStringProperty();
-
+    private SimpleIntegerProperty times = new SimpleIntegerProperty(0);
     public String getId() {
         return id.get();
+    }
+
+    public int getTimes() {
+        return times.get();
+    }
+
+    public SimpleIntegerProperty timesProperty() {
+        return times;
+    }
+
+    public void setTimes(int times) {
+        this.times.set(times);
     }
 
     public SimpleStringProperty idProperty() {

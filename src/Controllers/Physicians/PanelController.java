@@ -278,6 +278,9 @@ public class PanelController extends Super implements Initializable, Physician {
             String tests = testsInputPhysician.getText();
             if (tests.isEmpty()) {
                 showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "NULL LAB TESTS", "LAB TESTS MUST BE SUBMITTED");
+            } else {
+                //send tests to lab table
+                //first select technician with least tests and who is active and select them as the person in charge of the test
             }
         });
         tabClinicSessionsTableResumeInButton.setOnAction(event -> resumeSession(tabClinicSessionsTable));
