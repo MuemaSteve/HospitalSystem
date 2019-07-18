@@ -5,6 +5,8 @@ import Controllers.MasterClasses.ConditionsMasterClass;
 import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
 import Controllers.settings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -116,6 +118,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public Button tabClinicSessionsTableResumeInButton;
     public Tab sessionsTab;
     public Button startSessionButton;
+    public TabPane labteststabpane;
     private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<ConditionsMasterClass> conditionsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
@@ -139,10 +142,42 @@ public class PanelController extends Super implements Initializable, Physician {
                 }
             }
         });
-        tabPaneArrayList.add(tabContainer);
-        tabPaneArrayList.add(tabcontainerclinicpane);
-        tabPaneArrayList.add(tabcontainerhistorypane);
-        tabPaneArrayList.add(appointmentssearch);
+//        todo uncomment to make the tabpanes bigger
+//        tabPaneArrayList.add(tabContainer);
+//        tabPaneArrayList.add(tabcontainerclinicpane);
+//        tabPaneArrayList.add(tabcontainerhistorypane);
+//        tabPaneArrayList.add(appointmentssearch);
+
+        tabcontainerhistorypane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                reloadTables();
+            }
+        });
+        labteststabpane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                reloadTables();
+            }
+        });
+        tabContainer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                reloadTables();
+            }
+        });
+        tabcontainerclinicpane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                reloadTables();
+            }
+        });
+        appointmentssearch.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                reloadTables();
+            }
+        });
         configureView(tabPaneArrayList);
         time(clock);
         title.setText(appName + " Clinic Panel");
@@ -157,8 +192,8 @@ public class PanelController extends Super implements Initializable, Physician {
             loadSessions();
         }
 
-//        createSession();
     }
+
 
     private void createSession(String id, String email) {
         if (currentSession.isEmpty()) {
@@ -535,4 +570,17 @@ public class PanelController extends Super implements Initializable, Physician {
         dob.setOnAction(event);
         return this.date;
     }
+
+
+    /**
+     * reloads all tables
+     */
+    private void reloadTables() {
+        loadSessions();
+        viewPatientAppointments();
+        viewPatientDetails();
+        viewPatientHistory();
+        viewPatientLabTests();
+    }
+
 }

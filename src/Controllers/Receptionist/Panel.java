@@ -132,7 +132,7 @@ public class Panel extends Super implements Initializable {
     }
 
     private void bookVIPAppointment() {
-
+//option to select doctor name
     }
 
     private void bookAppointments() {
