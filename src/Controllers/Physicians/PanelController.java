@@ -119,6 +119,8 @@ public class PanelController extends Super implements Initializable, Physician {
     public Tab sessionsTab;
     public Button startSessionButton;
     public TabPane labteststabpane;
+    public TextArea testsInputPhysician;
+    public Button testsSendToLab;
     private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<ConditionsMasterClass> conditionsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
@@ -272,6 +274,12 @@ public class PanelController extends Super implements Initializable, Physician {
         return date.toString() + "::" + user.get("user");
     }
     private void buttonListeners() {
+        testsSendToLab.setOnAction(event -> {
+            String tests = testsInputPhysician.getText();
+            if (tests.isEmpty()) {
+                showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "NULL LAB TESTS", "LAB TESTS MUST BE SUBMITTED");
+            }
+        });
         tabClinicSessionsTableResumeInButton.setOnAction(event -> resumeSession(tabClinicSessionsTable));
         startSessionButton.setOnAction(event -> {
             RecordsMasterClass recordsMasterClass = patienttable.getSelectionModel().getSelectedItem();
@@ -576,6 +584,11 @@ public class PanelController extends Super implements Initializable, Physician {
      * reloads all tables
      */
     private void reloadTables() {
+        recordsMasterClassObservableList.clear();
+        conditionsMasterClassObservableList.clear();
+        appointmentMasterClassObservableList.clear();
+        appointmentMasterClassObservableList2.clear();
+
         loadSessions();
         viewPatientAppointments();
         viewPatientDetails();

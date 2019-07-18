@@ -161,6 +161,26 @@ public class LoginControllerClass extends Super implements Initializable {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+                            } else if (resultSet.getString("userclearancelevel").equalsIgnoreCase("lab tech")) {
+//if user account is lab technician
+                                panel.getChildren().removeAll();
+                                try {
+//                                    go to admin panel
+                                    settings.login.put("loggedinaslabtech", true);
+                                    settings.user.put("user", resultSet.getString("email"));
+                                    settings.name.put("username", resultSet.getString("name"));
+                                    settings.id.put("userid", resultSet.getString("id"));
+                                    settings.hospital.put("hospital_name", resultSet.getString("hospital"));
+                                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Admins/panel.fxml")))));
+                                    assert false;
+//                                    work as sessions and hold user session data
+
+                                    if (resultSet.getString("email").equals(resultSet.getString("password"))) {
+                                        settings.changepassword.put("change", true);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             } else if (resultSet.getString("userclearancelevel").equalsIgnoreCase("doctor")) {
 //                                user is not admin go to doctor panel
                                 panel.getChildren().removeAll();

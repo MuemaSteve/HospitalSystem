@@ -461,13 +461,15 @@
                                                                                                         layoutY="39.0"
                                                                                                         prefHeight="290.0"
                                                                                                         prefWidth="711.0"
-                                                                                                        promptText="TESTS TO BE COMPLETED...."/>
+                                                                                                        promptText="TESTS TO BE COMPLETED...."
+                                                                                                        fx:id="testsInputPhysician"/>
                                                                                                 <Button layoutX="393.0"
                                                                                                         layoutY="350.0"
                                                                                                         mnemonicParsing="false"
                                                                                                         prefHeight="49.0"
                                                                                                         prefWidth="150.0"
-                                                                                                        text="SEND TO LAB"/>
+                                                                                                        text="SEND TO LAB"
+                                                                                                        fx:id="testsSendToLab"/>
                                                                                             </children>
                                                                                         </AnchorPane>
                                                                                     </children>
