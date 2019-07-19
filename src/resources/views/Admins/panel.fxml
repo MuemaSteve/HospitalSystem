@@ -111,14 +111,14 @@
                                             style="-fx-background-color: white;" styleClass="innerform">
                                     <children>
                                         <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="422.0" prefWidth="709.0"/>
-                                        <TableView layoutX="22.0" layoutY="24.0" prefHeight="419.0" prefWidth="709.0">
+                                        <TableView fx:id="prescriptionsTable" layoutX="22.0" layoutY="24.0" prefHeight="419.0" prefWidth="709.0">
                                             <columns>
-                                                <TableColumn prefWidth="75.0" text="ID"/>
-                                                <TableColumn prefWidth="138.0" text="DATE"/>
-                                                <TableColumn prefWidth="110.0" text="DOCTOR"/>
-                                                <TableColumn prefWidth="97.0" text="PRESCRIPTION"/>
-                                                <TableColumn prefWidth="163.0" text="TESTS"/>
-                                                <TableColumn prefWidth="123.0" text="RATINGS"/>
+                                                <TableColumn fx:id="prescriptionsTableId" prefWidth="75.0" text="ID"/>
+                                                <TableColumn fx:id="prescriptionsTableDate" prefWidth="138.0" text="DATE"/>
+                                                <TableColumn fx:id="prescriptionsTableDoctor" prefWidth="110.0" text="DOCTOR"/>
+                                                <TableColumn fx:id="prescriptionsTablePrescription" prefWidth="97.0" text="PRESCRIPTION"/>
+                                                <TableColumn fx:id="prescriptionsTableTests" prefWidth="163.0" text="TESTS"/>
+                                                <TableColumn fx:id="prescriptionsTableRatings" prefWidth="123.0" text="RATINGS"/>
                                             </columns>
                                         </TableView>
                                         <Button layoutX="829.0" layoutY="54.0" mnemonicParsing="false" prefHeight="49.0"

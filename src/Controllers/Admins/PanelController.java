@@ -1,6 +1,7 @@
 package Controllers.Admins;
 
 import Controllers.MasterClasses.PatientsMasterClass;
+import Controllers.MasterClasses.PrescriptionMasterClass;
 import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.MasterClasses.StaffMasterClass;
 import Controllers.Super;
@@ -72,9 +73,17 @@ public class PanelController extends Super implements Initializable {
     public Button maternity;
     public Button leave;
     public Button shortBreak;
+    public TableView<PrescriptionMasterClass> prescriptionsTable;
+    public TableColumn<PrescriptionMasterClass,String> prescriptionsTableRatings;
+    public TableColumn<PrescriptionMasterClass,String> prescriptionsTableTests;
+    public TableColumn<PrescriptionMasterClass,String> prescriptionsTablePrescription;
+    public TableColumn<PrescriptionMasterClass,String> prescriptionsTableDoctor;
+    public TableColumn<PrescriptionMasterClass,String> prescriptionsTableDate;
+    public TableColumn<PrescriptionMasterClass,String> prescriptionsTableId;
     double tabWidth = 200.0;
     ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private ObservableList<StaffMasterClass> staffMasterClassObservableList = FXCollections.observableArrayList();
+    private ObservableList<PrescriptionMasterClass> prescriptionMasterClassObservableList=FXCollections.observableArrayList();
     private File file;
     private FileInputStream fileInputStream;
     private int length;
@@ -207,6 +216,8 @@ public class PanelController extends Super implements Initializable {
         maternity.setOnMouseClicked(event -> giveMaternityToUser(viewStaff));
         leave.setOnMouseClicked(event -> giveLeaveToUser(viewStaff));
         shortBreak.setOnMouseClicked(event -> giveBreakToUser(viewStaff));
+        searchpatientbutton.setOnMouseClicked(event -> searchPatient());
+
 
     }
 
@@ -400,7 +411,36 @@ public class PanelController extends Super implements Initializable {
         }
     }
     private void searchPatient(){
+        String email=searchPatientID.getText();
+        String query="SELECT * FROM prescriptions WHERE patientemail=?";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,email);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            if (resultSet.isBeforeFirst()){
+                while (resultSet.next()){
+                    PrescriptionMasterClass prescriptionMasterClass =new PrescriptionMasterClass();
+                    prescriptionMasterClass.setDate(resultSet.getString("dateprescribed"));
+                    prescriptionMasterClass.setId(resultSet.getString("id"));
+                    prescriptionMasterClass.setDoctor(resultSet.getString("doctor"));
+                    prescriptionMasterClass.setPrescription(resultSet.getString("prescription"));
+                    prescriptionMasterClass.setTests(resultSet.getString("tests"));
+                    prescriptionMasterClass.setRatings(resultSet.getString("ratings"));
+                    prescriptionMasterClassObservableList.add(prescriptionMasterClass);
+                }
+                prescriptionsTable.setItems(prescriptionMasterClassObservableList);
+                prescriptionsTableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+                prescriptionsTableDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+                prescriptionsTableDoctor.setCellValueFactory(new PropertyValueFactory<>("doctor"));
+                prescriptionsTableRatings.setCellValueFactory(new PropertyValueFactory<>("ratings"));
+                prescriptionsTableTests.setCellValueFactory(new PropertyValueFactory<>("tests"));
+                prescriptionsTablePrescription.setCellValueFactory(new PropertyValueFactory<>("prescription"));
 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
