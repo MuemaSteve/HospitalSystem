@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
-            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="Controllers.basic.LoginControllerClass">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
@@ -16,10 +16,10 @@
                             style="-fx-background-color: white;" styleClass="innerform">
                     <children>
                         <TextField fx:id="name" alignment="CENTER" layoutX="57.0" layoutY="102.0" prefHeight="40.0"
-                                   prefWidth="261.0" promptText="NAME" styleClass="inputfield" text="snm@gmail.com"/>
+                                   prefWidth="261.0" promptText="NAME" styleClass="inputfield" text="steve@gmail.com"/>
                         <PasswordField fx:id="password" alignment="CENTER" layoutX="57.0" layoutY="161.0"
                                        prefHeight="40.0" prefWidth="261.0" promptText="PASSWORD" styleClass="input"
-                                       text="snm@gmail.com"/>
+                                       text="steve@gmail.com"/>
                         <Button fx:id="login" layoutX="56.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"
                                 prefWidth="118.0" text="LOGIN"/>
                         <Button fx:id="help" layoutX="242.0" layoutY="227.0" mnemonicParsing="false" prefHeight="40.0"

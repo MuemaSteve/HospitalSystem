@@ -80,7 +80,7 @@ public class Main extends Application {
 
                 updateMessage("Running task . . .");
                 for (int i = 0; i < tasksToDo.size(); i++) {
-                    Thread.sleep(400);
+                    Thread.sleep(4);
                     updateProgress(i + 1, tasksToDo.size());
                     String nextTask = tasksToDo.get(i);
                     observableArrayList.add(nextTask);
@@ -96,7 +96,7 @@ public class Main extends Application {
                         }
                     }
                 }
-                Thread.sleep(400);
+                Thread.sleep(4);
                 updateMessage("All TASKS COMPLETED.");
 
                 return observableArrayList;
