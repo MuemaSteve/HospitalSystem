@@ -15,11 +15,11 @@
         <property name="yearIsDateType" value="false" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="sessionLocalDb" uuid="43117e70-6c40-47da-9e32-7278d4fd549e">
+    <data-source source="LOCAL" name="sessionLocalDb" uuid="b7ca4760-6eea-4654-b1d2-1026a59f5a7f">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Aphonse\Desktop\hospitalsystem\sessionLocalDb.conf</jdbc-url>
+      <jdbc-url>jdbc:sqlite:D:\PROJECTS\NanotechSoftwares\HospitalSystem\sessionLocalDb.conf</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>

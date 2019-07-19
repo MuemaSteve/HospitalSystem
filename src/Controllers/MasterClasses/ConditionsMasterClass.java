@@ -5,12 +5,13 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class ConditionsMasterClass {
     private SimpleIntegerProperty size = new SimpleIntegerProperty(0);
-    private SimpleStringProperty patientId =new SimpleStringProperty();
-    private SimpleStringProperty patientemail =new SimpleStringProperty();
-    private SimpleStringProperty conditionName =new SimpleStringProperty();
-    private SimpleStringProperty date =new SimpleStringProperty();
-    private SimpleStringProperty category =new SimpleStringProperty();
-    private SimpleStringProperty doctor =new SimpleStringProperty();
+    private SimpleStringProperty patientId = new SimpleStringProperty();
+    private SimpleStringProperty patientemail = new SimpleStringProperty();
+    private SimpleStringProperty conditionName = new SimpleStringProperty();
+    private SimpleStringProperty date = new SimpleStringProperty();
+    private SimpleStringProperty category = new SimpleStringProperty();
+    private SimpleStringProperty doctor = new SimpleStringProperty();
+
     public String getConditionName() {
         return conditionName.get();
     }
