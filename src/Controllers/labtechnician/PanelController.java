@@ -42,6 +42,7 @@ public class PanelController extends Super implements Initializable {
         time(clock);
         title.setText(appName + " Labs");
         buttonListeners();
+
     }
 
     private void buttonListeners() {
@@ -54,7 +55,7 @@ public class PanelController extends Super implements Initializable {
         logout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                logOut(panel);
             }
         });
         submitImageResult.setOnAction(new EventHandler<ActionEvent>() {
