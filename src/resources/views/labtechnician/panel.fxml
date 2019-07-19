@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.labtechnician.PanelController">
+    <children>
+        <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
+            <children>
+                <TabPane fx:id="tabContainer" prefHeight="623.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab fx:id="pendingteststab" closable="false" text="PENDING TESTS">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0"
+                                            prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <AnchorPane layoutX="30.0" layoutY="39.0" prefHeight="469.0" prefWidth="1141.0"
+                                                    style="-fx-background-color: white;" styleClass="innerform">
+                                            <children>
+                                                <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="416.0"
+                                                            prefWidth="710.0"/>
+                                                <TableView fx:id="pendingTestsTable" layoutX="22.0" layoutY="24.0"
+                                                           prefHeight="411.0" prefWidth="709.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="pendingTestsTableid" prefWidth="75.0"
+                                                                     text="ID"/>
+                                                        <TableColumn fx:id="pendingTestsTabledoctor"
+                                                                     minWidth="2.0" prefWidth="145.0" text="DOCTOR"/>
+                                                        <TableColumn fx:id="pendingTestsTablepatientname"
+                                                                     prefWidth="177.0" text="PATIENT NAME"/>
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="pendingTestsTablestartTest" layoutX="846.0"
+                                                        layoutY="165.0" mnemonicParsing="false" prefHeight="49.0"
+                                                        prefWidth="193.0" text="START TEST"/>
+                                                <Button fx:id="pendingTestsTableviewdetails" layoutX="840.0"
+                                                        layoutY="74.0" mnemonicParsing="false" prefHeight="49.0"
+                                                        prefWidth="193.0" text="VIEW DETAILS"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="labtestresultstab" closable="false" text="TEST RESULTS">
+                            <content>
+                                <AnchorPane fx:id="labtestsresultscontainer" minHeight="0.0" minWidth="0.0"
+                                            prefHeight="180.0"
+                                            prefWidth="200.0">
+                                    <children>
+                                        <AnchorPane layoutX="68.0" layoutY="32.0" prefHeight="464.0" prefWidth="706.0"
+                                                    style="-fx-background-color: white;" styleClass="innerform">
+                                            <children>
+                                                <TextArea fx:id="testresults" layoutX="42.0" layoutY="20.0"
+                                                          prefHeight="250.0" prefWidth="519.0"
+                                                          promptText="TEST RESULTS....">
+                                                    <font>
+                                                        <Font size="20.0"/>
+                                                    </font>
+                                                </TextArea>
+                                                <Button fx:id="submitTypedResult" layoutX="55.0" layoutY="299.0"
+                                                        mnemonicParsing="false" prefHeight="49.0" prefWidth="197.0"
+                                                        text="SUBMIT DETAILS"/>
+                                                <Button fx:id="submitImageResult" layoutX="298.0" layoutY="299.0"
+                                                        mnemonicParsing="false" prefHeight="49.0" prefWidth="197.0"
+                                                        text="UPLOAD IMAGE"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="sessionsTab" text="SESSIONS">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="1177.0">
+                                    <children>
+                                        <AnchorPane layoutX="14.0" layoutY="24.0" prefHeight="469.0" prefWidth="1141.0"
+                                                    style="-fx-background-color: white;" styleClass="innerform">
+                                            <children>
+                                                <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="416.0"
+                                                            prefWidth="710.0"/>
+                                                <TableView fx:id="tablabSessionsTable" layoutX="22.0" layoutY="24.0"
+                                                           prefHeight="411.0" prefWidth="709.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="tablabSessionsTableid" prefWidth="75.0"
+                                                                     text="ID"/>
+                                                        <TableColumn fx:id="tablabSessionsTablepatient"
+                                                                     minWidth="2.0" prefWidth="145.0" text="PATIENT"/>
+                                                        <TableColumn fx:id="tablabSessionsTabledoctor"
+                                                                     prefWidth="177.0" text="DOCTOR"/>
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="tablabSessionsTableresume" layoutX="846.0"
+                                                        layoutY="165.0" mnemonicParsing="false" prefHeight="49.0"
+                                                        prefWidth="193.0" text="RESUME SESSION"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+        </StackPane>
+        <Label fx:id="clock" alignment="CENTER" layoutX="10.0" layoutY="9.0" prefHeight="49.0" prefWidth="327.0"
+               text="TIME">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
+        <Button fx:id="logout" layoutX="978.0" layoutY="9.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="171.0"
+                text="LOG OUT">
+            <font>
+                <Font size="20.0"/>
+            </font>
+        </Button>
+        <Label fx:id="title" alignment="CENTER" layoutX="384.0" layoutY="9.0" prefHeight="49.0" prefWidth="502.0"
+               text="LAB">
+            <font>
+                <Font size="26.0"/>
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
