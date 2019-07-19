@@ -365,7 +365,7 @@ public class PanelController extends Super implements Initializable, Physician {
 
     }
 
-    //SENDING TESTS TO LABTESTS TABLE
+    //SENDING TESTS TO LABTESTS TABLE is complete
     private void sendTest() {
         String tests = testsInputPhysician.getText();
         if (tests.isEmpty()) {

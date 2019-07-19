@@ -219,6 +219,7 @@ public class Super {
         timeline.play();
     }
 
+
     public void LabelInvisible(Label label) {
         PauseTransition visiblePause = new PauseTransition(
                 Duration.seconds(8)
