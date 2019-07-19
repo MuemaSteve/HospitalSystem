@@ -275,13 +275,7 @@ public class PanelController extends Super implements Initializable, Physician {
     }
     private void buttonListeners() {
         testsSendToLab.setOnAction(event -> {
-            String tests = testsInputPhysician.getText();
-            if (tests.isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "NULL LAB TESTS", "LAB TESTS MUST BE SUBMITTED");
-            } else {
-                //send tests to lab table
-                //first select technician with least tests and who is active and select them as the person in charge of the test
-            }
+            sendTest();
         });
         tabClinicSessionsTableResumeInButton.setOnAction(event -> resumeSession(tabClinicSessionsTable));
         startSessionButton.setOnAction(event -> {
@@ -371,6 +365,66 @@ public class PanelController extends Super implements Initializable, Physician {
 
     }
 
+    private void sendTest() {
+        String tests = testsInputPhysician.getText();
+        if (tests.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "NULL LAB TESTS", "LAB TESTS MUST BE SUBMITTED");
+        } else {
+            //send tests to lab table
+            //first select technician with least tests and who is active and select them as the person in charge of the test
+            String query = "SELECT * FROM USERS WHERE userclearancelevel=? and status=? ORDER BY numberoofappointments DESC ";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, "lab tech".toUpperCase());
+                preparedStatement.setString(2, "active");
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.isBeforeFirst()) {
+                    ArrayList<Integer> count = new ArrayList<>();
+                    ArrayList<Integer> labtechid = new ArrayList<>();
+
+                    while (resultSet.next()) {
+                        count.add(Integer.valueOf(resultSet.getString("numberoofappointments")));
+                        labtechid.add(Integer.valueOf(resultSet.getString("id")));
+
+                    }
+                    int min = Integer.MAX_VALUE;
+                    for (Integer integer : count) {
+                        if (integer < min) {
+                            min = integer;
+                        }
+                    }
+                    String docSelect = "SELECT * FROM users WHERE numberoofappointments=? AND userclearancelevel=?";
+                    PreparedStatement p1 = connection.prepareStatement(docSelect);
+                    p1.setInt(1, min);
+                    p1.setString(2, "LAB TECH");
+                    ResultSet r1 = p1.executeQuery();
+                    if (r1.next()) {
+                        //continue from here
+                        String email = r1.getString("email");
+
+                        String[] recs = {"tests", "technician", "patientname", "doctorname"};
+                        String[] values = {tests, email, currentSession.get("currentSession"), user.get("user")};
+                        insertIntoTable("labtests", recs, values);
+                        String docUpdate = "UPDATE users SET numberoofappointments=? WHERE email=?";
+                        PreparedStatement preparedStatement1 = connection.prepareStatement(docUpdate);
+                        preparedStatement1.setInt(1, min + 1);
+                        preparedStatement1.setString(2, email);
+                        int x = preparedStatement1.executeUpdate();
+                        if (x > 0) {
+                            showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "OPERATION FAILED");
+                        }
+                    }
+                } else
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), null, "SUCH AN ACCOUNT TYPE DOES NOT EXIST");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //completed method
     private void resumeSession(TableView<AppointmentMasterClass> tabClinicSessionsTable) {
         AppointmentMasterClass appointmentMasterClass = tabClinicSessionsTable.getSelectionModel().getSelectedItem();
 
@@ -395,7 +449,7 @@ public class PanelController extends Super implements Initializable, Physician {
         super.findInRecordsMethod(panel, data, findinrecords, patienttable, colpatientname, colpatientemail, colpatientnumber);
     }
 
-    @Override
+    @Override//completed method
     public void addPatientDetails() {
         String condition = conditionAddField.getText();
         String category = conditionAddCategoryField.getText();
@@ -433,7 +487,7 @@ public class PanelController extends Super implements Initializable, Physician {
 
     }
 
-    @Override
+    @Override//conmpleted method
     public void viewPatientDetails() {
         String query="SELECT * FROM conditions WHERE patientemail=?";
         try {
@@ -472,7 +526,7 @@ public class PanelController extends Super implements Initializable, Physician {
 
     }
 
-    @Override
+    @Override//completed method
     public void viewPatientAppointments() {
 
 
