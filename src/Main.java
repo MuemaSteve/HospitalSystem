@@ -157,7 +157,8 @@ public class Main extends Application {
         mainStage.getIcons().add(new Image(
                 APPLICATION_ICON
         ));
-
+        mainStage.setMaxHeight(700);
+        mainStage.setMaxWidth(1200);
         mainStage.setResizable(false);
         mainStage.setScene(new Scene(root));
         mainStage.show();
