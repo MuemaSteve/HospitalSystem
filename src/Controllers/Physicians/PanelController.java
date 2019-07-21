@@ -30,7 +30,10 @@ import java.sql.Statement;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
 import static Controllers.settings.user;
@@ -92,7 +95,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableTypeOfVisit;
     public TableColumn<AppointmentMasterClass, String> tabClinicAppointmentsTableTimeOfAppointment;
     public Button tabClinicAppointmentsTableCallInButton;
-    //    clinic lab tests
+    //    clinic lab teststext
     public Tab tabClinicLabTests;
     public TableView tabClinicLabTestsTable;
     public TableColumn tabClinicLabTestsTableId;
@@ -269,10 +272,7 @@ public class PanelController extends Super implements Initializable, Physician {
         }
     }
 
-    private String dateTimeMethod() {
-        Date date = new Date(System.currentTimeMillis());
-        return date.toString() + "::" + user.get("user");
-    }
+
     private void buttonListeners() {
         testsSendToLab.setOnAction(event -> {
             sendTest();
@@ -371,8 +371,8 @@ public class PanelController extends Super implements Initializable, Physician {
         if (tests.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "NULL LAB TESTS", "LAB TESTS MUST BE SUBMITTED");
         } else {
-            //send tests to lab table
-            //first select technician with least tests and who is active and select them as the person in charge of the test
+            //send teststext to lab table
+            //first select technician with least teststext and who is active and select them as the person in charge of the test
             String query = "SELECT * FROM USERS WHERE userclearancelevel=? and status=? ORDER BY numberoofappointments DESC ";
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);

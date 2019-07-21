@@ -21,6 +21,7 @@ import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Objects;
 
 import static Controllers.settings.*;
@@ -168,6 +169,10 @@ public class Super {
         alert.showAndWait();
     }
 
+    protected String dateTimeMethod() {
+        java.util.Date date = new Date(System.currentTimeMillis());
+        return date.toString() + "::" + user.get("user");
+    }
     protected void logOut(AnchorPane panel) {
         try {
             //logout code

@@ -111,6 +111,9 @@ public class Main extends Application {
                     statement.setQueryTimeout(30); // set timeout to 30 sec.
                     String sessions = "CREATE TABLE IF NOT EXISTS SessionPatients (" + "id INTEGER primary key autoincrement ,name TEXT ,email TEXT,sessionId  TEXT)";
                     statement.executeUpdate(sessions);
+
+                    String sessionsLab = "CREATE TABLE IF NOT EXISTS SessionLabs (" + "id INTEGER primary key autoincrement ,name TEXT ,email TEXT,sessionId  TEXT,testText TEXT)";
+                    statement.executeUpdate(sessionsLab);
                 } catch (SQLException e) {
                     // if the error message is "out of memory",
                     // it probably means no securityandtime file is found
