@@ -103,11 +103,11 @@ public class AppointmentMasterClass {
         return patientEmail.get();
     }
 
-    public SimpleStringProperty patientEmailProperty() {
-        return patientEmail;
-    }
-
     public void setPatientEmail(String patientEmail) {
         this.patientEmail.set(patientEmail);
+    }
+
+    public SimpleStringProperty patientEmailProperty() {
+        return patientEmail;
     }
 }

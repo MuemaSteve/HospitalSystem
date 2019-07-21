@@ -10,90 +10,89 @@ public class PatientsMasterClass {
     private SimpleStringProperty doctor = new SimpleStringProperty();
     private SimpleStringProperty prescription = new SimpleStringProperty();
     private SimpleStringProperty tests = new SimpleStringProperty();
+    private SimpleStringProperty ratings = new SimpleStringProperty();
 
     public int getSize() {
         return size.get();
-    }
-
-    public SimpleIntegerProperty sizeProperty() {
-        return size;
     }
 
     public void setSize(int size) {
         this.size.set(size);
     }
 
-    public String getId() {
-        return id.get();
+    public SimpleIntegerProperty sizeProperty() {
+        return size;
     }
 
-    public SimpleStringProperty idProperty() {
-        return id;
+    public String getId() {
+        return id.get();
     }
 
     public void setId(String id) {
         this.id.set(id);
     }
 
-    public String getDate() {
-        return date.get();
+    public SimpleStringProperty idProperty() {
+        return id;
     }
 
-    public SimpleStringProperty dateProperty() {
-        return date;
+    public String getDate() {
+        return date.get();
     }
 
     public void setDate(String date) {
         this.date.set(date);
     }
 
-    public String getDoctor() {
-        return doctor.get();
+    public SimpleStringProperty dateProperty() {
+        return date;
     }
 
-    public SimpleStringProperty doctorProperty() {
-        return doctor;
+    public String getDoctor() {
+        return doctor.get();
     }
 
     public void setDoctor(String doctor) {
         this.doctor.set(doctor);
     }
 
-    public String getPrescription() {
-        return prescription.get();
+    public SimpleStringProperty doctorProperty() {
+        return doctor;
     }
 
-    public SimpleStringProperty prescriptionProperty() {
-        return prescription;
+    public String getPrescription() {
+        return prescription.get();
     }
 
     public void setPrescription(String prescription) {
         this.prescription.set(prescription);
     }
 
-    public String getTests() {
-        return tests.get();
+    public SimpleStringProperty prescriptionProperty() {
+        return prescription;
     }
 
-    public SimpleStringProperty testsProperty() {
-        return tests;
+    public String getTests() {
+        return tests.get();
     }
 
     public void setTests(String tests) {
         this.tests.set(tests);
     }
 
-    public String getRatings() {
-        return ratings.get();
+    public SimpleStringProperty testsProperty() {
+        return tests;
     }
 
-    public SimpleStringProperty ratingsProperty() {
-        return ratings;
+    public String getRatings() {
+        return ratings.get();
     }
 
     public void setRatings(String ratings) {
         this.ratings.set(ratings);
     }
 
-    private SimpleStringProperty ratings = new SimpleStringProperty();
+    public SimpleStringProperty ratingsProperty() {
+        return ratings;
+    }
 }

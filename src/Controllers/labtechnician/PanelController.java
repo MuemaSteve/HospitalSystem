@@ -3,6 +3,8 @@ package Controllers.labtechnician;
 import Controllers.MasterClasses.LabTestsMasterClass;
 import Controllers.MasterClasses.SessionMasterClass;
 import Controllers.Super;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +25,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.IdentityHashMap;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
@@ -55,6 +59,7 @@ public class PanelController extends Super implements Initializable, LabSettings
     public Label clock;
     public Button logout;
     public Label title;
+    public Label session;
     private IdentityHashMap<String, String> currentSession = new IdentityHashMap<>();
 
     private ObservableList<LabTestsMasterClass> labTestsMasterClassObservableList = FXCollections.observableArrayList();
@@ -66,15 +71,32 @@ public class PanelController extends Super implements Initializable, LabSettings
         title.setText(appName + " Labs");
         buttonListeners();
         reloadTables();
+        tabContainer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            @Override
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                if (pendingteststab.isSelected() && currentSession.isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "CREATE A SESSION TO ACCES THIS AREA");
+                    try {
+                        panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/labtechnician/panel.fxml")))));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
+                } else {
+                    reloadTables();
+
+                }
+            }
+        });
 
     }
 
     private void reloadTables() {
+        if (!currentSession.isEmpty())
+            session.setText("Current session : " + currentSession.get("currentSession"));
         labTestsMasterClassObservableList.clear();
         sessionMasterClassObservableList.clear();
         viewSessions();
-        submitResults();
         try {
             viewTests();
         } catch (SQLException e) {
@@ -137,7 +159,6 @@ public class PanelController extends Super implements Initializable, LabSettings
             currentSession.replace("currentSession", email);
         }
 //            viewPatientDetails();
-
 //            System.out.println(email + " is the email");
         try {
             PreparedStatement main = connection.prepareStatement("SELECT * FROM patients WHERE email=?");
@@ -188,6 +209,8 @@ public class PanelController extends Super implements Initializable, LabSettings
                     appointmentMasterClass.setId(resultSet.getString("sessionId"));
                     appointmentMasterClass.setName(resultSet.getString("name"));
                     System.out.println(resultSet.getString("name"));
+                    System.out.println(resultSet.getString("sessionId"));
+                    System.out.println(resultSet.getString("email"));
                     appointmentMasterClass.setPatientEmail(resultSet.getString("email"));
                     sessionMasterClassObservableList.add(appointmentMasterClass);
                 }
@@ -208,16 +231,42 @@ public class PanelController extends Super implements Initializable, LabSettings
     }
 
     private void viewSessions() {
-
+        loadSessions();
     }
 
     private void submitResults() {
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE labtests SET results=? WHERE patientname=?");
+            preparedStatement.setString(1, testresults.getText());
+            preparedStatement.setString(2, currentSession.get("currentSession"));
+            if (preparedStatement.executeUpdate() > 0) {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+
+            } else {
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "ERROR UPDATING LAB TESTS");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void buttonListeners() {
         tablabSessionsTableresume.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                SessionMasterClass labTestsMasterClass = tablabSessionsTable.getSelectionModel().getSelectedItem();
+                String gemail = labTestsMasterClass.getPatientEmail();
+                if (!currentSession.isEmpty()) {
+                    currentSession.replace("currentSession", gemail);
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "SESSION CREATED FOR " + gemail.toUpperCase());
+
+                } else {
+                    currentSession.put("currentSession", gemail);
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "SESSION CREATED FOR " + gemail.toUpperCase());
+
+                }
 
             }
         });
@@ -236,7 +285,8 @@ public class PanelController extends Super implements Initializable, LabSettings
         submitTypedResult.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                submitResults();
+                endSession();
             }
         });
         pendingTestsTablestartTest.setOnAction(new EventHandler<ActionEvent>() {

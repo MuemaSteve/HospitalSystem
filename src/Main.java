@@ -72,7 +72,7 @@ public class Main extends Application {
             @Override
             protected ObservableList<String> call() throws InterruptedException {
                 ObservableList<String> observableArrayList =
-                        FXCollections.<String>observableArrayList();
+                        FXCollections.observableArrayList();
                 ObservableList<String> tasksToDo =
                         FXCollections.observableArrayList(
                                 "Initializing modules", "Setting up files", "Opening Files", "Initiating database", "Synchronising databases"

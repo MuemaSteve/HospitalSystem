@@ -16,97 +16,96 @@ public class ConditionsMasterClass {
         return conditionName.get();
     }
 
-    public SimpleStringProperty conditionNameProperty() {
-        return conditionName;
-    }
-
     public void setConditionName(String conditionName) {
         this.conditionName.set(conditionName);
     }
 
+    public SimpleStringProperty conditionNameProperty() {
+        return conditionName;
+    }
 
     public String getPatientId() {
         return patientId.get();
-    }
-
-    public int getSize() {
-        return size.get();
-    }
-
-    public SimpleIntegerProperty sizeProperty() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size.set(size);
-    }
-
-    public SimpleStringProperty patientIdProperty() {
-        return patientId;
     }
 
     public void setPatientId(String patientId) {
         this.patientId.set(patientId);
     }
 
-    public String getPatientemail() {
-        return patientemail.get();
+    public int getSize() {
+        return size.get();
     }
 
-    public SimpleStringProperty patientemailProperty() {
-        return patientemail;
+    public void setSize(int size) {
+        this.size.set(size);
+    }
+
+    public SimpleIntegerProperty sizeProperty() {
+        return size;
+    }
+
+    public SimpleStringProperty patientIdProperty() {
+        return patientId;
+    }
+
+    public String getPatientemail() {
+        return patientemail.get();
     }
 
     public void setPatientemail(String patientemail) {
         this.patientemail.set(patientemail);
     }
 
-    public String getPatientName() {
-        return conditionName.get();
+    public SimpleStringProperty patientemailProperty() {
+        return patientemail;
     }
 
-    public SimpleStringProperty patientNameProperty() {
-        return conditionName;
+    public String getPatientName() {
+        return conditionName.get();
     }
 
     public void setPatientName(String patientName) {
         this.conditionName.set(patientName);
     }
 
-    public String getDate() {
-        return date.get();
+    public SimpleStringProperty patientNameProperty() {
+        return conditionName;
     }
 
-    public SimpleStringProperty dateProperty() {
-        return date;
+    public String getDate() {
+        return date.get();
     }
 
     public void setDate(String date) {
         this.date.set(date);
     }
 
-    public String getCategory() {
-        return category.get();
+    public SimpleStringProperty dateProperty() {
+        return date;
     }
 
-    public SimpleStringProperty categoryProperty() {
-        return category;
+    public String getCategory() {
+        return category.get();
     }
 
     public void setCategory(String category) {
         this.category.set(category);
     }
 
+    public SimpleStringProperty categoryProperty() {
+        return category;
+    }
+
     public String getDoctor() {
         return doctor.get();
     }
 
-    public SimpleStringProperty doctorProperty() {
-        return doctor;
-    }
-
     public void setDoctor(String doctor) {
         this.doctor.set(doctor);
+    }
+
+    public SimpleStringProperty doctorProperty() {
+        return doctor;
     }
 
 }

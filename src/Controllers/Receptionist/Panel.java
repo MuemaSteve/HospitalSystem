@@ -184,8 +184,8 @@ public class Panel extends Super implements Initializable {
                     //continue from here
                     String idDoc = r1.getString("id");
 
-                    String recs[] = {"PatientId", "doctorId"};
-                    String values[] = {id, idDoc};
+                    String[] recs = {"PatientId", "doctorId"};
+                    String[] values = {id, idDoc};
                     insertIntoTable("appointments", recs, values);
                     String docUpdate = "UPDATE users SET numberoofappointments=? WHERE id=?";
                     PreparedStatement preparedStatement = connection.prepareStatement(docUpdate);

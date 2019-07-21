@@ -16,84 +16,84 @@ public class StaffMasterClass {
         return size.get();
     }
 
-    public SimpleIntegerProperty sizeProperty() {
-        return size;
-    }
-
     public void setSize(int size) {
         this.size.set(size);
+    }
+
+    public SimpleIntegerProperty sizeProperty() {
+        return size;
     }
 
     public String getId() {
         return id.get();
     }
 
-    public SimpleStringProperty idProperty() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id.set(id);
+    }
+
+    public SimpleStringProperty idProperty() {
+        return id;
     }
 
     public String getName() {
         return name.get();
     }
 
-    public SimpleStringProperty nameProperty() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name.set(name);
+    }
+
+    public SimpleStringProperty nameProperty() {
+        return name;
     }
 
     public String getEmail() {
         return email.get();
     }
 
-    public SimpleStringProperty emailProperty() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email.set(email);
+    }
+
+    public SimpleStringProperty emailProperty() {
+        return email;
     }
 
     public String getIdentity() {
         return identity.get();
     }
 
-    public SimpleStringProperty identityProperty() {
-        return identity;
-    }
-
     public void setIdentity(String identity) {
         this.identity.set(identity);
+    }
+
+    public SimpleStringProperty identityProperty() {
+        return identity;
     }
 
     public String getBranch() {
         return branch.get();
     }
 
-    public SimpleStringProperty branchProperty() {
-        return branch;
-    }
-
     public void setBranch(String branch) {
         this.branch.set(branch);
+    }
+
+    public SimpleStringProperty branchProperty() {
+        return branch;
     }
 
     public String getStatus() {
         return status.get();
     }
 
-    public SimpleStringProperty statusProperty() {
-        return status;
-    }
-
     public void setStatus(String status) {
         this.status.set(status);
+    }
+
+    public SimpleStringProperty statusProperty() {
+        return status;
     }
 
 

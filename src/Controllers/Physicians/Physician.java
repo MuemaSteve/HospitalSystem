@@ -4,6 +4,7 @@ import java.util.IdentityHashMap;
 
 public interface Physician {
     IdentityHashMap<String, String> currentSession = new IdentityHashMap<>();
+
     void addPatientDetails();
 
     void viewPatientDetails();

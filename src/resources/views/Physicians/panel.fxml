@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
-            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Physicians.PanelController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
+            styleClass="basicscene" stylesheets="@../css/basicscene.css"
+            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Physicians.PanelController">
     <children>
         <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
             <children>
@@ -421,7 +421,7 @@
                                                                                                                 prefWidth="177.0"
                                                                                                                 text="PATIENT NAME"/>
                                                                                                     </columns>
-                                                                        </TableView>
+                                                                                                </TableView>
                                                                                                 <Button fx:id="tabClinicLabTestsTableGetFullReportButton"
                                                                                                         layoutX="846.0"
                                                                                                         layoutY="128.0"

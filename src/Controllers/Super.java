@@ -28,6 +28,7 @@ import static Controllers.settings.*;
 
 public class Super {
     protected Connection localDbConnection;
+    protected Connection connection;
 
     {
         try {
@@ -36,8 +37,6 @@ public class Super {
             e.printStackTrace();
         }
     }
-
-    protected Connection connection;
 
     {
         try {
@@ -173,6 +172,7 @@ public class Super {
         java.util.Date date = new Date(System.currentTimeMillis());
         return date.toString() + "::" + user.get("user");
     }
+
     protected void logOut(AnchorPane panel) {
         try {
             //logout code
@@ -212,7 +212,7 @@ public class Super {
             if (seconds > 9) {
                 secs = String.valueOf(seconds);
             } else {
-                secs = "0" + String.valueOf(seconds);
+                secs = "0" + seconds;
 
             }
             clock.setText(hours + ":" + (mins) + ":" + (secs) + " " + pmam);

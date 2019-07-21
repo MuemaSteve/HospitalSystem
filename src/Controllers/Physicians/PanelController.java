@@ -133,6 +133,7 @@ public class PanelController extends Super implements Initializable, Physician {
 
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private String date;
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 //        loadSessions();
@@ -490,6 +491,7 @@ public class PanelController extends Super implements Initializable, Physician {
             }
         }
     }
+
     @Override
     public void viewPatientHistory() {
 
@@ -531,17 +533,17 @@ public class PanelController extends Super implements Initializable, Physician {
 
     @Override//conmpleted method
     public void viewPatientDetails() {
-        String query="SELECT * FROM conditions WHERE patientemail=?";
+        String query = "SELECT * FROM conditions WHERE patientemail=?";
         try {
-            PreparedStatement preparedStatement=connection.prepareStatement(query);
-            System.out.println("Email= "+currentSession.get("currentSession"));
-            if(currentSession.get("currentSession")!=null){
-                preparedStatement.setString(1,currentSession.get("currentSession"));
-                ResultSet resultSet=preparedStatement.executeQuery();
-                if (resultSet.isBeforeFirst()){
-                    while (resultSet.next()){
-                        ConditionsMasterClass conditionsMasterClass=new ConditionsMasterClass();
-                        conditionsMasterClass.setSize(conditionsMasterClass.getSize()+1);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            System.out.println("Email= " + currentSession.get("currentSession"));
+            if (currentSession.get("currentSession") != null) {
+                preparedStatement.setString(1, currentSession.get("currentSession"));
+                ResultSet resultSet = preparedStatement.executeQuery();
+                if (resultSet.isBeforeFirst()) {
+                    while (resultSet.next()) {
+                        ConditionsMasterClass conditionsMasterClass = new ConditionsMasterClass();
+                        conditionsMasterClass.setSize(conditionsMasterClass.getSize() + 1);
                         conditionsMasterClass.setPatientId(resultSet.getString("id"));
                         conditionsMasterClass.setPatientemail(resultSet.getString("patientemail"));
                         conditionsMasterClass.setConditionName(resultSet.getString("conditionName"));
@@ -557,7 +559,7 @@ public class PanelController extends Super implements Initializable, Physician {
                     existingConditionsTabTableCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
                     existingConditionsTabTableDoctor.setCellValueFactory(new PropertyValueFactory<>("doctor"));
                     existingConditionsTabTable.refresh();
-                }else {
+                } else {
                     System.out.println("Error");
                 }
             }

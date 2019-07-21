@@ -148,7 +148,7 @@ public class LoginControllerClass extends Super implements Initializable {
 //                                    go to admin panel
                                     settings.login.put("loggedinasadmin", true);
                                     settings.user.put("user", resultSet.getString("email"));
-                                    settings.name.put("username",resultSet.getString("name"));
+                                    settings.name.put("username", resultSet.getString("name"));
                                     settings.id.put("userid", resultSet.getString("id"));
                                     settings.hospital.put("hospital_name", resultSet.getString("hospital"));
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Admins/panel.fxml")))));
@@ -188,7 +188,7 @@ public class LoginControllerClass extends Super implements Initializable {
                                     settings.hospital.put("hospital_name", resultSet.getString("hospital"));
                                     settings.login.put("loggedinasdoctor", true);
                                     settings.user.put("user", resultSet.getString("email"));
-                                    settings.name.put("username",resultSet.getString("name"));
+                                    settings.name.put("username", resultSet.getString("name"));
                                     settings.id.put("userid", resultSet.getString("id"));
 
                                     panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Physicians/panel.fxml")))));
