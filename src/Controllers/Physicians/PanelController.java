@@ -133,7 +133,6 @@ public class PanelController extends Super implements Initializable, Physician {
 
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private String date;
-
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 //        loadSessions();
@@ -491,7 +490,6 @@ public class PanelController extends Super implements Initializable, Physician {
             }
         }
     }
-
     @Override
     public void viewPatientHistory() {
 

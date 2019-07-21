@@ -70,8 +70,8 @@ public class PanelController extends Super implements Initializable {
     public Button maternity;
     public Button leave;
     public Button shortBreak;
-    double tabWidth = 200.0;
-    ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
+    private double tabWidth = 200.0;
+    private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private ObservableList<StaffMasterClass> staffMasterClassObservableList = FXCollections.observableArrayList();
     private File file;
     private FileInputStream fileInputStream;
@@ -177,7 +177,7 @@ public class PanelController extends Super implements Initializable {
             fileChooser.getExtensionFilters().addAll(extensionFilterPdf);
             fileChooser.setTitle("SELECT PDF FILE OF CERTIFICATION");
             //Show open file dialog
-            file = fileChooser.showOpenDialog(null);
+            file = fileChooser.showOpenDialog(panel.getScene().getWindow());
             length = (int) file.length();
 
             try {

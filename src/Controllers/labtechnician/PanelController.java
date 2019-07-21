@@ -3,10 +3,9 @@ package Controllers.labtechnician;
 import Controllers.MasterClasses.LabTestsMasterClass;
 import Controllers.MasterClasses.SessionMasterClass;
 import Controllers.Super;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +14,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -60,8 +66,12 @@ public class PanelController extends Super implements Initializable, LabSettings
     public Button logout;
     public Label title;
     public Label session;
+    public ImageView previewImage;
+    private File file;
+    private int length = 0;
+    BufferedImage bufferedImage;
     private IdentityHashMap<String, String> currentSession = new IdentityHashMap<>();
-
+    private FileInputStream fileInputStream;
     private ObservableList<LabTestsMasterClass> labTestsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<SessionMasterClass> sessionMasterClassObservableList = FXCollections.observableArrayList();
 
@@ -71,23 +81,17 @@ public class PanelController extends Super implements Initializable, LabSettings
         title.setText(appName + " Labs");
         buttonListeners();
         reloadTables();
-        tabContainer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
-            @Override
-            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-                if (pendingteststab.isSelected() && currentSession.isEmpty()) {
-                    showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "CREATE A SESSION TO ACCES THIS AREA");
-                    try {
-                        panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/labtechnician/panel.fxml")))));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    reloadTables();
-
+        tabContainer.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
+            if (nv.textProperty().getValue().equals("TEST RESULTS") && currentSession.isEmpty()) {
+                try {
+                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/labtechnician/panel.fxml")))));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "CREATE SESSION FIRST");
             }
         });
+
 
     }
 
@@ -242,7 +246,7 @@ public class PanelController extends Super implements Initializable, LabSettings
             preparedStatement.setString(2, currentSession.get("currentSession"));
             if (preparedStatement.executeUpdate() > 0) {
                 showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
-
+                testresults.clear();
             } else {
                 showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "ERROR UPDATING LAB TESTS");
             }
@@ -279,7 +283,33 @@ public class PanelController extends Super implements Initializable, LabSettings
         submitImageResult.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
 
+                //Set extension filter
+                FileChooser.ExtensionFilter extensionFilterPng = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+                FileChooser.ExtensionFilter extensionFilterJpg = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.jpg");
+                FileChooser.ExtensionFilter extensionFilterJpeg = new FileChooser.ExtensionFilter("JPEG files (*.jpeg)", "*.jpeg");
+                FileChooser.ExtensionFilter extensionFilterBmp = new FileChooser.ExtensionFilter("BMP files (*.bmp)", "*.bmp");
+                fileChooser.getExtensionFilters().addAll(extensionFilterPng, extensionFilterJpg, extensionFilterJpeg, extensionFilterBmp);
+                fileChooser.setTitle("SELECT IMAGE FILE");
+
+                //Show open file dialog
+                file = fileChooser.showOpenDialog(panel.getScene().getWindow());
+                length = (int) file.length();
+
+                //                    fileInputStream = new FileInputStream(file);
+                try {
+                    bufferedImage = ImageIO.read(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+                if (length > 0) {
+                    previewImage.setImage(image);
+                    submitTypedResult.setDisable(true);
+                } else {
+                    System.out.println("error");
+                }
             }
         });
         submitTypedResult.setOnAction(new EventHandler<ActionEvent>() {
