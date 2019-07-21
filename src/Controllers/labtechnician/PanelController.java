@@ -65,7 +65,14 @@ public class PanelController extends Super implements Initializable, LabSettings
         time(clock);
         title.setText(appName + " Labs");
         buttonListeners();
+        reloadTables();
 
+
+    }
+
+    private void reloadTables() {
+        labTestsMasterClassObservableList.clear();
+        sessionMasterClassObservableList.clear();
         viewSessions();
         submitResults();
         try {
@@ -73,7 +80,6 @@ public class PanelController extends Super implements Initializable, LabSettings
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
 //    private void initializer() {
@@ -116,11 +122,11 @@ public class PanelController extends Super implements Initializable, LabSettings
             pendingTestsTablepatientname.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("patientName"));
             pendingTestsTableTests.setCellValueFactory(new PropertyValueFactory<>("tests"));
             pendingTestsTable.refresh();
-            labTestsMasterClassObservableList.clear();
+//            labTestsMasterClassObservableList.clear();
         } else {
             showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "FREEDOM", "THERE ARE NO TESTS TO BE DONE BY YOU");
         }
-        viewTests();
+//        viewTests();
     }
 
     private void startSession(String tests, String email) {
@@ -240,6 +246,7 @@ public class PanelController extends Super implements Initializable, LabSettings
                 String tests = labTestsMasterClass.getTests();
                 String gemail = labTestsMasterClass.getPatientName();
                 startSession(tests, gemail);
+                reloadTables();
             }
         });
 

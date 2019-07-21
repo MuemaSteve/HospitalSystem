@@ -2,6 +2,7 @@ package Controllers.Physicians;
 
 import Controllers.MasterClasses.AppointmentMasterClass;
 import Controllers.MasterClasses.ConditionsMasterClass;
+import Controllers.MasterClasses.LabTestsMasterClass;
 import Controllers.MasterClasses.RecordsMasterClass;
 import Controllers.Super;
 import Controllers.settings;
@@ -97,11 +98,11 @@ public class PanelController extends Super implements Initializable, Physician {
     public Button tabClinicAppointmentsTableCallInButton;
     //    clinic lab teststext
     public Tab tabClinicLabTests;
-    public TableView tabClinicLabTestsTable;
-    public TableColumn tabClinicLabTestsTableId;
-    public TableColumn tabClinicLabTestsTableTestType;
-    public TableColumn tabClinicLabTestsTableTechnician;
-    public TableColumn tabClinicLabTestsTablePatientName;
+    public TableView<LabTestsMasterClass> tabClinicLabTestsTable;
+    public TableColumn<LabTestsMasterClass, String> tabClinicLabTestsTableId;
+    public TableColumn<LabTestsMasterClass, String> tabClinicLabTestsTableTestType;
+    public TableColumn<LabTestsMasterClass, String> tabClinicLabTestsTableTechnician;
+    public TableColumn<LabTestsMasterClass, String> tabClinicLabTestsTablePatientName;
     public Button tabClinicLabTestsTableGetFullReportButton;
     public Button tabClinicLabTestsTablemoveReportToDiagnosis;
     //    clinic diagnosis
@@ -128,14 +129,15 @@ public class PanelController extends Super implements Initializable, Physician {
     private ObservableList<ConditionsMasterClass> conditionsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList2 = FXCollections.observableArrayList();
+    private ObservableList<LabTestsMasterClass> labTestsMasterClassObservableList = FXCollections.observableArrayList();
 
     private ArrayList<TabPane> tabPaneArrayList = new ArrayList<>();
     private String date;
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        loadSessions();
-        viewPatientDetails();
-
+//        loadSessions();
+//        viewPatientDetails();
+        reloadTables();
         searchPatientTab.setOnSelectionChanged(event -> {
 
             if (currentSession.isEmpty() && (!searchPatientTab.isSelected() && !sessionsTab.isSelected())) {
@@ -274,6 +276,16 @@ public class PanelController extends Super implements Initializable, Physician {
 
 
     private void buttonListeners() {
+        tablehistoryGetReportButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                getReport();
+            }
+
+            private void getReport() {
+                //show report from lab
+            }
+        });
         testsSendToLab.setOnAction(event -> {
             sendTest();
         });
@@ -485,6 +497,35 @@ public class PanelController extends Super implements Initializable, Physician {
 
     @Override
     public void viewPatientLabTests() {
+//select teststext where technician is the current logged in user
+        String selectTechnicianTests = "SELECT * FROM labtests WHERE doctorname=?";
+        PreparedStatement select = null;
+        try {
+            select = connection.prepareStatement(selectTechnicianTests);
+            select.setString(1, user.get("user"));
+            ResultSet selectedResults = select.executeQuery();
+            if (selectedResults.isBeforeFirst()) {
+                while (selectedResults.next()) {
+                    LabTestsMasterClass labTestsMasterClass = new LabTestsMasterClass();
+                    labTestsMasterClass.setId(selectedResults.getString("id"));
+                    labTestsMasterClass.setDocName(selectedResults.getString("doctorname"));
+                    labTestsMasterClass.setPatientName(selectedResults.getString("patientname"));
+                    labTestsMasterClass.setTests(selectedResults.getString("tests"));
+                    labTestsMasterClassObservableList.add(labTestsMasterClass);
+                }
+                tabClinicLabTestsTable.setItems(labTestsMasterClassObservableList);
+                tabClinicLabTestsTableId.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("id"));
+                tabClinicLabTestsTableTechnician.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("docName"));
+                tabClinicLabTestsTablePatientName.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("patientName"));
+                tabClinicLabTestsTableTestType.setCellValueFactory(new PropertyValueFactory<>("tests"));
+                tabClinicLabTestsTable.refresh();
+//                labTestsMasterClassObservableList.clear();
+            } else {
+                showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "FREEDOM", "THERE ARE NO TESTS TO BE DONE BY YOU");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -521,7 +562,7 @@ public class PanelController extends Super implements Initializable, Physician {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Table haiwork");
+//            System.out.println("Table haiwork");
             e.printStackTrace();
         }
 
@@ -573,7 +614,7 @@ public class PanelController extends Super implements Initializable, Physician {
 
     }
 
-    public String datepicker(DatePicker dob) {
+    private String datepicker(DatePicker dob) {
         String pattern = "dd-MM-yyyy";
         dob.setPromptText(pattern.toUpperCase());
 
@@ -646,7 +687,7 @@ public class PanelController extends Super implements Initializable, Physician {
         conditionsMasterClassObservableList.clear();
         appointmentMasterClassObservableList.clear();
         appointmentMasterClassObservableList2.clear();
-
+        labTestsMasterClassObservableList.clear();
         loadSessions();
         viewPatientAppointments();
         viewPatientDetails();
