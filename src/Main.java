@@ -26,8 +26,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static Controllers.settings.APPLICATION_ICON;
-import static Controllers.settings.localDb;
+import static Controllers.settings.*;
 
 
 public class Main extends Application {
@@ -160,6 +159,7 @@ public class Main extends Application {
         mainStage.getIcons().add(new Image(
                 APPLICATION_ICON
         ));
+        mainStage.setTitle(appName.toUpperCase() + " HOSPITAL MANAGEMENT SYSTEM ".toUpperCase());
         mainStage.setMaxHeight(700);
         mainStage.setMaxWidth(1200);
         mainStage.setResizable(false);
@@ -194,6 +194,7 @@ public class Main extends Application {
         initStage.setScene(splashScene);
         initStage.getIcons().add(new Image(APPLICATION_ICON));
         initStage.setResizable(false);
+        initStage.setTitle(appName);
         initStage.setHeight(SPLASH_HEIGHT);
         initStage.setWidth(SPLASH_WIDTH);
         initStage.initStyle(StageStyle.TRANSPARENT);

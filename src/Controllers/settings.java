@@ -16,7 +16,6 @@ public interface settings {
     String[] des = {"jdbc:mysql://127.0.0.1/edoc_hospitals", "root", ""};
 //    String[] des = {"jdbc:mysql://nanotechsoftwares.co.ke:3306/nanotech_HospitalSystem", "nanotech_admin", ",4=y4,Zv6hR}"};
 
-    String appName = "Doctore ";
-    String APPLICATION_ICON =
-            "resources/images/logo.png";
+    String appName = "Medica ";
+    String APPLICATION_ICON = "resources/images/logo.png";
 }

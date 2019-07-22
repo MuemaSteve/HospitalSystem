@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panel" prefHeight="700.0" prefWidth="1200.0"
-            styleClass="basicscene" stylesheets="@../css/basicscene.css"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Physicians.PanelController">
+<AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
+            stylesheets="@../css/basicscene.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Physicians.PanelController">
     <children>
         <StackPane layoutY="66.0" prefHeight="633.0" prefWidth="1200.0" stylesheets="@../css/basicscene.css">
             <children>
@@ -131,47 +131,6 @@
                                                                         <Font size="19.0"/>
                                                                     </font>
                                                                 </TextField>
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </Tab>
-                                                <Tab fx:id="sessionsTab" text="SESSIONS">
-                                                    <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0"
-                                                                    prefWidth="1177.0">
-                                                            <children>
-                                                                <AnchorPane layoutX="14.0" layoutY="24.0"
-                                                                            prefHeight="469.0" prefWidth="1141.0"
-                                                                            style="-fx-background-color: white;"
-                                                                            styleClass="innerform">
-                                                                    <children>
-                                                                        <ScrollPane layoutX="22.0" layoutY="23.0"
-                                                                                    prefHeight="416.0"
-                                                                                    prefWidth="710.0"/>
-                                                                        <TableView fx:id="tabClinicSessionsTable"
-                                                                                   layoutX="22.0" layoutY="24.0"
-                                                                                   prefHeight="411.0" prefWidth="709.0">
-                                                                            <columns>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicSessionsTableId"
-                                                                                        prefWidth="75.0" text="ID"/>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicSessionsTablePatientEmail"
-                                                                                        minWidth="2.0" prefWidth="145.0"
-                                                                                        text="EMAIL"/>
-                                                                                <TableColumn
-                                                                                        fx:id="tabClinicSessionsTableName"
-                                                                                        prefWidth="177.0"
-                                                                                        text="PATIENT NAME"/>
-                                                                            </columns>
-                                                                        </TableView>
-                                                                        <Button fx:id="tabClinicSessionsTableResumeInButton"
-                                                                                layoutX="846.0" layoutY="165.0"
-                                                                                mnemonicParsing="false"
-                                                                                prefHeight="49.0" prefWidth="193.0"
-                                                                                text="RESUME SESSION"/>
-                                                                    </children>
-                                                                </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -367,117 +326,26 @@
                                         <TabPane fx:id="tabcontainerclinicpane" layoutX="3.0" prefHeight="604.0"
                                                  prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
                                             <tabs>
-                                                <Tab fx:id="tabClinicLabTests" text="LAB TESTS">
+                                                <Tab text="NEW TESTS">
                                                     <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0"
-                                                                    prefWidth="200.0">
+                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0"
+                                                                    prefWidth="769.0">
                                                             <children>
-                                                                <TabPane layoutX="14.0" fx:id="labteststabpane"
-                                                                         layoutY="14.0" prefHeight="535.0"
-                                                                         prefWidth="1179.0"
-                                                                         tabClosingPolicy="UNAVAILABLE">
-                                                                    <tabs>
-                                                                        <Tab text="EXISTING TESTS">
-                                                                            <content>
-                                                                                <AnchorPane minHeight="0.0"
-                                                                                            minWidth="0.0"
-                                                                                            prefHeight="180.0"
-                                                                                            prefWidth="200.0">
-                                                                                    <children>
-                                                                                        <AnchorPane layoutX="64.0"
-                                                                                                    layoutY="12.0"
-                                                                                                    prefHeight="482.0"
-                                                                                                    prefWidth="1101.0"
-                                                                                                    style="-fx-background-color: white;"
-                                                                                                    styleClass="innerform">
-                                                                                            <children>
-                                                                                                <ScrollPane
-                                                                                                        layoutX="22.0"
-                                                                                                        layoutY="23.0"
-                                                                                                        prefHeight="426.0"
-                                                                                                        prefWidth="710.0"/>
-                                                                                                <TableView
-                                                                                                        fx:id="tabClinicLabTestsTable"
-                                                                                                        layoutX="22.0"
-                                                                                                        layoutY="24.0"
-                                                                                                        prefHeight="422.0"
-                                                                                                        prefWidth="709.0">
-                                                                                                    <columns>
-                                                                                                        <TableColumn
-                                                                                                                fx:id="tabClinicLabTestsTableId"
-                                                                                                                prefWidth="75.0"
-                                                                                                                text="ID"/>
-                                                                                                        <TableColumn
-                                                                                                                fx:id="tabClinicLabTestsTableTestType"
-                                                                                                                prefWidth="219.0"
-                                                                                                                text="TYPE OF TEST"/>
-                                                                                                        <TableColumn
-                                                                                                                fx:id="tabClinicLabTestsTableTechnician"
-                                                                                                                minWidth="2.0"
-                                                                                                                prefWidth="145.0"
-                                                                                                                text="TECHNICIAN"/>
-                                                                                                        <TableColumn
-                                                                                                                fx:id="tabClinicLabTestsTablePatientName"
-                                                                                                                prefWidth="177.0"
-                                                                                                                text="PATIENT NAME"/>
-                                                                                                    </columns>
-                                                                                                </TableView>
-                                                                                                <Button fx:id="tabClinicLabTestsTableGetFullReportButton"
-                                                                                                        layoutX="846.0"
-                                                                                                        layoutY="128.0"
-                                                                                                        mnemonicParsing="false"
-                                                                                                        prefHeight="49.0"
-                                                                                                        prefWidth="193.0"
-                                                                                                        text="VIEW FULL REPORT"/>
-                                                                                                <Button fx:id="tabClinicLabTestsTablemoveReportToDiagnosis"
-                                                                                                        layoutX="846.0"
-                                                                                                        layoutY="237.0"
-                                                                                                        mnemonicParsing="false"
-                                                                                                        prefHeight="49.0"
-                                                                                                        prefWidth="193.0"
-                                                                                                        text="MOVE REPORT TO DIAGNOSIS"/>
-                                                                                            </children>
-                                                                                        </AnchorPane>
-                                                                                    </children>
-                                                                                </AnchorPane>
-                                                                            </content>
-                                                                        </Tab>
-                                                                        <Tab text="NEW TESTS">
-                                                                            <content>
-                                                                                <AnchorPane minHeight="0.0"
-                                                                                            minWidth="0.0"
-                                                                                            prefHeight="504.0"
-                                                                                            prefWidth="769.0">
-                                                                                    <children>
-                                                                                        <AnchorPane layoutX="112.0"
-                                                                                                    layoutY="32.0"
-                                                                                                    prefHeight="428.0"
-                                                                                                    prefWidth="934.0"
-                                                                                                    style="-fx-background-color: white;"
-                                                                                                    styleClass="innerform">
-                                                                                            <children>
-                                                                                                <TextArea
-                                                                                                        layoutX="112.0"
-                                                                                                        layoutY="39.0"
-                                                                                                        prefHeight="290.0"
-                                                                                                        prefWidth="711.0"
-                                                                                                        promptText="TESTS TO BE COMPLETED...."
-                                                                                                        fx:id="testsInputPhysician"/>
-                                                                                                <Button layoutX="393.0"
-                                                                                                        layoutY="350.0"
-                                                                                                        mnemonicParsing="false"
-                                                                                                        prefHeight="49.0"
-                                                                                                        prefWidth="150.0"
-                                                                                                        text="SEND TO LAB"
-                                                                                                        fx:id="testsSendToLab"/>
-                                                                                            </children>
-                                                                                        </AnchorPane>
-                                                                                    </children>
-                                                                                </AnchorPane>
-                                                                            </content>
-                                                                        </Tab>
-                                                                    </tabs>
-                                                                </TabPane>
+                                                                <AnchorPane layoutX="112.0" layoutY="32.0"
+                                                                            prefHeight="428.0" prefWidth="934.0"
+                                                                            style="-fx-background-color: white;"
+                                                                            styleClass="innerform">
+                                                                    <children>
+                                                                        <TextArea fx:id="testsInputPhysician"
+                                                                                  layoutX="112.0" layoutY="39.0"
+                                                                                  prefHeight="290.0" prefWidth="711.0"
+                                                                                  promptText="TESTS TO BE COMPLETED...."/>
+                                                                        <Button fx:id="testsSendToLab" layoutX="393.0"
+                                                                                layoutY="350.0" mnemonicParsing="false"
+                                                                                prefHeight="49.0" prefWidth="150.0"
+                                                                                text="SEND TO LAB"/>
+                                                                    </children>
+                                                                </AnchorPane>
                                                             </children>
                                                         </AnchorPane>
                                                     </content>
@@ -547,6 +415,73 @@
                                                 </Tab>
                                             </tabs>
                                         </TabPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="EXISTING TESTS">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <AnchorPane layoutX="64.0" layoutY="12.0" prefHeight="482.0" prefWidth="1101.0"
+                                                    style="-fx-background-color: white;" styleClass="innerform">
+                                            <children>
+                                                <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="426.0"
+                                                            prefWidth="710.0"/>
+                                                <TableView fx:id="tabClinicLabTestsTable" layoutX="22.0" layoutY="24.0"
+                                                           prefHeight="422.0" prefWidth="798.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="tabClinicLabTestsTableId" prefWidth="27.0"
+                                                                     text="ID"/>
+                                                        <TableColumn fx:id="tabClinicLabTestsTableTestType"
+                                                                     prefWidth="267.0" text="TYPE OF TEST"/>
+                                                        <TableColumn fx:id="tabClinicLabTestsTableTechnician"
+                                                                     minWidth="2.0" prefWidth="145.0"
+                                                                     text="TECHNICIAN"/>
+                                                        <TableColumn fx:id="tabClinicLabTestsTablePatientName"
+                                                                     prefWidth="177.0" text="PATIENT NAME"/>
+                                                        <TableColumn fx:id="tabClinicLabTestsTableStatus"
+                                                                     prefWidth="177.0" text="STATUS"/>
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="tabClinicLabTestsTableGetFullReportButton"
+                                                        layoutX="846.0" layoutY="128.0" mnemonicParsing="false"
+                                                        prefHeight="49.0" prefWidth="193.0" text="VIEW FULL REPORT"/>
+                                                <Button fx:id="tabClinicLabTestsTablemoveReportToDiagnosis"
+                                                        layoutX="846.0" layoutY="237.0" mnemonicParsing="false"
+                                                        prefHeight="49.0" prefWidth="193.0"
+                                                        text="MOVE REPORT TO DIAGNOSIS"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab fx:id="sessionsTab" text="SESSIONS">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="1177.0">
+                                    <children>
+                                        <AnchorPane layoutX="14.0" layoutY="24.0" prefHeight="469.0" prefWidth="1141.0"
+                                                    style="-fx-background-color: white;" styleClass="innerform">
+                                            <children>
+                                                <ScrollPane layoutX="22.0" layoutY="23.0" prefHeight="416.0"
+                                                            prefWidth="710.0"/>
+                                                <TableView fx:id="tabClinicSessionsTable" layoutX="22.0" layoutY="24.0"
+                                                           prefHeight="411.0" prefWidth="709.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="tabClinicSessionsTableId" prefWidth="75.0"
+                                                                     text="ID"/>
+                                                        <TableColumn fx:id="tabClinicSessionsTablePatientEmail"
+                                                                     minWidth="2.0" prefWidth="145.0" text="EMAIL"/>
+                                                        <TableColumn fx:id="tabClinicSessionsTableName"
+                                                                     prefWidth="177.0" text="PATIENT NAME"/>
+                                                    </columns>
+                                                </TableView>
+                                                <Button fx:id="tabClinicSessionsTableResumeInButton" layoutX="846.0"
+                                                        layoutY="165.0" mnemonicParsing="false" prefHeight="49.0"
+                                                        prefWidth="193.0" text="RESUME SESSION"/>
+                                            </children>
+                                        </AnchorPane>
                                     </children>
                                 </AnchorPane>
                             </content>

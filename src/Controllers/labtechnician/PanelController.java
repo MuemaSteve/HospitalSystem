@@ -20,11 +20,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -48,6 +48,7 @@ public class PanelController extends Super implements Initializable, LabSettings
     public TableColumn<LabTestsMasterClass, String> pendingTestsTabledoctor;
     public TableColumn<LabTestsMasterClass, String> pendingTestsTablepatientname;
     public TableColumn<LabTestsMasterClass, String> pendingTestsTableTests;
+    public TableColumn<LabTestsMasterClass, String> pendingTestsTableStatus;
 
     public Button pendingTestsTablestartTest;
     public Button pendingTestsTableviewdetails;
@@ -69,9 +70,8 @@ public class PanelController extends Super implements Initializable, LabSettings
     public ImageView previewImage;
     private File file;
     private int length = 0;
-    BufferedImage bufferedImage;
+    private BufferedImage bufferedImage;
     private IdentityHashMap<String, String> currentSession = new IdentityHashMap<>();
-    private FileInputStream fileInputStream;
     private ObservableList<LabTestsMasterClass> labTestsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<SessionMasterClass> sessionMasterClassObservableList = FXCollections.observableArrayList();
 
@@ -140,12 +140,14 @@ public class PanelController extends Super implements Initializable, LabSettings
                 labTestsMasterClass.setDocName(selectedResults.getString("doctorname"));
                 labTestsMasterClass.setPatientName(selectedResults.getString("patientname"));
                 labTestsMasterClass.setTests(selectedResults.getString("tests"));
+                labTestsMasterClass.setStatus(selectedResults.getString("status"));
                 labTestsMasterClassObservableList.add(labTestsMasterClass);
             }
             pendingTestsTable.setItems(labTestsMasterClassObservableList);
             pendingTestsTableid.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("id"));
             pendingTestsTabledoctor.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("docName"));
             pendingTestsTablepatientname.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("patientName"));
+            pendingTestsTableStatus.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("status"));
             pendingTestsTableTests.setCellValueFactory(new PropertyValueFactory<>("tests"));
             pendingTestsTable.refresh();
 //            labTestsMasterClassObservableList.clear();
@@ -158,6 +160,14 @@ public class PanelController extends Super implements Initializable, LabSettings
     private void startSession(String tests, String email) {
         if (currentSession.isEmpty()) {
             currentSession.put("currentSession", email);
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE labtests set status=? WHERE patientname=?");
+                preparedStatement.setString(1, "ONGOING");
+                preparedStatement.setString(2, email);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
         } else {
             currentSession.replace("currentSession", email);
@@ -307,10 +317,34 @@ public class PanelController extends Super implements Initializable, LabSettings
                 if (length > 0) {
                     previewImage.setImage(image);
                     submitTypedResult.setDisable(true);
+                    submitImageResults(file);
                 } else {
                     System.out.println("error");
                 }
+                endSession();
             }
+
+            private void submitImageResults(File file) {
+                PreparedStatement preparedStatement;
+                try {
+                    preparedStatement = connection.prepareStatement("UPDATE labtests SET results=? WHERE patientname=?");
+                    try {
+                        preparedStatement.setBinaryStream(1, FileUtils.openInputStream(file), length);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    preparedStatement.setString(2, currentSession.get("currentSession"));
+                    if (preparedStatement.executeUpdate() > 0) {
+                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                        previewImage.setImage(null);
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "ERROR UPDATING LAB TESTS");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
         submitTypedResult.setOnAction(new EventHandler<ActionEvent>() {
             @Override

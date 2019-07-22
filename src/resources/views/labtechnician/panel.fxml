@@ -32,6 +32,8 @@
                                                                      prefWidth="177.0" text="PATIENT NAME"/>
                                                         <TableColumn fx:id="pendingTestsTableTests" prefWidth="177.0"
                                                                      text="TESTS"/>
+                                                        <TableColumn fx:id="pendingTestsTableStatus" prefWidth="177.0"
+                                                                     text="STATUS"/>
                                                     </columns>
                                                 </TableView>
                                                 <Button fx:id="pendingTestsTablestartTest" layoutX="846.0"
