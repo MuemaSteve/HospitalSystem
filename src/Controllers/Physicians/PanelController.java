@@ -637,7 +637,7 @@ public class PanelController extends Super implements Initializable, Physician {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("resources/views/labtechnician/popup.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("resources/views/Physicians/report.fxml"));
             try {
                 Parent parent = fxmlLoader.load();
                 Stage stage = new Stage();

@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -50,6 +51,8 @@ public class PanelController extends Super implements Initializable, LabSettings
     public TableColumn<LabTestsMasterClass, String> pendingTestsTableTests;
     public TableColumn<LabTestsMasterClass, String> pendingTestsTableStatus;
 
+    @FXML
+    Button imageres;
     public Button pendingTestsTablestartTest;
     public Button pendingTestsTableviewdetails;
     public Tab labtestresultstab;
@@ -183,7 +186,7 @@ public class PanelController extends Super implements Initializable, LabSettings
             preparedStatement.setString(1, email);
             ResultSet check = preparedStatement.executeQuery();
             if (check.isBeforeFirst()) {
-                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "TEST ALREADY IN SESSION", "THE TEST HAS AN EXISTING SESSION");
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "TEST ALREADY IN SESSION", "THE TEST HAS AN EXISTING SESSION.SESSION HAS BEEN RESUMED");
             } else {
                 PreparedStatement statement = localDbConnection.prepareStatement("INSERT INTO SessionLabs(name, email, sessionId,testText) VALUES (?,?,?,?)");
                 if (rsmain.isBeforeFirst()) {
@@ -241,6 +244,27 @@ public class PanelController extends Super implements Initializable, LabSettings
 
 
     private void endSession() {
+        try {
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE labtests set status=? WHERE patientname=?");
+                preparedStatement.setString(1, "COMPLETE");
+                preparedStatement.setString(2, currentSession.get("currentSession"));
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            PreparedStatement preparedStatement = localDbConnection.prepareStatement("DELETE from SessionLabs where email = ?");
+            preparedStatement.setString(1, currentSession.get("currentSession"));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/labtechnician/panel.fxml")))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         currentSession.clear();
     }
 
@@ -267,30 +291,7 @@ public class PanelController extends Super implements Initializable, LabSettings
     }
 
     private void buttonListeners() {
-        tablabSessionsTableresume.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                SessionMasterClass labTestsMasterClass = tablabSessionsTable.getSelectionModel().getSelectedItem();
-                String gemail = labTestsMasterClass.getPatientEmail();
-                if (!currentSession.isEmpty()) {
-                    currentSession.replace("currentSession", gemail);
-                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "SESSION CREATED FOR " + gemail.toUpperCase());
-
-                } else {
-                    currentSession.put("currentSession", gemail);
-                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "SESSION CREATED FOR " + gemail.toUpperCase());
-
-                }
-
-            }
-        });
-        logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                logOut(panel);
-            }
-        });
-        submitImageResult.setOnAction(new EventHandler<ActionEvent>() {
+        imageres.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
@@ -317,33 +318,41 @@ public class PanelController extends Super implements Initializable, LabSettings
                 if (length > 0) {
                     previewImage.setImage(image);
                     submitTypedResult.setDisable(true);
-                    submitImageResults(file);
                 } else {
                     System.out.println("error");
                 }
-                endSession();
             }
 
-            private void submitImageResults(File file) {
-                PreparedStatement preparedStatement;
-                try {
-                    preparedStatement = connection.prepareStatement("UPDATE labtests SET results=? WHERE patientname=?");
-                    try {
-                        preparedStatement.setBinaryStream(1, FileUtils.openInputStream(file), length);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    preparedStatement.setString(2, currentSession.get("currentSession"));
-                    if (preparedStatement.executeUpdate() > 0) {
-                        showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
-                        previewImage.setImage(null);
-                    } else {
-                        showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "ERROR UPDATING LAB TESTS");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+        });
+        tablabSessionsTableresume.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SessionMasterClass labTestsMasterClass = tablabSessionsTable.getSelectionModel().getSelectedItem();
+                String gemail = labTestsMasterClass.getPatientEmail();
+                if (!currentSession.isEmpty()) {
+                    currentSession.replace("currentSession", gemail);
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "SESSION CREATED FOR " + gemail.toUpperCase());
+
+                } else {
+                    currentSession.put("currentSession", gemail);
+                    showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "SESSION CREATED FOR " + gemail.toUpperCase());
+
                 }
+
             }
+        });
+        logout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                logOut(panel);
+            }
+        });
+        submitImageResult.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                submitImageResults(file);
+            }
+
 
         });
         submitTypedResult.setOnAction(new EventHandler<ActionEvent>() {
@@ -380,6 +389,28 @@ public class PanelController extends Super implements Initializable, LabSettings
         });
     }
 
+    private void submitImageResults(File file) {
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement("UPDATE labtests SET imageResult=? WHERE patientname=?");
+            try {
+                preparedStatement.setBinaryStream(1, FileUtils.openInputStream(file), length);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            preparedStatement.setString(2, currentSession.get("currentSession"));
+            if (preparedStatement.executeUpdate() > 0) {
+                showAlert(Alert.AlertType.INFORMATION, panel.getScene().getWindow(), "SUCCESS", "OPERATION SUCCESSFULL");
+                previewImage.setImage(null);
+            } else {
+                showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "ERROR UPDATING LAB TESTS");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        endSession();
+
+    }
     private void viewDetails(String id) {
         String query = "SELECT tests FROM labtests WHERE id=?";
         try {

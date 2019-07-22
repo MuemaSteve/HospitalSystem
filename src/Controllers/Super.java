@@ -44,7 +44,7 @@ public class Super {
                     .getConnection(settings.des[0], settings.des[1], settings.des[2]);
         } catch (SQLException e) {
 //            System.out.println("Error connecting to database:" + e.getMessage());
-            e.printStackTrace();
+            System.out.println("error");
         }
     }
 
