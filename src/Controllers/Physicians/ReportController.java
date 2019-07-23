@@ -23,18 +23,31 @@ public class ReportController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (imageResult.isEmpty()) {
+        if (!Physician.resultText.isEmpty()) {
             resultText.setText(Physician.resultText.get("resultText"));
-        } else {
+            Physician.resultText.clear();
+        } else if (imageResult.get("resultImage") != null) {
             tabpane.getSelectionModel().select(1);
             try {
-                BufferedImage imBuff = ImageIO.read(imageResult.get("imageResult"));
+                System.out.println(imageResult.containsKey("resultImage"));
+                BufferedImage imBuff = ImageIO.read(imageResult.get("resultImage"));
+                System.out.println(imBuff.getWidth() + "x" + imBuff.getHeight());
                 Image image = SwingFXUtils.toFXImage(imBuff, null);
                 imageResultView.setImage(image);
+                imBuff.flush();
 
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (imageResult.get("resultImage") != null) {
+                    try {
+                        imageResult.get("resultImage").close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+//    imageResult.clear();
         }
     }
 }

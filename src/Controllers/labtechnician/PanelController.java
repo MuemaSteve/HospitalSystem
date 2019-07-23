@@ -432,8 +432,9 @@ public class PanelController extends Super implements Initializable, LabSettings
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else
+            } else {
                 showAlert(Alert.AlertType.WARNING, panel.getScene().getWindow(), "ERROR", "INVALID ID");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

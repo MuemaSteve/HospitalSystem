@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <AnchorPane fx:id="panel" prefHeight="700.0" prefWidth="1200.0" styleClass="basicscene"
@@ -356,23 +357,36 @@
                                                                     prefWidth="200.0">
                                                             <children>
                                                                 <AnchorPane layoutX="30.0" layoutY="36.0"
-                                                                            prefHeight="461.0" prefWidth="1141.0"
+                                                                            prefHeight="522.0" prefWidth="1153.0"
                                                                             style="-fx-background-color: white;"
                                                                             styleClass="innerform">
                                                                     <children>
                                                                         <Button fx:id="tabClinicDiagnosisSubmit"
-                                                                                layoutX="846.0" layoutY="165.0"
+                                                                                layoutX="155.0" layoutY="381.0"
                                                                                 mnemonicParsing="false"
                                                                                 prefHeight="49.0" prefWidth="193.0"
                                                                                 text="SUBMIT"/>
                                                                         <TextArea fx:id="tabClinicDiagnosisInput"
                                                                                   layoutX="24.0" layoutY="30.0"
-                                                                                  prefHeight="328.0" prefWidth="764.0"
+                                                                                  prefHeight="291.0" prefWidth="567.0"
                                                                                   promptText="TYPE YOUR DIAGNOSIS HERE">
                                                                             <font>
                                                                                 <Font size="20.0"/>
                                                                             </font>
                                                                         </TextArea>
+                                                                        <ImageView fx:id="resultPreview"
+                                                                                   fitHeight="463.0" fitWidth="455.0"
+                                                                                   layoutX="632.0" layoutY="43.0"
+                                                                                   pickOnBounds="true"
+                                                                                   preserveRatio="true"/>
+                                                                        <Label alignment="CENTER" layoutX="728.0"
+                                                                               layoutY="14.0" prefHeight="32.0"
+                                                                               prefWidth="264.0" text="(RESULT PREVIEW)"
+                                                                               textFill="#fc0000">
+                                                                            <font>
+                                                                                <Font size="20.0"/>
+                                                                            </font>
+                                                                        </Label>
                                                                     </children>
                                                                 </AnchorPane>
                                                             </children>
@@ -446,7 +460,7 @@
                                                 </TableView>
                                                 <Button fx:id="tabClinicLabTestsTableGetFullReportButton"
                                                         layoutX="846.0" layoutY="128.0" mnemonicParsing="false"
-                                                        prefHeight="49.0" prefWidth="193.0" text="VIEW FULL REPORT"/>
+                                                        prefHeight="49.0" prefWidth="193.0" text="VIEW TEST RESULT"/>
                                                 <Button fx:id="tabClinicLabTestsTablemoveReportToDiagnosis"
                                                         layoutX="846.0" layoutY="237.0" mnemonicParsing="false"
                                                         prefHeight="49.0" prefWidth="193.0"

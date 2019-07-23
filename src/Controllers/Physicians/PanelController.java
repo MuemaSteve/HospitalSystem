@@ -10,24 +10,37 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
-import org.apache.commons.io.IOUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,8 +50,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static Controllers.settings.appName;
@@ -132,6 +143,7 @@ public class PanelController extends Super implements Initializable, Physician {
     public TabPane labteststabpane;
     public TextArea testsInputPhysician;
     public Button testsSendToLab;
+    public ImageView resultPreview;
     private ObservableList<RecordsMasterClass> recordsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<ConditionsMasterClass> conditionsMasterClassObservableList = FXCollections.observableArrayList();
     private ObservableList<AppointmentMasterClass> appointmentMasterClassObservableList = FXCollections.observableArrayList();
@@ -147,11 +159,7 @@ public class PanelController extends Super implements Initializable, Physician {
         reloadTables();
         tabContainer.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
             if ((nv.textProperty().getValue().equals("PATIENT RECORDS") && currentSession.isEmpty()) || nv.textProperty().getValue().equals("CLINIC PANEL") && currentSession.isEmpty()) {
-                try {
-                    panel.getChildren().setAll(Collections.singleton(FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("resources/views/Physicians/panel.fxml")))));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                tabContainer.getSelectionModel().select(ov);
                 showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "CREATE SESSION FIRST");
             } else {
                 reloadTables();
@@ -191,6 +199,13 @@ public class PanelController extends Super implements Initializable, Physician {
             @Override
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 reloadTables();
+            }
+        });
+        tabClinicDiagnosis.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                tabClinicDiagnosisInput.clear();
+                resultPreview.setImage(null);
             }
         });
         configureView(tabPaneArrayList);
@@ -293,6 +308,14 @@ public class PanelController extends Super implements Initializable, Physician {
 
         });
         tabClinicLabTestsTableGetFullReportButton.setOnAction(event -> getTestReport());
+        tabClinicLabTestsTablemoveReportToDiagnosis.setOnAction(event -> {
+            if (setScenevariables()) {
+                currentSession.put("currentSession", temporarySession.get("temporarySession"));
+                tabContainer.getSelectionModel().select(2);
+                tabcontainerclinicpane.getSelectionModel().select(1);
+                viewDiagnosis();
+            }
+        });
         testsSendToLab.setOnAction(event -> {
             sendTest();
         });
@@ -382,6 +405,79 @@ public class PanelController extends Super implements Initializable, Physician {
             }
         });
 
+    }
+
+    private File createImage(String text) {
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        Font font = new Font("Arial", Font.PLAIN, 17);
+        g2d.setFont(font);
+        FontMetrics fm = g2d.getFontMetrics();
+        int width = fm.stringWidth(text);
+        int height = fm.getHeight();
+        g2d.dispose();
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        g2d = img.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2d.setFont(font);
+        fm = g2d.getFontMetrics();
+        g2d.setColor(java.awt.Color.BLACK);
+        g2d.drawString(text, 0, fm.getAscent());
+        g2d.dispose();
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile("preview", ".png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (tempFile != null) {
+            tempFile.deleteOnExit();
+        }
+        try {
+            if (tempFile != null) {
+                ImageIO.write(img, "png", tempFile);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return tempFile;
+    }
+
+    private void viewDiagnosis() {
+        if (!Physician.resultText.isEmpty()) {
+//            resultPreview.setImage(new Image(createImage(resultText.get("resultText")).toURI().toString()));
+            tabClinicDiagnosisInput.setText(resultText.get("resultText"));
+            Physician.resultText.clear();
+        } else if (imageResult.get("resultImage") != null) {
+            try {
+                System.out.println(imageResult.containsKey("resultImage"));
+                BufferedImage imBuff = ImageIO.read(imageResult.get("resultImage"));
+                System.out.println(imBuff.getWidth() + "x" + imBuff.getHeight());
+                Image image = SwingFXUtils.toFXImage(imBuff, null);
+                resultPreview.setImage(image);
+                imBuff.flush();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (imageResult.get("resultImage") != null) {
+                    try {
+                        imageResult.get("resultImage").close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+//    imageResult.clear();
+        }
     }
 
     //SENDING TESTS TO LABTESTS TABLE is complete
@@ -512,6 +608,7 @@ public class PanelController extends Super implements Initializable, Physician {
             select.setString(1, user.get("user"));
             ResultSet selectedResults = select.executeQuery();
             if (selectedResults.isBeforeFirst()) {
+                InputStream is = null;
                 while (selectedResults.next()) {
                     LabTestsMasterClass labTestsMasterClass = new LabTestsMasterClass();
                     labTestsMasterClass.setId(selectedResults.getString("id"));
@@ -520,8 +617,16 @@ public class PanelController extends Super implements Initializable, Physician {
                     labTestsMasterClass.setTests(selectedResults.getString("tests"));
                     labTestsMasterClass.setStatus(selectedResults.getString("status"));
                     labTestsMasterClass.setResults(selectedResults.getString("results"));
-                    labTestsMasterClass.setResultImage(selectedResults.getBinaryStream("imageResult"));
+                    is = selectedResults.getBinaryStream("imageResult");
+                    labTestsMasterClass.setResultImage(is);
                     labTestsMasterClassObservableList.add(labTestsMasterClass);
+                }
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 tabClinicLabTestsTable.setItems(labTestsMasterClassObservableList);
                 tabClinicLabTestsTableId.setCellValueFactory(new PropertyValueFactory<LabTestsMasterClass, String>("id"));
@@ -545,7 +650,6 @@ public class PanelController extends Super implements Initializable, Physician {
         String query = "SELECT * FROM conditions WHERE patientemail=?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            System.out.println("Email= " + currentSession.get("currentSession"));
             if (currentSession.get("currentSession") != null) {
                 preparedStatement.setString(1, currentSession.get("currentSession"));
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -622,32 +726,66 @@ public class PanelController extends Super implements Initializable, Physician {
 
     private void getTestReport() {
         //show report from lab
-        LabTestsMasterClass labTestsMasterClass = tabClinicLabTestsTable.getSelectionModel().getSelectedItem();
-        if (tabClinicLabTestsTable.getSelectionModel().getSelectedCells().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "SELECT ONE ROW TO VIEW THE REPORT");
-        } else {
-            try {
-                if (IOUtils.toByteArray(labTestsMasterClass.getResultImage()).length > 0) {
-                    System.out.println("Size: " + IOUtils.toByteArray(labTestsMasterClass.getResultImage()).length);
-                    imageResult.put("resultImage", labTestsMasterClass.getResultImage());
-                } else {
-                    resultText.put("resultText", labTestsMasterClass.getResults());
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (setScenevariables()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("resources/views/Physicians/report.fxml"));
             try {
                 Parent parent = fxmlLoader.load();
                 Stage stage = new Stage();
                 stage.setScene(new Scene(parent));
                 stage.initStyle(StageStyle.UTILITY);
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        reloadTables();
+                    }
+                });
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean setScenevariables() {
+        LabTestsMasterClass labTestsMasterClass = tabClinicLabTestsTable.getSelectionModel().getSelectedItem();
+        boolean returnValue = false;
+
+
+        if (tabClinicLabTestsTable.getSelectionModel().getSelectedCells().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "SELECT ONE ROW TO VIEW THE REPORT");
+        } else if (!labTestsMasterClass.getStatus().equalsIgnoreCase("COMPLETE")) {
+            showAlert(Alert.AlertType.ERROR, panel.getScene().getWindow(), "ERROR", "TESTS ARE NOT DONE YET");
+
+        } else {
+            returnValue = true;
+            if (!temporarySession.isEmpty())
+                temporarySession.put("temporarySession", labTestsMasterClass.getPatientName());
+            else
+                temporarySession.replace("temporarySession", labTestsMasterClass.getPatientName());
+            if (labTestsMasterClass.getResultImage() != null) {
+                if (imageResult.isEmpty()) imageResult.put("resultImage", labTestsMasterClass.getResultImage());
+                else {
+                    imageResult.replace("resultImage", labTestsMasterClass.getResultImage());
+
+                }
+                try {
+                    labTestsMasterClass.getResultImage().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if (resultText.isEmpty()) {
+                    resultText.put("resultText", labTestsMasterClass.getResults());
+
+                } else {
+                    resultText.replace("resultText", labTestsMasterClass.getResults());
+
+                }
+            }
+            System.out.println(imageResult.containsKey("resultImage"));
+
+        }
+        return returnValue;
     }
     @Override
     public void Patientprescription() {
